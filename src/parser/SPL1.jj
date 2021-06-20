@@ -2,9 +2,9 @@
 PARSER_BEGIN(SPL1)
 package parser;
 
-import implementation.PLDeclaration;
+import implementations.PLDeclaration;
 import program.Program;
-import implementation.Id;
+import implementations.Id;
 
 public class SPL1 {
 
