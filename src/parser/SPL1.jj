@@ -15,6 +15,9 @@ import implementations.ImpliesForm;
 import implementations.AndForm;
 import implementations.OrForm;
 import implementations.FormDeclaration;
+import implementations.ProductDeclaration;
+import java.util.*;
+
 
 public class SPL1 {
 
@@ -124,10 +127,11 @@ PLDeclaration PPLDeclaration() :
 {
   FeatureNameDeclaration featureNameDeclaration;
   FormDeclaration formDeclaration;
+  ProductDeclaration productDeclaration;
   Id plName;
 }
 {
-  < PRODUCTLINE> plName = PId() < LBRACE > [(featureNameDeclaration = PFNDeclaration()) <SEMICOLON> [ formDeclaration = PFormDeclaration() <SEMICOLON> ] ]< RBRACE >
+  < PRODUCTLINE> plName = PId() < LBRACE > [((featureNameDeclaration = PFNDeclaration()) <SEMICOLON>)+ [ formDeclaration = PFormDeclaration() <SEMICOLON> ] [ (productDeclaration = PProductDeclaration() <SEMICOLON>)+ ] ]< RBRACE >
   {
     return new PLDeclaration(plName);
   }
@@ -158,6 +162,31 @@ FormDeclaration PFormDeclaration() :
   }
 }
 
+ProductDeclaration PProductDeclaration() :
+{
+  List<Id> featuresSelected;
+  Id productName;
+}
+{
+  < PRODUCT> productName = PId() <ASSIGN> <LBRACE> featuresSelected = PFeatureSelected() <RBRACE>
+  {
+    return new ProductDeclaration(productName, featuresSelected);
+  }
+}
+
+List<Id> PFeatureSelected():
+{
+    Id featureSelected;
+    List<Id> featuresSelected = new ArrayList<>();
+
+}{
+    featureSelected = PId()
+    { featuresSelected.add(featureSelected); }
+    (<COMMA> featureSelected = PId()
+       {featuresSelected.add(featureSelected); })*
+{ return featuresSelected;
+    }
+}
 
 Formula PFormula() :
 {
