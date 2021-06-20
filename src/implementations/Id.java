@@ -1,6 +1,6 @@
 package implementations;
 
-public class Id {
+public class Id implements Formula{
     private String idName;
 
     public Id(String strName) {

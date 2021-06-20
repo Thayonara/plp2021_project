@@ -7,6 +7,14 @@ import program.Program;
 import implementations.Id;
 import implementations.FeatureNameDeclaration;
 import implementations.Types;
+import implementations.Formula;
+import implementations.UnaryFormula;
+import implementations.BinaryFormula;
+import implementations.NotForm;
+import implementations.ImpliesForm;
+import implementations.AndForm;
+import implementations.OrForm;
+import implementations.FormDeclaration;
 
 public class SPL1 {
 
@@ -115,10 +123,11 @@ Program PProgram() :
 PLDeclaration PPLDeclaration() :
 {
   FeatureNameDeclaration featureNameDeclaration;
+  FormDeclaration formDeclaration;
   Id plName;
 }
 {
-  < PRODUCTLINE> plName = PId() < LBRACE > [featureNameDeclaration = PFNDeclaration()]< RBRACE >
+  < PRODUCTLINE> plName = PId() < LBRACE > [(featureNameDeclaration = PFNDeclaration()) <SEMICOLON> [ formDeclaration = PFormDeclaration() <SEMICOLON> ] ]< RBRACE >
   {
     return new PLDeclaration(plName);
   }
@@ -133,9 +142,103 @@ FeatureNameDeclaration PFNDeclaration() :
 {
   < FEATURENAME> fnName = PId() [<EXTENDS> extendedNode = PId()] <AS> type = PType()
   {
-    return new FeatureNameDeclaration(fnName, extendedNode, type );
+    return new FeatureNameDeclaration(fnName, extendedNode, type);
   }
 }
+
+FormDeclaration PFormDeclaration() :
+{
+  Formula formula;
+  Id formName;
+}
+{
+  < FORMULA > formName = PId() <ASSIGN> formula = PFormula()
+  {
+    return new FormDeclaration(formName, formula);
+  }
+}
+
+
+Formula PFormula() :
+{
+  Formula formula;
+}
+{
+    formula = PBinaryFormula()
+  {
+    return formula;
+  }
+}
+
+
+Formula PUnaryFormula() :
+{
+  Formula formula;
+}
+{
+  (
+    formula = PNotForm()
+    | formula = PId()
+  )
+  {
+    return formula;
+  }
+}
+
+NotForm PNotForm() :
+{
+  Formula formula;
+}
+{
+  < NOT > formula = PFormula()
+  {
+    return new NotForm(formula);
+  }
+}
+
+Formula PBinaryFormula() :
+{
+  Formula formula;
+}
+{
+    formula = PBinaryFormula2()
+
+ {
+    return formula;
+}
+}
+
+Formula PBinaryFormula2() :
+{
+  Formula formula, param2;
+}
+{
+    formula = PBinaryFormula3()
+    ( <OR> param2 = PBinaryFormula3()
+        { formula = new OrForm(formula, param2);}
+      | <IMPLIES> param2 = PBinaryFormula3()
+        { formula = new ImpliesForm(formula, param2);}
+      | <AND> param2 = PBinaryFormula3()
+        { formula = new AndForm(formula, param2);}
+    )*
+
+ {
+    return formula;
+}
+}
+
+Formula PBinaryFormula3() :
+{
+  Formula formula;
+}
+{
+    formula = PUnaryFormula()
+
+ {
+    return formula;
+}
+}
+
 
 Types PType() :
 {

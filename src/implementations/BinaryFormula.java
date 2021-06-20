@@ -11,4 +11,28 @@ public abstract class BinaryFormula implements Formula {
         this.rFormula = rformula;
         this.operator = operator;
     }
+
+    public Formula getlFormula() {
+        return lFormula;
+    }
+
+    public void setlFormula(Formula lFormula) {
+        this.lFormula = lFormula;
+    }
+
+    public Formula getrFormula() {
+        return rFormula;
+    }
+
+    public void setrFormula(Formula rFormula) {
+        this.rFormula = rFormula;
+    }
+
+    public String getOperator() {
+        return operator;
+    }
+
+    public void setOperator(String operator) {
+        this.operator = operator;
+    }
 }
