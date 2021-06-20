@@ -37,13 +37,44 @@ TOKEN : /* SEPARATORS */
 {
   < LBRACE : "{" >
 | < RBRACE : "}" >
+| < SEMICOLON : ";" >
+| < COMMA : "," >
 }
 
-TOKEN : /* TOKENS Class declaration */
+TOKEN : /* TOKENS declaration */
 {
   < PRODUCTLINE : "PL" >
+  | <FEATURENAME : "FeatureName">
+  | <EXTENDS : "extends">
+  | <AS : "as">
+  | <FORMULA: "Formula">
+  | <PRODUCT : "Product">
 }
 
+TOKEN : /* TOKENS types */
+{
+  < ROOT_TYPE : "ROOT" >
+  | <MANDATORY_TYPE: "MANDATORY">
+  | <OPTIONAL_TYPE: "OPTIONAL">
+  | <ALTERNATIVE_TYPE: "ALTERNATIVE">
+  | <OR_TYPE: "OR">
+
+  }
+
+TOKEN : /* OPERATORS */
+{
+ < ASSIGN : "=" >
+
+}
+
+TOKEN : /* TOKENS of Formulas */
+{
+
+<IMPLIES : "implies">
+| < AND : "and" >
+| < OR : "or" >
+| < NOT : "not" >
+}
 
 TOKEN : /* IDENTIFIERS */
 {
