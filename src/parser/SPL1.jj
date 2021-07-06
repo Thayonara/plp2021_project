@@ -243,12 +243,12 @@ Formula PBinaryFormula2() :
 }
 {
     formula = PBinaryFormula3()
-    ( <OR> param2 = PBinaryFormula3()
+    (<AND> param2 = PBinaryFormula3()
+        { formula = new AndForm(formula, param2);}
+      |<OR> param2 = PBinaryFormula3()
         { formula = new OrForm(formula, param2);}
       | <IMPLIES> param2 = PBinaryFormula3()
         { formula = new ImpliesForm(formula, param2);}
-      | <AND> param2 = PBinaryFormula3()
-        { formula = new AndForm(formula, param2);}
     )*
 
  {
