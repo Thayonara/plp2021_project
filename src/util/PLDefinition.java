@@ -1,23 +1,24 @@
 package util;
 
 import implementations.*;
+import memory.CompilationEnvironment;
 
 public class PLDefinition {
     protected Id plName;
-    protected FeatureNameDeclaration featureNameDeclarations;
+    protected FeatureNameDeclarationList featureNameDeclarations;
     protected FormDeclaration formDeclaration;
-    protected ProductDeclaration productDeclarations;
+    protected ProductDeclarationList productDeclarations;
 
 
     public PLDefinition(Id plName){
         this.plName = plName;
     }
 
-    public PLDefinition(Id plName, FeatureNameDeclaration featureNameDeclarations,
+    public PLDefinition(Id plName, FeatureNameDeclarationList featureNameDeclarationList,
                         FormDeclaration formDeclaration,
-                        ProductDeclaration productDeclarations){
+                        ProductDeclarationList productDeclarations){
         this.plName = plName;
-        this.featureNameDeclarations = featureNameDeclarations;
+        this.featureNameDeclarations = featureNameDeclarationList;
         this.formDeclaration = formDeclaration;
         this.productDeclarations = productDeclarations;
     }
@@ -26,7 +27,7 @@ public class PLDefinition {
         return plName;
     }
 
-    public FeatureNameDeclaration getFeatureNameDeclarations() {
+    public FeatureNameDeclarationList getFeatureNameDeclarations() {
         return featureNameDeclarations;
     }
 
@@ -34,11 +35,11 @@ public class PLDefinition {
         return formDeclaration;
     }
 
-    public ProductDeclaration getProductDeclarations() {
+    public ProductDeclarationList getProductDeclarations() {
         return productDeclarations;
     }
 
-    public IdType getIdType(){
-        return plName.getIdType();
+    public GeneralType getIdType(CompilationEnvironment compilationEnvironment){
+        return IdTypeClass.PL_TYPE.getType(compilationEnvironment);
     }
 }
