@@ -2,7 +2,7 @@ package implementations;
 
 public enum Types {
     ROOT,
-    MANDATOYRY,
+    MANDATORY,
     OR,
     ALTERNATIVE,
     OPTIONAL
