@@ -1,5 +1,6 @@
 package util;
 
+import implementations.FeatureNameDeclarationList;
 import implementations.Id;
 
 import java.util.List;
@@ -7,9 +8,9 @@ import java.util.List;
 public class ProductDefinition {
 
     private Id productName;
-    private List<Id> featuresSelected;
+    private FeatureNameDeclarationList featuresSelected;
 
-    public ProductDefinition(Id productName, List<Id> featuresSelected){
+    public ProductDefinition(Id productName, FeatureNameDeclarationList featuresSelected){
         this.productName = productName;
         this.featuresSelected = featuresSelected;
     }
@@ -18,7 +19,7 @@ public class ProductDefinition {
         return productName;
     }
 
-    public List<Id> getFeaturesSelected() {
+    public FeatureNameDeclarationList getFeaturesSelected() {
         return featuresSelected;
     }
 }
