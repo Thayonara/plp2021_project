@@ -3,6 +3,7 @@ package implementations;
 import memory.CompilationEnvironment;
 import memory.ExecutionEnvironment;
 import util.Declaration;
+import util.FormDefinition;
 
 public class FormDeclaration implements Declaration {
 
@@ -22,17 +23,21 @@ public class FormDeclaration implements Declaration {
         return formula;
     }
 
-    public IdType getType(){
-        return formName.getIdType();
-    }
-
     @Override
     public ExecutionEnvironment elaborate(ExecutionEnvironment executionEnvironment) {
-        return null;
+        executionEnvironment.mapFormDeclaration(this.formName, new FormDefinition(this.formName, this.formula));
+        return executionEnvironment;
     }
 
     @Override
     public boolean TypeCheck(CompilationEnvironment compilationEnvironment) {
-        return false;
+        boolean rt = false;
+            rt = this.formula.typeCheck(compilationEnvironment);
+        return rt;
+    }
+
+    public CompilationEnvironment formDeclarate(CompilationEnvironment compilationEnvironment){
+        compilationEnvironment.map(this.formName, IdTypeClass.FORM_TYPE);
+        return compilationEnvironment;
     }
 }

@@ -1,5 +1,7 @@
 package implementations;
 
+import memory.CompilationEnvironment;
+
 public abstract class BinaryFormula implements Formula {
 
     private Formula lFormula;
@@ -34,5 +36,17 @@ public abstract class BinaryFormula implements Formula {
 
     public void setOperator(String operator) {
         this.operator = operator;
+    }
+
+    public boolean typeCheck(CompilationEnvironment compilationEnvironment){
+        boolean result;
+        if (getlFormula().typeCheck(compilationEnvironment) &&
+                getrFormula().typeCheck(compilationEnvironment)) {
+            result = true;
+        }
+        else {
+            result = false;
+        }
+        return result;
     }
 }
