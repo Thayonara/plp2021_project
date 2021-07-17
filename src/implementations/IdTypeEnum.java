@@ -1,6 +1,6 @@
 package implementations;
 
-public enum IdType{
+public enum IdTypeEnum {
     FEATURENAME,
     FORM,
     PL,
