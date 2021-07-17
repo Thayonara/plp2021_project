@@ -3,13 +3,14 @@ package implementations;
 import memory.CompilationEnvironment;
 import memory.ExecutionEnvironment;
 import util.Declaration;
+import util.FNDefinition;
 
 public class FeatureNameDeclaration implements Declaration {
     protected Id featureName;
     protected Id extendedNode;
-    protected Types nodeType;
+    protected GeneralType nodeType;
 
-    public FeatureNameDeclaration(Id featureName, Id extendedNode, Types nodeType){
+    public FeatureNameDeclaration(Id featureName, Id extendedNode, GeneralType nodeType){
         this.featureName = featureName;
         this.extendedNode = extendedNode;
         this.nodeType = nodeType;
@@ -23,21 +24,29 @@ public class FeatureNameDeclaration implements Declaration {
         return extendedNode;
     }
 
-    public Types getNodeType() {
+    public GeneralType getNodeType() {
         return nodeType;
     }
 
-    public IdType getType(){
-        return featureName.getIdType();
-    }
 
     @Override
     public ExecutionEnvironment elaborate(ExecutionEnvironment executionEnvironment) {
-        return null;
+        executionEnvironment.mapFNDeclaration(this.featureName, new FNDefinition(this.featureName, this.extendedNode, this.nodeType));
+        return executionEnvironment;
     }
 
     @Override
     public boolean TypeCheck(CompilationEnvironment compilationEnvironment) {
-        return false;
+        boolean rt = false;
+        if(compilationEnvironment.getFNType(this.extendedNode) != null){
+            rt = this.nodeType.isValid(compilationEnvironment);
+        }
+
+        return rt;
+    }
+
+    public CompilationEnvironment fnDeclarate(CompilationEnvironment compilationEnvironment){
+        compilationEnvironment.map(this.featureName, this.nodeType);
+        return compilationEnvironment;
     }
 }

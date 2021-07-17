@@ -1,14 +1,15 @@
 package util;
 
+import implementations.GeneralType;
 import implementations.Id;
 import implementations.Types;
 
 public class FNDefinition {
     protected Id featureName;
     protected Id extendedNode;
-    protected Types nodeType;
+    protected GeneralType nodeType;
 
-    public FNDefinition(Id featureName, Id extendedNode, Types nodeType){
+    public FNDefinition(Id featureName, Id extendedNode, GeneralType nodeType){
         this.featureName = featureName;
         this.extendedNode = extendedNode;
         this.nodeType = nodeType;
@@ -22,7 +23,7 @@ public class FNDefinition {
         return extendedNode;
     }
 
-    public Types getNodeType() {
+    public GeneralType getNodeType() {
         return nodeType;
     }
 }
