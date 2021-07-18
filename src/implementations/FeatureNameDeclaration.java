@@ -1,5 +1,7 @@
 package implementations;
 
+import exceptions.PreviouslyDeclaredFNException;
+import exceptions.UndeclaredFNException;
 import memory.CompilationEnvironment;
 import memory.ExecutionEnvironment;
 import util.Declaration;
@@ -30,7 +32,7 @@ public class FeatureNameDeclaration implements Declaration {
 
 
     @Override
-    public ExecutionEnvironment elaborate(ExecutionEnvironment executionEnvironment) {
+    public ExecutionEnvironment elaborate(ExecutionEnvironment executionEnvironment) throws PreviouslyDeclaredFNException, UndeclaredFNException {
         executionEnvironment.mapFNDeclaration(this.featureName, new FNDefinition(this.featureName, this.extendedNode, this.nodeType));
         return executionEnvironment;
     }

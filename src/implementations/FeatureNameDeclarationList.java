@@ -1,5 +1,7 @@
 package implementations;
 
+import exceptions.PreviouslyDeclaredFNException;
+import exceptions.UndeclaredFNException;
 import memory.CompilationEnvironment;
 import memory.ExecutionEnvironment;
 import util.Lista;
@@ -12,7 +14,7 @@ public class FeatureNameDeclarationList extends Lista<FeatureNameDeclaration> {
     }
 
 
-    public ExecutionEnvironment elaborate(ExecutionEnvironment executionEnvironment) {
+    public ExecutionEnvironment elaborate(ExecutionEnvironment executionEnvironment) throws PreviouslyDeclaredFNException, UndeclaredFNException {
         ExecutionEnvironment rt;
         if(getHead() != null) {
             if(getTail() != null) {
@@ -60,10 +62,6 @@ public class FeatureNameDeclarationList extends Lista<FeatureNameDeclaration> {
         }
         return rt;
     }
-
-
-
-
 
 
 }

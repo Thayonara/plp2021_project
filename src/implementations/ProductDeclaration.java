@@ -1,10 +1,14 @@
 package implementations;
 
+import exceptions.PreviouslyDeclaredProductException;
+import exceptions.UndeclaredProductException;
 import memory.CompilationEnvironment;
 import memory.ExecutionEnvironment;
 import util.Declaration;
 import util.Lista;
 import util.ProductDefinition;
+
+import java.util.List;
 
 
 public class ProductDeclaration implements Declaration {
@@ -26,7 +30,7 @@ public class ProductDeclaration implements Declaration {
     }
 
     @Override
-    public ExecutionEnvironment elaborate(ExecutionEnvironment executionEnvironment) {
+    public ExecutionEnvironment elaborate(ExecutionEnvironment executionEnvironment) throws PreviouslyDeclaredProductException, UndeclaredProductException {
         executionEnvironment.mapProdDeclaration(this.productName, new ProductDefinition(this.productName, this.featuresSelected));
         return executionEnvironment;
     }
@@ -34,7 +38,7 @@ public class ProductDeclaration implements Declaration {
     @Override
     public boolean TypeCheck(CompilationEnvironment compilationEnvironment) {
         for(int i = 0; i < this.featuresSelected.length(); i++){
-            if(compilationEnvironment.getFNType(featuresSelected.getHead().getFeatureName())== null){
+            if(compilationEnvironment.get(featuresSelected.getHead().getFeatureName())== null){
                 return false;
             }
         }
@@ -69,14 +73,14 @@ public class ProductDeclaration implements Declaration {
                 if(!(isPresent(featureNameDeclarationList, befNode))){
                     return false;
                 } else{
-                    Lista<Id> broNodes = compilationEnvironment.getChildrens(befNode);
-                    for(int j = 0; j < broNodes.length(); j++){
-                        Id broCurrent = broNodes.getHead();
-                        if(compilationEnvironment.getFNType(broCurrent).equals( FNTypeClass.MANDATORY_TYPE)){
+                    List<Id> broNodes = compilationEnvironment.getChildrens(befNode, current.getFeatureName());
+                    for(int j = 0; j < broNodes.size(); j++){
+                        Id broCurrent = broNodes.get(j);
+                        if(compilationEnvironment.get(broCurrent).getTipo().equals( FNTypeClass.MANDATORY_TYPE.getType(compilationEnvironment))){
                             if(!(isPresent(featureNameDeclarationList, broCurrent))){
                                return false;
                             } else {
-                                if(compilationEnvironment.getFNType(broCurrent).equals( FNTypeClass.ALTERNATIVE_TYPE)){
+                                if(compilationEnvironment.get(broCurrent).getTipo().equals( FNTypeClass.ALTERNATIVE_TYPE.getType(compilationEnvironment))){
                                     if (isPresent(featureNameDeclarationList, broCurrent)){
                                         if (isAlternative){
                                             return false;
@@ -98,7 +102,7 @@ public class ProductDeclaration implements Declaration {
     }
 
     public CompilationEnvironment prodDeclarate(CompilationEnvironment compilationEnvironment){
-        compilationEnvironment.map(this.productName, IdTypeClass.PROD_TYPE);
+        compilationEnvironment.map(this.productName, IdTypeClass.PROD_TYPE.getType(compilationEnvironment));
         return compilationEnvironment;
     }
 }

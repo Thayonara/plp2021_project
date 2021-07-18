@@ -1,5 +1,7 @@
 package implementations;
 
+import exceptions.PreviouslyDeclaredProductException;
+import exceptions.UndeclaredProductException;
 import memory.CompilationEnvironment;
 import memory.ExecutionEnvironment;
 import util.Lista;
@@ -11,7 +13,7 @@ public class ProductDeclarationList extends Lista<ProductDeclaration> {
         super(productDeclaration, null);
     }
 
-    public ExecutionEnvironment elaborate(ExecutionEnvironment executionEnvironment) {
+    public ExecutionEnvironment elaborate(ExecutionEnvironment executionEnvironment) throws PreviouslyDeclaredProductException, UndeclaredProductException {
         ExecutionEnvironment rt;
         if(getHead() != null) {
             if(getTail() != null) {

@@ -1,5 +1,7 @@
 package implementations;
 
+import exceptions.PreviouslyDeclaredFormException;
+import exceptions.UndeclaredFormException;
 import memory.CompilationEnvironment;
 import memory.ExecutionEnvironment;
 import util.Declaration;
@@ -24,7 +26,7 @@ public class FormDeclaration implements Declaration {
     }
 
     @Override
-    public ExecutionEnvironment elaborate(ExecutionEnvironment executionEnvironment) {
+    public ExecutionEnvironment elaborate(ExecutionEnvironment executionEnvironment) throws PreviouslyDeclaredFormException, UndeclaredFormException {
         executionEnvironment.mapFormDeclaration(this.formName, new FormDefinition(this.formName, this.formula));
         return executionEnvironment;
     }
@@ -37,7 +39,7 @@ public class FormDeclaration implements Declaration {
     }
 
     public CompilationEnvironment formDeclarate(CompilationEnvironment compilationEnvironment){
-        compilationEnvironment.map(this.formName, IdTypeClass.FORM_TYPE);
+        compilationEnvironment.map(this.formName, IdTypeClass.FORM_TYPE.getType(compilationEnvironment));
         return compilationEnvironment;
     }
 }

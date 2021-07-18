@@ -1,5 +1,7 @@
 package implementations;
 
+import exceptions.PreviouslyDeclaredPLException;
+import exceptions.UndeclaredPLException;
 import memory.CompilationEnvironment;
 import memory.ExecutionEnvironment;
 import util.Declaration;
@@ -27,7 +29,7 @@ public class PLDeclaration implements Declaration {
 
 
     @Override
-    public ExecutionEnvironment elaborate(ExecutionEnvironment executionEnvironment) {
+    public ExecutionEnvironment elaborate(ExecutionEnvironment executionEnvironment) throws PreviouslyDeclaredPLException, UndeclaredPLException {
         if (this.featureNameDeclarations == null){
             executionEnvironment.mapPLDeclaration(this.plName, new PLDefinition(this.plName));
         } else {
@@ -37,7 +39,7 @@ public class PLDeclaration implements Declaration {
     }
 
     @Override
-    public boolean TypeCheck(CompilationEnvironment compilationEnvironment) {
+    public boolean TypeCheck(CompilationEnvironment compilationEnvironment) throws PreviouslyDeclaredPLException, UndeclaredPLException {
         compilationEnvironment.mapPLDeclaration(this.plName, new PLDefinition(this.plName, this.featureNameDeclarations, this.formDeclaration, this.productDeclarations));
         boolean rt = false;
         compilationEnvironment.increments();
