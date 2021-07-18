@@ -1,5 +1,6 @@
 package memory;
 
+import exceptions.UndeclaredPLException;
 import implementations.Id;
 import util.*;
 
@@ -8,7 +9,7 @@ import java.util.Stack;
 
 public interface ExecutionEnvironment extends SPL1Environment <Object>{
 
-    public void mapBefNode(Id plName, Id BefNodeName);
+    public void mapBefNode(Id plName, Id BefNodeName) throws UndeclaredPLException;
     public BefNode getBefNode(Id classe);
     public Stack<HashMap<Id, Object>> getStack();
     public HashMap<Id, PLDefinition> getMapPLDef();

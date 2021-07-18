@@ -1,5 +1,6 @@
 package memory;
 
+import exceptions.*;
 import implementations.FeatureNameDeclarationList;
 import implementations.GeneralType;
 import implementations.Id;
@@ -43,7 +44,7 @@ public class CompilationContext implements CompilationEnvironment{
 
 
     @Override
-    public void mapBefNode(Id fnName, Id BefNodeName) {
+    public void mapBefNode(Id fnName, Id BefNodeName) throws UndeclaredPLException {
         PLDefinition plDefinition = getPlDefinition(BefNodeName);
         if (plDefinition != null) {
             arrayBefNode.add(new BefNode( fnName, BefNodeName));
@@ -90,16 +91,15 @@ public class CompilationContext implements CompilationEnvironment{
     }
 
     @Override
-    public void map(Id idArg, GeneralType tipoId) {
+    public void map(Id idArg, GeneralType tipoId) throws PreviouslyDeclaredIdException{
             HashMap<Id, GeneralType> aux = stack.peek();
             if (aux.put(idArg, tipoId) != null) {
-                //lanca exception
+                throw new PreviouslyDeclaredIdException("Id já declarado anteriormente.");
             }
-
     }
 
     @Override
-    public GeneralType get(Id id) {
+    public GeneralType get(Id id) throws UndeclaredIdException {
             GeneralType result = null;
             Stack<HashMap<Id, GeneralType>> auxStack = new Stack<HashMap<Id, GeneralType>>();
             while (result == null && !stack.empty()) {
@@ -111,88 +111,93 @@ public class CompilationContext implements CompilationEnvironment{
                 stack.push(auxStack.pop());
             }
             if (result == null) {
-                //exception - apagar linha de baixo
-                return  result;
+                throw new UndeclaredIdException("Id não declarado anteriormente.");
             } else {
                 return result;
             }
     }
 
     @Override
-    public void mapPLDeclaration(Id id, PLDefinition plDefinition) {
+    public void mapPLDeclaration(Id id, PLDefinition plDefinition) throws PreviouslyDeclaredPLException, UndeclaredPLException {
         PLDefinition plDefinition1 = getPlDefinition(id);
         if (plDefinition1 != null) {
             plDefinitionMap.put(id, plDefinition);
+        } else {
+            throw new PreviouslyDeclaredPLException(id);
         }
     }
 
     @Override
-    public void mapFNDeclaration(Id id, FNDefinition fnDefinition) {
+    public void mapFNDeclaration(Id id, FNDefinition fnDefinition) throws PreviouslyDeclaredFNException, UndeclaredFNException {
         FNDefinition fnDefinition1 = getFNDefinition(id);
         if (fnDefinition1 != null) {
             fnDefinitionMap.put(id, fnDefinition);
+        } else {
+            throw new PreviouslyDeclaredFNException(id);
+
         }
     }
 
     @Override
-    public void mapFormDeclaration(Id id, FormDefinition formDefinition) {
+    public void mapFormDeclaration(Id id, FormDefinition formDefinition) throws PreviouslyDeclaredFormException, UndeclaredFormException {
         FormDefinition formDefinition1 = getFormDefinition(id);
         if (formDefinition1 != null) {
             formDefinitionMap.put(id, formDefinition);
+        } else {
+            throw new PreviouslyDeclaredFormException(id);
+
         }
     }
 
     @Override
-    public void mapProdDeclaration(Id id, ProductDefinition productDefinition) {
+    public void mapProdDeclaration(Id id, ProductDefinition productDefinition) throws PreviouslyDeclaredProductException, UndeclaredProductException {
         ProductDefinition productDefinition1 = getProdDefinition(id);
         if (productDefinition1 != null) {
             prodDefinitionMap.put(id, productDefinition);
+        } else {
+            throw new PreviouslyDeclaredProductException(id);
         }
     }
 
     @Override
-    public PLDefinition getPlDefinition(Id id) {
+    public PLDefinition getPlDefinition(Id id) throws UndeclaredPLException {
         PLDefinition result = null;
         result = this.plDefinitionMap.get(id);
         if (result == null) {
-            //lanca exception - apagar retorno
-            return result;
+            throw new UndeclaredPLException(id);
         } else {
             return result;
         }
     }
 
     @Override
-    public FNDefinition getFNDefinition(Id id) {
+    public FNDefinition getFNDefinition(Id id) throws UndeclaredFNException {
         FNDefinition result = null;
         result = this.fnDefinitionMap.get(id);
         if (result == null) {
-            //lanca exception - apagar retorno
-            return result;
+            throw new UndeclaredFNException(id);
         } else {
             return result;
         }
     }
 
     @Override
-    public FormDefinition getFormDefinition(Id id) {
+    public FormDefinition getFormDefinition(Id id) throws UndeclaredFormException {
         FormDefinition result = null;
         result = this.formDefinitionMap.get(id);
         if (result == null) {
-            //lanca exception - apagar retorno
-            return result;
+            throw new UndeclaredFormException(id);
         } else {
             return result;
         }
     }
 
     @Override
-    public ProductDefinition getProdDefinition(Id id) {
+    public ProductDefinition getProdDefinition(Id id) throws UndeclaredProductException {
         ProductDefinition result = null;
         result = this.prodDefinitionMap.get(id);
         if (result == null) {
-            //lanca exception - apagar retorno
-            return result;
+            throw new UndeclaredProductException(id);
         } else {
             return result;
         }

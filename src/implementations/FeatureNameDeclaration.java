@@ -38,7 +38,7 @@ public class FeatureNameDeclaration implements Declaration {
     @Override
     public boolean TypeCheck(CompilationEnvironment compilationEnvironment) {
         boolean rt = false;
-        if(compilationEnvironment.getFNType(this.extendedNode) != null){
+        if(compilationEnvironment.get(this.extendedNode) != null){
             rt = this.nodeType.isValid(compilationEnvironment);
         }
 
