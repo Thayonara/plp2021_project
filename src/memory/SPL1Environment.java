@@ -14,6 +14,8 @@ public interface SPL1Environment <T> extends Environment <T> {
     public void mapProdDeclaration (Id id, ProductDefinition productDefinition);
 
     public PLDefinition getPlDefinition(Id id);
-
+    public FNDefinition getFNDefinition(Id id);
+    public FormDefinition getFormDefinition(Id id);
+    public ProductDefinition getProdDefinition(Id id);
 
 }

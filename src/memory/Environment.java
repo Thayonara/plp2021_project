@@ -1,5 +1,6 @@
 package memory;
 
+import implementations.GeneralType;
 import implementations.Id;
 
 public interface Environment <T> {
