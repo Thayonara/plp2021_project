@@ -2,20 +2,9 @@
 PARSER_BEGIN(SPL1)
 package parser;
 
-import implementations.PLDeclaration;
+import implementations.*;
+import memory.*;
 import program.Program;
-import implementations.Id;
-import implementations.FeatureNameDeclaration;
-import implementations.Types;
-import implementations.Formula;
-import implementations.UnaryFormula;
-import implementations.BinaryFormula;
-import implementations.NotForm;
-import implementations.ImpliesForm;
-import implementations.AndForm;
-import implementations.OrForm;
-import implementations.FormDeclaration;
-import implementations.ProductDeclaration;
 import java.util.*;
 
 
@@ -26,6 +15,15 @@ public class SPL1 {
      SPL1 spl1 = new SPL1(System.in);
      try{
         Program program = spl1.processInput();
+         System.out.println("SPL PLP Parser Version 0.0.1:  SPL program parsed successfully.");
+              if (program.typeCheck(new CompilationContext()))
+              {
+                System.out.println("Tudo ok!");
+              }
+              else
+              {
+                System.out.println("Erro de tipo");
+              }
   } catch (Exception e)
         {
           System.out.println("SPL PLP Parser Version 0.0.1:  Encountered errors during parse.");
@@ -125,15 +123,46 @@ Program PProgram() :
 
 PLDeclaration PPLDeclaration() :
 {
-  FeatureNameDeclaration featureNameDeclaration;
+  FeatureNameDeclarationList featureNameDeclaration;
   FormDeclaration formDeclaration;
-  ProductDeclaration productDeclaration;
+  ProductDeclarationList productDeclaration;
   Id plName;
 }
 {
-  < PRODUCTLINE> plName = PId() < LBRACE > [((featureNameDeclaration = PFNDeclaration()) <SEMICOLON>)+ [ formDeclaration = PFormDeclaration() <SEMICOLON> ] [ (productDeclaration = PProductDeclaration() <SEMICOLON>)+ ] ]< RBRACE >
+  < PRODUCTLINE> plName = PId() < LBRACE > [((featureNameDeclaration = PDecFNList()) <SEMICOLON>)+ [ formDeclaration = PFormDeclaration() <SEMICOLON> ] [ (productDeclaration = PDecProdList() <SEMICOLON>)+ ] ]< RBRACE >
   {
     return new PLDeclaration(plName);
+  }
+}
+
+FeatureNameDeclarationList PDecFNList() :
+{
+  FeatureNameDeclaration rt;
+    FeatureNameDeclarationList fnDec;
+}
+{
+  (
+    LOOKAHEAD(PFNDeclaration() < COMMA >)
+    fnDec = PDecFNComposto()
+  | rt = PFNDeclaration()
+    {
+      fnDec = new FeatureNameDeclarationList(rt);
+    }
+  )
+  {
+    return fnDec;
+  }
+}
+
+FeatureNameDeclarationList PDecFNComposto() :
+{
+  FeatureNameDeclaration d1;
+  FeatureNameDeclarationList d2;
+}
+{
+  d1 = PFNDeclaration() < COMMA > d2 = PDecFNComposto()
+  {
+    return new FeatureNameDeclarationList(d1, d2);
   }
 }
 
@@ -141,7 +170,7 @@ FeatureNameDeclaration PFNDeclaration() :
 {
   Id fnName = null;
   Id extendedNode = null;
-  Types type = null;
+  GeneralType type = null;
 }
 {
   < FEATURENAME> fnName = PId() [<EXTENDS> extendedNode = PId()] <AS> type = PType()
@@ -159,6 +188,37 @@ FormDeclaration PFormDeclaration() :
   < FORMULA > formName = PId() <ASSIGN> formula = PFormula()
   {
     return new FormDeclaration(formName, formula);
+  }
+}
+
+ProductDeclarationList PDecProdList() :
+{
+  ProductDeclaration rt;
+  ProductDeclarationList prodDec;
+}
+{
+  (
+    LOOKAHEAD(PProductDeclaration() < COMMA >)
+    prodDec = PDecProdComposto()
+  | rt = PProductDeclaration()
+    {
+      prodDec = new ProductDeclarationList(rt);
+    }
+  )
+  {
+    return prodDec;
+  }
+}
+
+ProductDeclarationList PDecProdComposto() :
+{
+  ProductDeclaration d1;
+  ProductDeclarationList d2;
+}
+{
+  d1 = PProductDeclaration() < COMMA > d2 = PDecProdComposto()
+  {
+    return new ProductDeclarationList(d1, d2);
   }
 }
 
@@ -269,15 +329,15 @@ Formula PBinaryFormula3() :
 }
 
 
-Types PType() :
+GeneralType PType() :
 {
-  Types type;
+  GeneralType type;
 }{
-    <ROOT_TYPE> { return type = Types.ROOT;}
-    | <MANDATORY_TYPE> {return type = Types.MANDATOYRY;}
-    | <OPTIONAL_TYPE> {return type = Types.OPTIONAL;}
-    | <ALTERNATIVE_TYPE>  {return type = Types.ALTERNATIVE;}
-    | <OR_TYPE> {return type = Types.OR;}
+    <ROOT_TYPE> { return type = new FNTypeClass(Types.ROOT);}
+    | <MANDATORY_TYPE> {return type = new FNTypeClass(Types.MANDATORY);}
+    | <OPTIONAL_TYPE> {return type = new FNTypeClass(Types.OPTIONAL);}
+    | <ALTERNATIVE_TYPE>  {return type = new FNTypeClass(Types.ALTERNATIVE);}
+    | <OR_TYPE> {return type = new FNTypeClass(Types.OR);}
 
 }
 
