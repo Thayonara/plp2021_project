@@ -8,9 +8,9 @@ import java.util.List;
 public class ProductDefinition {
 
     private Id productName;
-    private FeatureNameDeclarationList featuresSelected;
+    private List<Id> featuresSelected;
 
-    public ProductDefinition(Id productName, FeatureNameDeclarationList featuresSelected){
+    public ProductDefinition(Id productName, List<Id> featuresSelected){
         this.productName = productName;
         this.featuresSelected = featuresSelected;
     }
@@ -19,7 +19,7 @@ public class ProductDefinition {
         return productName;
     }
 
-    public FeatureNameDeclarationList getFeaturesSelected() {
+    public List<Id> getFeaturesSelected() {
         return featuresSelected;
     }
 }

@@ -28,13 +28,16 @@ public class FormDeclaration implements Declaration {
     @Override
     public ExecutionEnvironment elaborate(ExecutionEnvironment executionEnvironment) throws PreviouslyDeclaredFormException, UndeclaredFormException {
         executionEnvironment.mapFormDeclaration(this.formName, new FormDefinition(this.formName, this.formula));
+        executionEnvironment.map(this.formName, new FormDefinition(this.formName, this.formula));
         return executionEnvironment;
     }
 
     @Override
     public boolean TypeCheck(CompilationEnvironment compilationEnvironment) {
         boolean rt = false;
-            rt = this.formula.typeCheck(compilationEnvironment);
+        compilationEnvironment.increments();
+        rt = this.formula.typeCheck(compilationEnvironment);
+        compilationEnvironment.restore();
         return rt;
     }
 

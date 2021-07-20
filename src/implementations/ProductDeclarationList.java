@@ -6,11 +6,16 @@ import memory.CompilationEnvironment;
 import memory.ExecutionEnvironment;
 import util.Lista;
 
+import java.util.List;
+
 public class ProductDeclarationList extends Lista<ProductDeclaration> {
 
     public ProductDeclarationList(){}
     public ProductDeclarationList(ProductDeclaration productDeclaration){
         super(productDeclaration, null);
+    }
+    public ProductDeclarationList(ProductDeclaration productDeclaration, ProductDeclarationList productDeclarationList){
+        super(productDeclaration, productDeclarationList);
     }
 
     public ExecutionEnvironment elaborate(ExecutionEnvironment executionEnvironment) throws PreviouslyDeclaredProductException, UndeclaredProductException {
@@ -61,6 +66,7 @@ public class ProductDeclarationList extends Lista<ProductDeclaration> {
         }
         return rt;
     }
+
 
 
 

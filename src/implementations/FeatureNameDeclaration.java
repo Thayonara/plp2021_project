@@ -34,16 +34,18 @@ public class FeatureNameDeclaration implements Declaration {
     @Override
     public ExecutionEnvironment elaborate(ExecutionEnvironment executionEnvironment) throws PreviouslyDeclaredFNException, UndeclaredFNException {
         executionEnvironment.mapFNDeclaration(this.featureName, new FNDefinition(this.featureName, this.extendedNode, this.nodeType));
+        executionEnvironment.map(this.featureName, new FNDefinition(this.featureName, this.extendedNode, this.nodeType));
         return executionEnvironment;
     }
 
     @Override
     public boolean TypeCheck(CompilationEnvironment compilationEnvironment) {
         boolean rt = false;
+        compilationEnvironment.increments();
         if(compilationEnvironment.get(this.extendedNode) != null){
             rt = this.nodeType.isValid(compilationEnvironment);
         }
-
+        compilationEnvironment.restore();
         return rt;
     }
 

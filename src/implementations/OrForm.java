@@ -3,6 +3,7 @@ package implementations;
 import memory.CompilationEnvironment;
 
 public class OrForm extends BinaryFormula{
+
     public OrForm(Formula lformula, Formula rformula) {
 
         super(lformula, rformula, "or");
@@ -24,8 +25,8 @@ public class OrForm extends BinaryFormula{
     public boolean typeCheck(CompilationEnvironment compilationEnvironment) {
         boolean result;
         if (super.typeCheck(compilationEnvironment) &&
-                getlFormula().typeCheck(compilationEnvironment) &&
-                getrFormula().typeCheck(compilationEnvironment)){
+                getLeft().typeCheck(compilationEnvironment) &&
+                getRight().typeCheck(compilationEnvironment)){
             result = true;
         }
         else {

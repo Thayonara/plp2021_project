@@ -32,8 +32,10 @@ public class PLDeclaration implements Declaration {
     public ExecutionEnvironment elaborate(ExecutionEnvironment executionEnvironment) throws PreviouslyDeclaredPLException, UndeclaredPLException {
         if (this.featureNameDeclarations == null){
             executionEnvironment.mapPLDeclaration(this.plName, new PLDefinition(this.plName));
+            executionEnvironment.map(this.plName, new PLDefinition(this.plName));
         } else {
             executionEnvironment.mapPLDeclaration(this.plName, new PLDefinition(this.plName, this.featureNameDeclarations, this.formDeclaration, this.productDeclarations));
+            executionEnvironment.map(this.plName, new PLDefinition(this.plName, this.featureNameDeclarations, this.formDeclaration, this.productDeclarations));
         }
         return executionEnvironment;
     }

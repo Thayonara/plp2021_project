@@ -24,8 +24,8 @@ public class ImpliesForm extends BinaryFormula{
     public boolean typeCheck(CompilationEnvironment compilationEnvironment) {
         boolean result;
         if (super.typeCheck(compilationEnvironment) &&
-                getlFormula().typeCheck(compilationEnvironment) &&
-                getrFormula().typeCheck(compilationEnvironment)){
+                getLeft().typeCheck(compilationEnvironment) &&
+                getRight().typeCheck(compilationEnvironment)){
             result = true;
         }
         else {

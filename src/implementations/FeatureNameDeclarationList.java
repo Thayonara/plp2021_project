@@ -12,6 +12,9 @@ public class FeatureNameDeclarationList extends Lista<FeatureNameDeclaration> {
     public FeatureNameDeclarationList(FeatureNameDeclaration featureNameDeclaration){
         super(featureNameDeclaration, null);
     }
+    public FeatureNameDeclarationList(FeatureNameDeclaration featureNameDeclaration, FeatureNameDeclarationList featureNameDeclarationList){
+        super(featureNameDeclaration, featureNameDeclarationList);
+    }
 
 
     public ExecutionEnvironment elaborate(ExecutionEnvironment executionEnvironment) throws PreviouslyDeclaredFNException, UndeclaredFNException {

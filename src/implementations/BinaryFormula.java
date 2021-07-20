@@ -18,24 +18,12 @@ public abstract class BinaryFormula implements Formula {
         return lFormula;
     }
 
-    public void setlFormula(Formula lFormula) {
-        this.lFormula = lFormula;
-    }
-
     public Formula getrFormula() {
         return rFormula;
     }
 
-    public void setrFormula(Formula rFormula) {
-        this.rFormula = rFormula;
-    }
-
     public String getOperator() {
         return operator;
-    }
-
-    public void setOperator(String operator) {
-        this.operator = operator;
     }
 
     public boolean typeCheck(CompilationEnvironment compilationEnvironment){
