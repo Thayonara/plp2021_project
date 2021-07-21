@@ -99,7 +99,7 @@ public class CompilationContext implements CompilationEnvironment{
     }
 
     @Override
-    public GeneralType get(Id id) throws UndeclaredIdException {
+    public GeneralType get(Id id) throws UndeclaredIdException{
             GeneralType result = null;
             Stack<HashMap<Id, GeneralType>> auxStack = new Stack<HashMap<Id, GeneralType>>();
             while (result == null && !stack.empty()) {
@@ -111,7 +111,9 @@ public class CompilationContext implements CompilationEnvironment{
                 stack.push(auxStack.pop());
             }
             if (result == null) {
-                throw new UndeclaredIdException("Id não declarado anteriormente.");
+
+                throw new UndeclaredIdException(id + " não declarado");
+
             } else {
                 return result;
             }
@@ -120,7 +122,7 @@ public class CompilationContext implements CompilationEnvironment{
     @Override
     public void mapPLDeclaration(Id id, PLDefinition plDefinition) throws PreviouslyDeclaredPLException, UndeclaredPLException {
         PLDefinition plDefinition1 = getPlDefinition(id);
-        if (plDefinition1 != null) {
+        if (plDefinition1 == null) {
             plDefinitionMap.put(id, plDefinition);
         } else {
             throw new PreviouslyDeclaredPLException(id);
@@ -164,7 +166,8 @@ public class CompilationContext implements CompilationEnvironment{
         PLDefinition result = null;
         result = this.plDefinitionMap.get(id);
         if (result == null) {
-            throw new UndeclaredPLException(id);
+           // throw new UndeclaredPLException(id);
+            return null;
         } else {
             return result;
         }
@@ -175,7 +178,8 @@ public class CompilationContext implements CompilationEnvironment{
         FNDefinition result = null;
         result = this.fnDefinitionMap.get(id);
         if (result == null) {
-            throw new UndeclaredFNException(id);
+            //throw new UndeclaredFNException(id);
+            return null;
         } else {
             return result;
         }
@@ -186,7 +190,8 @@ public class CompilationContext implements CompilationEnvironment{
         FormDefinition result = null;
         result = this.formDefinitionMap.get(id);
         if (result == null) {
-            throw new UndeclaredFormException(id);
+            //throw new UndeclaredFormException(id);
+            return null;
         } else {
             return result;
         }
@@ -197,7 +202,8 @@ public class CompilationContext implements CompilationEnvironment{
         ProductDefinition result = null;
         result = this.prodDefinitionMap.get(id);
         if (result == null) {
-            throw new UndeclaredProductException(id);
+            //throw new UndeclaredProductException(id);
+            return null;
         } else {
             return result;
         }

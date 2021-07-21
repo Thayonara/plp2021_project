@@ -14,16 +14,15 @@ public class SPL1 {
       System.out.println("SPL PLP Parser Version 0.0.1:  Reading from standard input . . .");
      SPL1 spl1 = new SPL1(System.in);
      try{
-        Program program = spl1.processInput();
+         Program program = spl1.processInput();
          System.out.println("SPL PLP Parser Version 0.0.1:  SPL program parsed successfully.");
-              if (program.typeCheck(new CompilationContext()))
-              {
-                System.out.println("Tudo ok!");
-              }
-              else
-              {
-                System.out.println("Erro de tipo");
-              }
+         if (program.typeCheck(new CompilationContext()))
+         {
+             System.out.println("Tudo ok!");
+         } else
+         {
+             System.out.println("Erro de tipo");
+         }
   } catch (Exception e)
         {
           System.out.println("SPL PLP Parser Version 0.0.1:  Encountered errors during parse.");
@@ -123,15 +122,15 @@ Program PProgram() :
 
 PLDeclaration PPLDeclaration() :
 {
-  FeatureNameDeclarationList featureNameDeclaration;
-  FormDeclaration formDeclaration;
-  ProductDeclarationList productDeclaration;
-  Id plName;
+  FeatureNameDeclarationList featureNameDeclaration = null;
+  FormDeclaration formDeclaration = null;
+  ProductDeclarationList productDeclaration = null;
+  Id plName = null;
 }
 {
   < PRODUCTLINE> plName = PId() < LBRACE > [((featureNameDeclaration = PDecFNList()) <SEMICOLON>)+ [ formDeclaration = PFormDeclaration() <SEMICOLON> ] [ (productDeclaration = PDecProdList() <SEMICOLON>)+ ] ]< RBRACE >
   {
-    return new PLDeclaration(plName);
+    return new PLDeclaration(plName, featureNameDeclaration, formDeclaration, productDeclaration);
   }
 }
 

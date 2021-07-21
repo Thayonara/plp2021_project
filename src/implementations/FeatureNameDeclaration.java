@@ -2,6 +2,7 @@ package implementations;
 
 import exceptions.PreviouslyDeclaredFNException;
 import exceptions.UndeclaredFNException;
+import exceptions.UndeclaredPLException;
 import memory.CompilationEnvironment;
 import memory.ExecutionEnvironment;
 import util.Declaration;
@@ -32,19 +33,38 @@ public class FeatureNameDeclaration implements Declaration {
 
 
     @Override
-    public ExecutionEnvironment elaborate(ExecutionEnvironment executionEnvironment) throws PreviouslyDeclaredFNException, UndeclaredFNException {
-        executionEnvironment.mapFNDeclaration(this.featureName, new FNDefinition(this.featureName, this.extendedNode, this.nodeType));
-        executionEnvironment.map(this.featureName, new FNDefinition(this.featureName, this.extendedNode, this.nodeType));
-        return executionEnvironment;
+    public ExecutionEnvironment elaborate(ExecutionEnvironment executionEnvironment) throws PreviouslyDeclaredFNException, UndeclaredFNException, UndeclaredPLException {
+        if(extendedNode != null){
+            executionEnvironment.mapFNDeclaration(this.featureName, new FNDefinition(this.featureName, this.extendedNode, this.nodeType));
+            executionEnvironment.map(this.featureName, new FNDefinition(this.featureName, this.extendedNode, this.nodeType));
+            executionEnvironment.mapBefNode(featureName, extendedNode);
+
+        } else{
+            executionEnvironment.mapFNDeclaration(this.featureName, new FNDefinition(this.featureName, this.extendedNode, this.nodeType));
+            executionEnvironment.map(this.featureName, new FNDefinition(this.featureName, this.extendedNode, this.nodeType));
+
+        }
+
+         return executionEnvironment;
     }
 
     @Override
-    public boolean TypeCheck(CompilationEnvironment compilationEnvironment) {
+    public boolean TypeCheck(CompilationEnvironment compilationEnvironment) throws UndeclaredPLException {
         boolean rt = false;
+
+        if(this.extendedNode != null){
+            compilationEnvironment.mapBefNode(this.featureName, this.extendedNode);
+        }
+
         compilationEnvironment.increments();
-        if(compilationEnvironment.get(this.extendedNode) != null){
+        if(this.extendedNode != null){
+            if(compilationEnvironment.get(this.extendedNode) != null){
+                rt = this.nodeType.isValid(compilationEnvironment);
+            }
+        } else{
             rt = this.nodeType.isValid(compilationEnvironment);
         }
+
         compilationEnvironment.restore();
         return rt;
     }

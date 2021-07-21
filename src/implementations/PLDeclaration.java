@@ -42,15 +42,33 @@ public class PLDeclaration implements Declaration {
 
     @Override
     public boolean TypeCheck(CompilationEnvironment compilationEnvironment) throws PreviouslyDeclaredPLException, UndeclaredPLException {
+
         compilationEnvironment.mapPLDeclaration(this.plName, new PLDefinition(this.plName, this.featureNameDeclarations, this.formDeclaration, this.productDeclarations));
-        boolean rt = false;
+        compilationEnvironment.map(this.plName, new FNTypeClass(IdTypeEnum.PL));
+        boolean rt= true;
+        boolean rt1 = true;
+        boolean rt2 = true;
         compilationEnvironment.increments();
-        if(compilationEnvironment.get(plName) == null){
-            rt = featureNameDeclarations.typeCheck(compilationEnvironment) &&
-                    formDeclaration.TypeCheck(compilationEnvironment) &&
-                        productDeclarations.typeCheck(compilationEnvironment);
+
+        if(featureNameDeclarations != null) {
+            rt = featureNameDeclarations.typeCheck(compilationEnvironment);
+
         }
+
+        if(formDeclaration != null){
+            rt1 = formDeclaration.TypeCheck(compilationEnvironment);
+        }
+
+        if(productDeclarations != null){
+            rt2 = productDeclarations.typeCheck(compilationEnvironment);
+        }
+
+
         compilationEnvironment.restore();
-        return rt;
-    }
+        return rt && rt1 && rt2;
+
+       }
+
+
+
 }
