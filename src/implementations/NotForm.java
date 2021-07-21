@@ -11,25 +11,19 @@ public class NotForm extends UnaryFormula{
     }
 
     public Formula getFormula() {
-        return getFormula();
+        return super.getFormula();
     }
 
     public String getOperator() {
-        return getOperator();
+        return super.getOperator();
     }
 
-
     @Override
-    public boolean typeCheck(CompilationEnvironment compilationEnvironment) {
-        boolean result;
-        if (super.typeCheck(compilationEnvironment) &&
-                getFormula().typeCheck(compilationEnvironment)){
-            result = true;
-        }
-        else {
-            result = false;
-        }
-        return result;    }
+    protected boolean checaTipoElementoTerminal(CompilationEnvironment compilationEnvironment) {
+        getFormula().getType(compilationEnvironment).isValid(compilationEnvironment);
+        return (getFormula().getType(compilationEnvironment).isValid(compilationEnvironment));
+
+    }
 
     @Override
     public GeneralType getType(CompilationEnvironment compilationEnvironment) {

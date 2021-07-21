@@ -67,7 +67,11 @@ public class FNTypeClass implements GeneralType{
                 this.type == Types.OPTIONAL ||
                 this.type == Types.ROOT ||
                 this.type == Types.OR ||
-                this.type == Types.ALTERNATIVE;
+                this.type == Types.ALTERNATIVE ||
+                this.type == IdTypeEnum.FEATURENAME ||
+                this.type == IdTypeEnum.FORM ||
+                this.type == IdTypeEnum.PRODUCT ||
+                this.type == IdTypeEnum.PL;
     }
 
     public boolean isValid() {
@@ -75,7 +79,11 @@ public class FNTypeClass implements GeneralType{
                 this.type == Types.OPTIONAL ||
                 this.type == Types.ROOT ||
                 this.type == Types.OR ||
-                this.type == Types.ALTERNATIVE;
+                this.type == Types.ALTERNATIVE ||
+                this.type == IdTypeEnum.FEATURENAME ||
+                this.type == IdTypeEnum.FORM ||
+                this.type == IdTypeEnum.PRODUCT ||
+                this.type == IdTypeEnum.PL;
     }
 
     @Override

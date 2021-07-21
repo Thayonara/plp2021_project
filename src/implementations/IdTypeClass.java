@@ -7,10 +7,10 @@ import java.util.Objects;
 public class IdTypeClass implements GeneralType{
     protected Enum type;
 
-    public static final Id FN_TYPE = new Id("fn");
-    public static final Id FORM_TYPE = new Id("formula");
-    public static final Id PROD_TYPE = new Id("product");
-    public static final Id PL_TYPE = new Id("pl");
+    public static final Id FN_TYPE = new Id("FEATURENAME");
+    public static final Id FORM_TYPE = new Id("FORMULA");
+    public static final Id PROD_TYPE = new Id("PRODUCT");
+    public static final Id PL_TYPE = new Id("PL");
 
 
     public IdTypeClass(Enum type) {
@@ -55,14 +55,24 @@ public class IdTypeClass implements GeneralType{
 
     @Override
     public boolean isValid(CompilationEnvironment compilationEnvironment) {
-        return this.type == IdTypeEnum.FEATURENAME ||
+        return this.type == Types.MANDATORY ||
+                this.type == Types.OPTIONAL ||
+                this.type == Types.ROOT ||
+                this.type == Types.OR ||
+                this.type == Types.ALTERNATIVE ||
+                this.type == IdTypeEnum.FEATURENAME ||
                 this.type == IdTypeEnum.FORM ||
                 this.type == IdTypeEnum.PRODUCT ||
                 this.type == IdTypeEnum.PL;
     }
 
     public boolean isValid() {
-        return this.type == IdTypeEnum.FEATURENAME ||
+        return this.type == Types.MANDATORY ||
+                this.type == Types.OPTIONAL ||
+                this.type == Types.ROOT ||
+                this.type == Types.OR ||
+                this.type == Types.ALTERNATIVE ||
+                this.type == IdTypeEnum.FEATURENAME ||
                 this.type == IdTypeEnum.FORM ||
                 this.type == IdTypeEnum.PRODUCT ||
                 this.type == IdTypeEnum.PL;

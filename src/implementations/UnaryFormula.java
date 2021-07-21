@@ -19,15 +19,11 @@ public abstract class UnaryFormula implements Formula{
         return operator;
     }
 
-    public boolean typeCheck(CompilationEnvironment compilationEnvironment){
-        boolean result;
-        if (getFormula().typeCheck(compilationEnvironment)) {
-            result = true;
-        }
-        else {
-            result = false;
-        }
-        return result;
+    public boolean typeCheck(CompilationEnvironment compilationEnvironment) {
+        return getFormula().typeCheck(compilationEnvironment) && this.checaTipoElementoTerminal(compilationEnvironment);
     }
+
+    protected abstract boolean checaTipoElementoTerminal(CompilationEnvironment compilationEnvironment);
+
 
 }
