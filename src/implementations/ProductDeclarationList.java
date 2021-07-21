@@ -1,6 +1,7 @@
 package implementations;
 
 import exceptions.PreviouslyDeclaredProductException;
+import exceptions.UndeclaredFNException;
 import exceptions.UndeclaredProductException;
 import memory.CompilationEnvironment;
 import memory.ExecutionEnvironment;
@@ -34,7 +35,7 @@ public class ProductDeclarationList extends Lista<ProductDeclaration> {
         return rt;
     }
 
-    public boolean typeCheck(CompilationEnvironment compilationEnvironment){
+    public boolean typeCheck(CompilationEnvironment compilationEnvironment) throws UndeclaredFNException {
         boolean rt;
         if(getHead() != null) {
             if(getTail() != null) {

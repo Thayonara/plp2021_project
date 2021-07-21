@@ -197,7 +197,7 @@ ProductDeclarationList PDecProdList() :
 }
 {
   (
-    LOOKAHEAD(PProductDeclaration() < SEMICOLON >)
+    LOOKAHEAD(PProductDeclaration() < SEMICOLON > PProductDeclaration())
     prodDec = PDecProdComposto()
   | rt = PProductDeclaration()
     {
@@ -215,7 +215,7 @@ ProductDeclarationList PDecProdComposto() :
   ProductDeclarationList d2;
 }
 {
-  d1 = PProductDeclaration() < SEMICOLON > d2 = PDecProdComposto()
+  d1 = PProductDeclaration() < SEMICOLON > d2 = PDecProdList()
   {
     return new ProductDeclarationList(d1, d2);
   }

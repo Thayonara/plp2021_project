@@ -45,10 +45,8 @@ public class CompilationContext implements CompilationEnvironment{
 
     @Override
     public void mapBefNode(Id fnName, Id BefNodeName){
-        BefNode befNode = getBefNode(BefNodeName);
-        if (befNode != null) {
-            arrayBefNode.add(new BefNode( fnName, BefNodeName));
-        }
+        arrayBefNode.add(new BefNode( fnName, BefNodeName));
+
     }
 
     @Override

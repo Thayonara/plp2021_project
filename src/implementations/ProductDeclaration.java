@@ -1,10 +1,12 @@
 package implementations;
 
 import exceptions.PreviouslyDeclaredProductException;
+import exceptions.UndeclaredFNException;
 import exceptions.UndeclaredProductException;
 import memory.CompilationEnvironment;
 import memory.ExecutionEnvironment;
 import util.Declaration;
+import util.FNDefinition;
 import util.Lista;
 import util.ProductDefinition;
 
@@ -16,7 +18,7 @@ public class ProductDeclaration implements Declaration {
     private Id productName;
     private List<Id> featuresSelected;
 
-    public ProductDeclaration(Id productName, List<Id> featuresSelected){
+    public ProductDeclaration(Id productName, List<Id> featuresSelected) {
         this.productName = productName;
         this.featuresSelected = featuresSelected;
     }
@@ -37,9 +39,9 @@ public class ProductDeclaration implements Declaration {
     }
 
     @Override
-    public boolean TypeCheck(CompilationEnvironment compilationEnvironment) {
-        for(int i = 0; i < this.featuresSelected.size(); i++){
-            if(compilationEnvironment.get(featuresSelected.get(i))== null){
+    public boolean TypeCheck(CompilationEnvironment compilationEnvironment) throws UndeclaredFNException {
+        for (int i = 0; i < this.featuresSelected.size(); i++) {
+            if (compilationEnvironment.get(featuresSelected.get(i)) == null) {
                 return false;
             }
         }
@@ -49,10 +51,10 @@ public class ProductDeclaration implements Declaration {
 
 
     public boolean isPresent(List<Id> featureNameDeclarationList,
-                             Id featureNameDeclaration){
+                             Id featureNameDeclaration) {
         boolean rt = false;
-        for(int i = 0; i < featureNameDeclarationList.size(); i++){
-            if(featureNameDeclarationList.get(i).getIdName().equals(featureNameDeclaration.getIdName())){
+        for (int i = 0; i < featureNameDeclarationList.size(); i++) {
+            if (featureNameDeclarationList.get(i).getIdName().equals(featureNameDeclaration.getIdName())) {
                 return true;
             }
         }
@@ -60,32 +62,35 @@ public class ProductDeclaration implements Declaration {
         return rt;
     }
 
-    public boolean isFormValid(CompilationEnvironment compilationEnvironment, List<Id> featureNameDeclarationList){
+    public boolean isFormValid(CompilationEnvironment compilationEnvironment, List<Id> featureNameDeclarationList) throws UndeclaredFNException {
         boolean isRoot = false;
-        for (int i = 0; i < featureNameDeclarationList.size(); i ++){
-            FeatureNameDeclaration current = (FeatureNameDeclaration) compilationEnvironment.get(featureNameDeclarationList.get(i));
-            isRoot = current.getNodeType().getTipo() == FNTypeClass.ROOT_TYPE.getType(compilationEnvironment);
-            if (!isRoot){
-                boolean isAlternative = current.getNodeType().getTipo() == FNTypeClass.ALTERNATIVE_TYPE.getType(compilationEnvironment);
+        for (int i = 0; i < featureNameDeclarationList.size(); i++) {
+            FNDefinition fnDefinition = compilationEnvironment.getFNDefinition(featureNameDeclarationList.get(i));
+            FeatureNameDeclaration current = new FeatureNameDeclaration(fnDefinition.getFeatureName(), fnDefinition.getExtendedNode(), fnDefinition.getNodeType());
+            if (current.getNodeType().getTipo().toString().equals(new FNTypeClass(Types.ROOT).getTipo().toString())) {
+                isRoot = true;
+            } else {
+                boolean isAlternative = current.getNodeType().getTipo().toString().equals(new FNTypeClass(Types.ALTERNATIVE).getTipo().toString());
                 Id befNode = current.extendedNode;
-                if(!(isPresent(featureNameDeclarationList, befNode))){
+                if (!(isPresent(featureNameDeclarationList, befNode))) {
                     return false;
-                } else{
+                } else {
                     List<Id> broNodes = compilationEnvironment.getChildrens(befNode, current.getFeatureName());
-                    for(int j = 0; j < broNodes.size(); j++){
+                    for (int j = 0; j < broNodes.size(); j++) {
                         Id broCurrent = broNodes.get(j);
-                        if(compilationEnvironment.get(broCurrent).getTipo().equals( FNTypeClass.MANDATORY_TYPE.getType(compilationEnvironment))){
-                            if(!(isPresent(featureNameDeclarationList, broCurrent))){
+                        if (compilationEnvironment.getFNDefinition(broCurrent).getNodeType().toString().equals(new FNTypeClass(Types.MANDATORY).getTipo().toString())) {
+                            if (!(isPresent(featureNameDeclarationList, broCurrent))) {
                                 return false;
-                            } else {
-                                if(compilationEnvironment.get(broCurrent).getTipo().equals( FNTypeClass.ALTERNATIVE_TYPE.getType(compilationEnvironment))){
-                                    if (isPresent(featureNameDeclarationList, broCurrent)){
-                                        if (isAlternative){
-                                            return false;
-                                        }
+                            }
+                        } else {
+                            if (compilationEnvironment.getFNDefinition(broCurrent).getNodeType().toString().equals(new FNTypeClass(Types.ALTERNATIVE).getTipo().toString())) {
+                                if (isPresent(featureNameDeclarationList, broCurrent)) {
+                                    if (isAlternative) {
+                                        return false;
                                     }
                                 }
                             }
+
                         }
                     }
 
@@ -98,11 +103,10 @@ public class ProductDeclaration implements Declaration {
         return isRoot;
     }
 
-    public CompilationEnvironment prodDeclarate(CompilationEnvironment compilationEnvironment){
+    public CompilationEnvironment prodDeclarate(CompilationEnvironment compilationEnvironment) {
         compilationEnvironment.map(this.productName, IdTypeClass.PROD_TYPE.getType(compilationEnvironment));
         return compilationEnvironment;
     }
-
 
 
 }
