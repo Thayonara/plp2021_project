@@ -1,6 +1,8 @@
 package program;
 
+import exceptions.PreviouslyDeclaredFNException;
 import exceptions.PreviouslyDeclaredPLException;
+import exceptions.UndeclaredFNException;
 import exceptions.UndeclaredPLException;
 import implementations.PLDeclaration;
 import memory.CompilationEnvironment;
@@ -13,7 +15,7 @@ public class Program {
         this.plDeclaration = plDeclaration;
     }
 
-    public boolean typeCheck(CompilationEnvironment compilationEnvironment) throws PreviouslyDeclaredPLException, UndeclaredPLException {
+    public boolean typeCheck(CompilationEnvironment compilationEnvironment) throws PreviouslyDeclaredPLException, UndeclaredPLException, PreviouslyDeclaredFNException, UndeclaredFNException {
         boolean rt;
         if(compilationEnvironment == null) {
             //lançar exceptions

@@ -1,6 +1,8 @@
 package implementations;
 
+import exceptions.PreviouslyDeclaredFNException;
 import exceptions.PreviouslyDeclaredPLException;
+import exceptions.UndeclaredFNException;
 import exceptions.UndeclaredPLException;
 import memory.CompilationEnvironment;
 import memory.ExecutionEnvironment;
@@ -41,7 +43,7 @@ public class PLDeclaration implements Declaration {
     }
 
     @Override
-    public boolean TypeCheck(CompilationEnvironment compilationEnvironment) throws PreviouslyDeclaredPLException, UndeclaredPLException {
+    public boolean TypeCheck(CompilationEnvironment compilationEnvironment) throws PreviouslyDeclaredPLException, UndeclaredPLException, PreviouslyDeclaredFNException, UndeclaredFNException {
 
         compilationEnvironment.mapPLDeclaration(this.plName, new PLDefinition(this.plName, this.featureNameDeclarations, this.formDeclaration, this.productDeclarations));
         compilationEnvironment.map(this.plName, new FNTypeClass(IdTypeEnum.PL));

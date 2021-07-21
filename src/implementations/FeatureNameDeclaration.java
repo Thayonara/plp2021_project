@@ -7,6 +7,7 @@ import memory.CompilationEnvironment;
 import memory.ExecutionEnvironment;
 import util.Declaration;
 import util.FNDefinition;
+import util.PLDefinition;
 
 public class FeatureNameDeclaration implements Declaration {
     protected Id featureName;
@@ -49,7 +50,7 @@ public class FeatureNameDeclaration implements Declaration {
     }
 
     @Override
-    public boolean TypeCheck(CompilationEnvironment compilationEnvironment) throws UndeclaredPLException {
+    public boolean TypeCheck(CompilationEnvironment compilationEnvironment) throws UndeclaredPLException, PreviouslyDeclaredFNException, UndeclaredFNException {
         boolean rt = false;
 
         if(this.extendedNode != null){
@@ -58,7 +59,7 @@ public class FeatureNameDeclaration implements Declaration {
 
         compilationEnvironment.increments();
         if(this.extendedNode != null){
-            if(compilationEnvironment.get(this.extendedNode) != null){
+            if(compilationEnvironment.getFNDefinition(this.extendedNode) != null){
                 rt = this.nodeType.isValid(compilationEnvironment);
             }
         } else{
@@ -66,6 +67,8 @@ public class FeatureNameDeclaration implements Declaration {
         }
 
         compilationEnvironment.restore();
+        compilationEnvironment.mapFNDeclaration(this.featureName, new FNDefinition(this.featureName, this.extendedNode, this.nodeType));
+        compilationEnvironment.map(this.featureName, new FNTypeClass(IdTypeEnum.FEATURENAME));
         return rt;
     }
 

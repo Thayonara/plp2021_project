@@ -34,7 +34,7 @@ public class FeatureNameDeclarationList extends Lista<FeatureNameDeclaration> {
         return rt;
     }
 
-    public boolean typeCheck(CompilationEnvironment compilationEnvironment) throws UndeclaredPLException {
+    public boolean typeCheck(CompilationEnvironment compilationEnvironment) throws UndeclaredPLException, PreviouslyDeclaredFNException, UndeclaredFNException {
         boolean rt;
         if(getHead() != null) {
             if(getTail() != null) {

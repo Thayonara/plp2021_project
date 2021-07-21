@@ -44,9 +44,9 @@ public class CompilationContext implements CompilationEnvironment{
 
 
     @Override
-    public void mapBefNode(Id fnName, Id BefNodeName) throws UndeclaredPLException {
-        PLDefinition plDefinition = getPlDefinition(BefNodeName);
-        if (plDefinition != null) {
+    public void mapBefNode(Id fnName, Id BefNodeName){
+        BefNode befNode = getBefNode(BefNodeName);
+        if (befNode != null) {
             arrayBefNode.add(new BefNode( fnName, BefNodeName));
         }
     }
@@ -132,7 +132,7 @@ public class CompilationContext implements CompilationEnvironment{
     @Override
     public void mapFNDeclaration(Id id, FNDefinition fnDefinition) throws PreviouslyDeclaredFNException, UndeclaredFNException {
         FNDefinition fnDefinition1 = getFNDefinition(id);
-        if (fnDefinition1 != null) {
+        if (fnDefinition1 == null) {
             fnDefinitionMap.put(id, fnDefinition);
         } else {
             throw new PreviouslyDeclaredFNException(id);

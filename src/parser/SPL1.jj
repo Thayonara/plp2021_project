@@ -141,7 +141,7 @@ FeatureNameDeclarationList PDecFNList() :
 }
 {
   (
-    LOOKAHEAD(PFNDeclaration() < COMMA >)
+    LOOKAHEAD(PFNDeclaration() < SEMICOLON > PFNDeclaration())
     fnDec = PDecFNComposto()
   | rt = PFNDeclaration()
     {
@@ -159,7 +159,7 @@ FeatureNameDeclarationList PDecFNComposto() :
   FeatureNameDeclarationList d2;
 }
 {
-  d1 = PFNDeclaration() < COMMA > d2 = PDecFNComposto()
+  d1 = PFNDeclaration() < SEMICOLON> d2 = PDecFNList()
   {
     return new FeatureNameDeclarationList(d1, d2);
   }
@@ -197,7 +197,7 @@ ProductDeclarationList PDecProdList() :
 }
 {
   (
-    LOOKAHEAD(PProductDeclaration() < COMMA >)
+    LOOKAHEAD(PProductDeclaration() < SEMICOLON >)
     prodDec = PDecProdComposto()
   | rt = PProductDeclaration()
     {
@@ -215,7 +215,7 @@ ProductDeclarationList PDecProdComposto() :
   ProductDeclarationList d2;
 }
 {
-  d1 = PProductDeclaration() < COMMA > d2 = PDecProdComposto()
+  d1 = PProductDeclaration() < SEMICOLON > d2 = PDecProdComposto()
   {
     return new ProductDeclarationList(d1, d2);
   }
