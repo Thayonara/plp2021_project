@@ -16,11 +16,15 @@ public class Composition implements Command{
 
     @Override
     public ExecutionEnvironment execute(ExecutionEnvironment executionEnvironment) {
-        return null;
+        executionEnvironment = this.command1.execute(executionEnvironment);
+        executionEnvironment = this.command2.execute(executionEnvironment);
+
+        return executionEnvironment;
     }
 
     @Override
     public boolean typeCheck(CompilationEnvironment compilationEnvironment) {
-        return false;
+        return this.command1.typeCheck(compilationEnvironment) &&
+                this.command2.typeCheck(compilationEnvironment);
     }
 }

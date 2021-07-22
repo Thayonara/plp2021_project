@@ -1,6 +1,8 @@
 package command;
 
 import implementations.Id;
+import implementations.IdTypeClass;
+import implementations.IdTypeEnum;
 import memory.CompilationEnvironment;
 import memory.ExecutionEnvironment;
 
@@ -19,6 +21,7 @@ public class Sofot implements Command{
 
     @Override
     public boolean typeCheck(CompilationEnvironment compilationEnvironment) {
-        return false;
+        return this.idPL.typeCheck(compilationEnvironment) &&
+                (this.idPL.getType(compilationEnvironment).toString().equalsIgnoreCase("pl"));
     }
 }

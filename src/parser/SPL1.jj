@@ -129,7 +129,7 @@ Program PProgram() :
 {
   <LBRACE> plDeclaration = PPLDeclaration()  [<SEMICOLON> command = PCommand() <SEMICOLON>] <RBRACE>
   {
-    return new Program(plDeclaration);
+    return new Program(plDeclaration, command);
   }
 }
 

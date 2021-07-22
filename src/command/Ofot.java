@@ -1,6 +1,6 @@
 package command;
 
-import implementations.Id;
+import implementations.*;
 import memory.CompilationEnvironment;
 import memory.ExecutionEnvironment;
 
@@ -19,6 +19,8 @@ public class Ofot implements Command{
 
     @Override
     public boolean typeCheck(CompilationEnvironment compilationEnvironment) {
-        return false;
+        return this.idPL.typeCheck(compilationEnvironment) &&
+                (this.idPL.getType(compilationEnvironment).toString().equalsIgnoreCase("pl"));
+
     }
 }

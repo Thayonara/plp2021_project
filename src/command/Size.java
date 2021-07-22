@@ -19,6 +19,7 @@ public class Size implements Command{
 
     @Override
     public boolean typeCheck(CompilationEnvironment compilationEnvironment) {
-        return false;
+       return this.command.typeCheck(compilationEnvironment);
+
     }
 }
