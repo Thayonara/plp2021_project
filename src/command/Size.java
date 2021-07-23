@@ -6,15 +6,21 @@ import memory.ExecutionEnvironment;
 
 public class Size implements Command{
 
-    protected Command command;
+    protected PoolGenerateCommand command;
 
-    public Size (Command command){
+    public Size (PoolGenerateCommand command){
         this.command = command;
     }
 
     @Override
     public ExecutionEnvironment execute(ExecutionEnvironment executionEnvironment) {
-        return null;
+
+        //recuperar produtos da suite
+        int b = executionEnvironment.getPoolTesting(command.getIdPl()).size();
+
+        System.out.println("O tamanho é : " + (b));
+
+        return executionEnvironment;
     }
 
     @Override

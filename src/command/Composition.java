@@ -1,5 +1,7 @@
 package command;
 
+import exceptions.UndeclaredFNException;
+import exceptions.UndeclaredPLException;
 import memory.CompilationEnvironment;
 import memory.ExecutionEnvironment;
 
@@ -15,7 +17,7 @@ public class Composition implements Command{
 
 
     @Override
-    public ExecutionEnvironment execute(ExecutionEnvironment executionEnvironment) {
+    public ExecutionEnvironment execute(ExecutionEnvironment executionEnvironment) throws UndeclaredFNException, UndeclaredPLException {
         executionEnvironment = this.command1.execute(executionEnvironment);
         executionEnvironment = this.command2.execute(executionEnvironment);
 

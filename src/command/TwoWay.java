@@ -1,17 +1,19 @@
 package command;
 
 import implementations.Id;
-import implementations.IdTypeClass;
-import implementations.IdTypeEnum;
 import memory.CompilationEnvironment;
 import memory.ExecutionEnvironment;
 
-public class TwoWay implements Command{
+public class TwoWay implements PoolGenerateCommand {
 
     protected Id idPL;
 
     public TwoWay(Id idPL){
         this.idPL = idPL;
+    }
+
+    public Id getPL(){
+        return this.idPL;
     }
 
     @Override
@@ -23,5 +25,10 @@ public class TwoWay implements Command{
     public boolean typeCheck(CompilationEnvironment compilationEnvironment) {
         return this.idPL.typeCheck(compilationEnvironment) &&
                 (this.idPL.getType(compilationEnvironment).toString().equalsIgnoreCase("pl"));
+    }
+
+    @Override
+    public Id getIdPl() {
+        return this.idPL;
     }
 }

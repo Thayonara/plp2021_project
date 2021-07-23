@@ -12,17 +12,22 @@ import java.util.List;
 
 public class Test implements Command{
 
-    protected Command command;
+    protected PoolGenerateCommand command;
     protected Id idProduct;
 
-    public Test (Command command, Id idProduct){
+    public Test (PoolGenerateCommand command, Id idProduct){
         this.command = command;
         this.idProduct = idProduct;
     }
 
     @Override
     public ExecutionEnvironment execute(ExecutionEnvironment executionEnvironment) {
-        return null;
+        //recuperar produtos da suite
+        List<ProductDefinition> productDefinitions = executionEnvironment.getPoolTesting(command.getIdPl());
+
+        System.out.println("Deve testar " + idProduct + ": " + isPresent(productDefinitions, idProduct));
+
+        return executionEnvironment;
     }
 
     @Override
@@ -57,4 +62,17 @@ public class Test implements Command{
         }
         return rt;
     }
+
+    public boolean isPresent(List<ProductDefinition> productDefinitions,
+                             Id idProduct) {
+        boolean rt = false;
+        for (int i = 0; i < productDefinitions.size(); i++) {
+            if (productDefinitions.get(i).getProductName().equals(idProduct.getIdName())) {
+                return true;
+            }
+        }
+
+        return rt;
+    }
+
 }

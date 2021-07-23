@@ -70,7 +70,16 @@ public class ProductDeclarationList extends Lista<ProductDeclaration> {
 
 
 
+    public int length() {
 
+        if (getHead() == null)
+            return 0;
+        else if (getTail() == null)
+            return 1;
+        else
+            return 1 + getTail().length();
+
+    }
 
 
 

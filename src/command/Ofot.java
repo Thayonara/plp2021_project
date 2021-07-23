@@ -1,10 +1,17 @@
 package command;
 
+import exceptions.UndeclaredFNException;
+import exceptions.UndeclaredPLException;
 import implementations.*;
 import memory.CompilationEnvironment;
 import memory.ExecutionEnvironment;
+import util.FNDefinition;
+import util.PLDefinition;
+import util.ProductDefinition;
 
-public class Ofot implements Command{
+import java.util.List;
+
+public class Ofot implements PoolGenerateCommand {
 
     protected Id idPL;
 
@@ -12,9 +19,15 @@ public class Ofot implements Command{
         this.idPL = idPL;
     }
 
+
     @Override
-    public ExecutionEnvironment execute(ExecutionEnvironment executionEnvironment) {
-        return null;
+    public ExecutionEnvironment execute(ExecutionEnvironment executionEnvironment) throws UndeclaredPLException, UndeclaredFNException {
+        PLDefinition plDefinition = executionEnvironment.getPlDefinition(idPL);
+        ProductDeclaration seed = plDefinition.getProductDeclarations().getHead();
+        //a execução é apenas add um pool no ambiente
+        executionEnvironment.mapPoolTest(this.idPL, poolTestGenerate(seed, executionEnvironment));
+
+        return executionEnvironment;
     }
 
     @Override
@@ -22,5 +35,30 @@ public class Ofot implements Command{
         return this.idPL.typeCheck(compilationEnvironment) &&
                 (this.idPL.getType(compilationEnvironment).toString().equalsIgnoreCase("pl"));
 
+    }
+
+    public List<ProductDefinition> poolTestGenerate(ProductDeclaration seed, ExecutionEnvironment executionEnvironment) throws UndeclaredFNException {
+       List<ProductDefinition> pool = null;
+       for(int i = 0; i < seed.getFeaturesSelected().size(); i++){
+           FNDefinition current = executionEnvironment.getFNDefinition(seed.getFeaturesSelected().get(i));
+
+           if(!(current.getNodeType().toString().equals("root"))){
+
+               List<Id> bro = executionEnvironment.getChildrens(current.getExtendedNode(), current.getFeatureName());
+
+               for ( int j = 0; j < bro.size(); j++){
+                   seed.getFeaturesSelected().set(i, bro.get(j));
+                   ProductDefinition productDefinition = new ProductDefinition(new Id("p["+i+j+"]"), seed.getFeaturesSelected());
+                   pool.add(productDefinition);
+               }
+           }
+       }
+            return pool;
+
+    }
+
+    @Override
+    public Id getIdPl() {
+        return this.idPL;
     }
 }
