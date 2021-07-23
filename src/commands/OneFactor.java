@@ -73,7 +73,7 @@ public class OneFactor {
             return result;
         }
 
-        //Time O(nXk) = O(n^2), Space O(n^2), n is the max length of arrays, K is number of arrays
+        
         public static Set<Set<String>> permK(List<List<String>> in) {
             final Set<Set<String>> out = new HashSet<Set<String>>();
             permUtil(new ArrayList<List<String>>(in), new HashSet<String>(), out);
