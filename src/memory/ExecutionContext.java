@@ -3,10 +3,12 @@ package memory;
 import exceptions.*;
 import implementations.GeneralType;
 import implementations.Id;
+import implementations.ProductDeclarationList;
 import util.*;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Stack;
 
 public class ExecutionContext implements ExecutionEnvironment{
@@ -14,6 +16,7 @@ public class ExecutionContext implements ExecutionEnvironment{
     private HashMap<Id, FNDefinition> fnDefinitionHashMap;
     private HashMap<Id, FormDefinition> formDefinitionHashMap;
     private HashMap<Id, ProductDefinition> productDefinitionHashMap;
+    private HashMap<Id, List<ProductDefinition>> poolTest;
     private ArrayList<BefNode> arrayBefNode;
     private Stack<HashMap<Id, Object>> stack;
 
@@ -24,6 +27,7 @@ public class ExecutionContext implements ExecutionEnvironment{
         this.fnDefinitionHashMap = new HashMap<Id, FNDefinition>();
         this.formDefinitionHashMap = new HashMap<Id, FormDefinition>();
         this.productDefinitionHashMap = new HashMap<Id, ProductDefinition>();
+        this.poolTest = new HashMap<Id, List<ProductDefinition>>();
         this.arrayBefNode = new ArrayList <BefNode> ();
         this.stack = new Stack<HashMap<Id, Object>>();
 
@@ -34,6 +38,7 @@ public class ExecutionContext implements ExecutionEnvironment{
         this.fnDefinitionHashMap = new HashMap<Id, FNDefinition>();
         this.formDefinitionHashMap = new HashMap<Id, FormDefinition>();
         this.productDefinitionHashMap = new HashMap<Id, ProductDefinition>();
+        this.poolTest = new HashMap<Id, List<ProductDefinition>>();
         this.arrayBefNode = new ArrayList <BefNode> ();
         this.stack = new Stack<HashMap<Id, Object>>();
 
@@ -82,9 +87,20 @@ public class ExecutionContext implements ExecutionEnvironment{
     @Override
     public void mapBefNode(Id plName, Id BefNodeName) throws UndeclaredPLException {
         PLDefinition plDefinition = getPlDefinition(BefNodeName);
-        if (plDefinition != null) {
+        if (plDefinition == null) {
             arrayBefNode.add(new BefNode( plName, BefNodeName));
         }
+    }
+
+    @Override
+    public void mapPoolTest(Id idPl, List<ProductDefinition> productDeclarationList) {
+        poolTest.put(idPl, productDeclarationList);
+
+    }
+
+    @Override
+    public List<ProductDefinition> getPoolTesting(Id idPL) {
+        return this.poolTest.get(idPL);
     }
 
     @Override
@@ -100,7 +116,26 @@ public class ExecutionContext implements ExecutionEnvironment{
 
     @Override
     public Stack<HashMap<Id, Object>> getStack() {
-        return null;
+        return this.stack;
+    }
+
+    @Override
+    public List<Id> getChildrens(Id befId, Id idBro) {
+        ArrayList<Id> childrens = new ArrayList <Id> ();
+        for(int i=0; i < arrayBefNode.size(); i++){
+            String befName = arrayBefNode.get(i).getBefNodeName().getIdName();
+            if(befName.equalsIgnoreCase(befId.getIdName())){
+                if(!(arrayBefNode.get(i).getPlName().getIdName().equalsIgnoreCase(idBro.getIdName()))){
+                    childrens.add(arrayBefNode.get(i).getPlName());
+                }
+            }
+        }
+        return childrens;
+    }
+
+    @Override
+    public HashMap<Id, PLDefinition> getPLDefinitions() {
+        return this.plDefinitionHashMap;
     }
 
     @Override

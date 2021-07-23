@@ -96,6 +96,7 @@ public class CompilationContext implements CompilationEnvironment{
             }
     }
 
+
     @Override
     public GeneralType get(Id id) throws UndeclaredIdException{
             GeneralType result = null;
@@ -152,7 +153,7 @@ public class CompilationContext implements CompilationEnvironment{
     @Override
     public void mapProdDeclaration(Id id, ProductDefinition productDefinition) throws PreviouslyDeclaredProductException, UndeclaredProductException {
         ProductDefinition productDefinition1 = getProdDefinition(id);
-        if (productDefinition1 != null) {
+        if (productDefinition1 == null) {
             prodDefinitionMap.put(id, productDefinition);
         } else {
             throw new PreviouslyDeclaredProductException(id);
@@ -206,4 +207,9 @@ public class CompilationContext implements CompilationEnvironment{
             return result;
         }
     }
+
+   @Override
+   public HashMap<Id, PLDefinition> getPLDefinitions(){
+       return this.plDefinitionMap;
+   }
 }

@@ -39,12 +39,15 @@ public class ProductDeclaration implements Declaration {
     }
 
     @Override
-    public boolean TypeCheck(CompilationEnvironment compilationEnvironment) throws UndeclaredFNException {
+    public boolean TypeCheck(CompilationEnvironment compilationEnvironment) throws UndeclaredFNException, PreviouslyDeclaredProductException, UndeclaredProductException {
         for (int i = 0; i < this.featuresSelected.size(); i++) {
             if (compilationEnvironment.get(featuresSelected.get(i)) == null) {
                 return false;
             }
         }
+
+        compilationEnvironment.mapProdDeclaration(this.productName, new ProductDefinition(this.productName, this.featuresSelected));
+        compilationEnvironment.map(this.productName, new IdTypeClass(IdTypeEnum.PRODUCT));
 
         return isFormValid(compilationEnvironment, featuresSelected);
     }

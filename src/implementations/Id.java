@@ -41,7 +41,9 @@ public class Id implements Formula{
 
     @Override
     public GeneralType getType(CompilationEnvironment compilationEnvironment) {
-        return (GeneralType) compilationEnvironment.get(this);
+        GeneralType generalType =  (GeneralType) compilationEnvironment.get(this);
+        return generalType;
+
     }
 
     public Id clone() {

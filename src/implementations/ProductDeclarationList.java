@@ -35,7 +35,7 @@ public class ProductDeclarationList extends Lista<ProductDeclaration> {
         return rt;
     }
 
-    public boolean typeCheck(CompilationEnvironment compilationEnvironment) throws UndeclaredFNException {
+    public boolean typeCheck(CompilationEnvironment compilationEnvironment) throws UndeclaredFNException, PreviouslyDeclaredProductException, UndeclaredProductException {
         boolean rt;
         if(getHead() != null) {
             if(getTail() != null) {
@@ -70,7 +70,16 @@ public class ProductDeclarationList extends Lista<ProductDeclaration> {
 
 
 
+    public int length() {
 
+        if (getHead() == null)
+            return 0;
+        else if (getTail() == null)
+            return 1;
+        else
+            return 1 + getTail().length();
+
+    }
 
 
 
