@@ -73,7 +73,7 @@ public class OneFactor {
             return result;
         }
 
-        
+
         public static Set<Set<String>> permK(List<List<String>> in) {
             final Set<Set<String>> out = new HashSet<Set<String>>();
             permUtil(new ArrayList<List<String>>(in), new HashSet<String>(), out);
