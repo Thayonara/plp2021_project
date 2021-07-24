@@ -3,6 +3,7 @@ package memory;
 import exceptions.*;
 import implementations.GeneralType;
 import implementations.Id;
+import implementations.ProductDeclaration;
 import implementations.ProductDeclarationList;
 import util.*;
 
@@ -16,7 +17,7 @@ public class ExecutionContext implements ExecutionEnvironment{
     private HashMap<Id, FNDefinition> fnDefinitionHashMap;
     private HashMap<Id, FormDefinition> formDefinitionHashMap;
     private HashMap<Id, ProductDefinition> productDefinitionHashMap;
-    private HashMap<Id, List<ProductDefinition>> poolTest;
+    private HashMap<Id, List<ProductDeclaration>> poolTest;
     private ArrayList<BefNode> arrayBefNode;
     private Stack<HashMap<Id, Object>> stack;
 
@@ -27,7 +28,7 @@ public class ExecutionContext implements ExecutionEnvironment{
         this.fnDefinitionHashMap = new HashMap<Id, FNDefinition>();
         this.formDefinitionHashMap = new HashMap<Id, FormDefinition>();
         this.productDefinitionHashMap = new HashMap<Id, ProductDefinition>();
-        this.poolTest = new HashMap<Id, List<ProductDefinition>>();
+        this.poolTest = new HashMap<Id, List<ProductDeclaration>>();
         this.arrayBefNode = new ArrayList <BefNode> ();
         this.stack = new Stack<HashMap<Id, Object>>();
 
@@ -38,7 +39,7 @@ public class ExecutionContext implements ExecutionEnvironment{
         this.fnDefinitionHashMap = new HashMap<Id, FNDefinition>();
         this.formDefinitionHashMap = new HashMap<Id, FormDefinition>();
         this.productDefinitionHashMap = new HashMap<Id, ProductDefinition>();
-        this.poolTest = new HashMap<Id, List<ProductDefinition>>();
+        this.poolTest = new HashMap<Id, List<ProductDeclaration>>();
         this.arrayBefNode = new ArrayList <BefNode> ();
         this.stack = new Stack<HashMap<Id, Object>>();
 
@@ -93,14 +94,19 @@ public class ExecutionContext implements ExecutionEnvironment{
     }
 
     @Override
-    public void mapPoolTest(Id idPl, List<ProductDefinition> productDeclarationList) {
+    public void mapPoolTest(Id idPl, List<ProductDeclaration> productDeclarationList) {
         poolTest.put(idPl, productDeclarationList);
 
     }
 
     @Override
-    public List<ProductDefinition> getPoolTesting(Id idPL) {
+    public List<ProductDeclaration> getPoolTesting(Id idPL) {
         return this.poolTest.get(idPL);
+    }
+
+    @Override
+    public HashMap<Id, List<ProductDeclaration>> getAllPools() {
+        return this.poolTest;
     }
 
     @Override
@@ -161,7 +167,7 @@ public class ExecutionContext implements ExecutionEnvironment{
     @Override
     public void mapPLDeclaration(Id id, PLDefinition plDefinition) throws PreviouslyDeclaredPLException, UndeclaredPLException {
         PLDefinition plDefinition1 = getPlDefinition(id);
-        if (plDefinition1 != null) {
+        if (plDefinition1 == null) {
             plDefinitionHashMap.put(id, plDefinition);
         } else {
             throw new PreviouslyDeclaredPLException(id);
@@ -170,41 +176,26 @@ public class ExecutionContext implements ExecutionEnvironment{
 
     @Override
     public void mapFNDeclaration(Id id, FNDefinition fnDefinition) throws PreviouslyDeclaredFNException, UndeclaredFNException {
-        FNDefinition fnDefinition1 = getFNDefinition(id);
-        if (fnDefinition1 != null) {
             fnDefinitionHashMap.put(id, fnDefinition);
-        } else {
-            throw new PreviouslyDeclaredFNException(id);
-
-        }
     }
 
     @Override
     public void mapFormDeclaration(Id id, FormDefinition formDefinition) throws PreviouslyDeclaredFormException, UndeclaredFormException {
-        FormDefinition formDefinition1 = getFormDefinition(id);
-        if (formDefinition1 != null) {
             formDefinitionHashMap.put(id, formDefinition);
-        } else {
-            throw new PreviouslyDeclaredFormException(id);
 
-        }
     }
 
     @Override
     public void mapProdDeclaration(Id id, ProductDefinition productDefinition) throws PreviouslyDeclaredProductException, UndeclaredProductException {
-        ProductDefinition productDefinition1 = getProdDefinition(id);
-        if (productDefinition1 != null) {
             productDefinitionHashMap.put(id, productDefinition);
-        } else {
-            throw new PreviouslyDeclaredProductException(id);
-        }
+
     }
     @Override
     public PLDefinition getPlDefinition(Id id) throws UndeclaredPLException {
         PLDefinition result = null;
         result = this.plDefinitionHashMap.get(id);
         if (result == null) {
-            throw new UndeclaredPLException(id);
+            return null;
         } else {
             return result;
         }

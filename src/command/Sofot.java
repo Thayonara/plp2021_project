@@ -2,6 +2,7 @@ package command;
 
 import exceptions.UndeclaredFNException;
 import exceptions.UndeclaredPLException;
+import implementations.FeatureNameDeclaration;
 import implementations.Id;
 import implementations.ProductDeclaration;
 import memory.CompilationEnvironment;
@@ -10,6 +11,7 @@ import util.FNDefinition;
 import util.PLDefinition;
 import util.ProductDefinition;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
@@ -41,17 +43,26 @@ public class Sofot implements PoolGenerateCommand {
     }
 
 
-    public List<ProductDefinition> poolTestGenerate(ProductDeclaration seed, ExecutionEnvironment executionEnvironment) throws UndeclaredFNException {
-        List<ProductDefinition> pool = null;
+    public List<ProductDeclaration> poolTestGenerate(ProductDeclaration seed, ExecutionEnvironment executionEnvironment) throws UndeclaredFNException, UndeclaredPLException {
+        List<ProductDeclaration> pool = new ArrayList<ProductDeclaration>();
+        pool.add(seed);
         for(int i = 0; i < seed.getFeaturesSelected().size(); i++){
-            FNDefinition current = executionEnvironment.getFNDefinition(seed.getFeaturesSelected().get(i));
+            FeatureNameDeclaration current = executionEnvironment.getPlDefinition(idPL).getFeatureNameDeclarations().getFN(seed.getFeaturesSelected().get(i));
 
             if(!(current.getNodeType().toString().equals("root"))){
 
                 List<Id> bro = executionEnvironment.getChildrens(current.getExtendedNode(), current.getFeatureName());
                 Random gerador = new Random();
-                seed.getFeaturesSelected().set(i, bro.get(gerador.nextInt(bro.size())));
-                ProductDefinition productDefinition = new ProductDefinition(new Id("p["+i+"]"), seed.getFeaturesSelected());
+                List<Id> aux = new ArrayList<>();
+                for(int k = 0; k < seed.getFeaturesSelected().size(); k ++){
+                    if(k == i){
+                        aux.add(bro.get(gerador.nextInt(bro.size())));
+                    } else{
+                        aux.add(seed.getFeaturesSelected().get(k));
+                    }
+                }
+
+                ProductDeclaration productDefinition = new ProductDeclaration(new Id("p["+i+"]"), aux);
                 pool.add(productDefinition);
                 }
             }

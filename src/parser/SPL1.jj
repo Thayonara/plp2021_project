@@ -19,7 +19,7 @@ public class SPL1 {
          System.out.println("SPL PLP Parser Version 0.0.1:  SPL program parsed successfully.");
          if (program.typeCheck(new CompilationContext()))
          {
-             System.out.println("Tudo ok!");
+             program.execute(new ExecutionContext());
          } else
          {
              System.out.println("Erro de tipo");

@@ -28,14 +28,19 @@ public class PLDeclaration implements Declaration {
 
 
     @Override
-    public ExecutionEnvironment elaborate(ExecutionEnvironment executionEnvironment) throws PreviouslyDeclaredPLException, UndeclaredPLException {
-        if (this.featureNameDeclarations == null){
-            executionEnvironment.mapPLDeclaration(this.plName, new PLDefinition(this.plName));
-            executionEnvironment.map(this.plName, new PLDefinition(this.plName));
-        } else {
+    public ExecutionEnvironment elaborate(ExecutionEnvironment executionEnvironment) throws PreviouslyDeclaredPLException, UndeclaredPLException, PreviouslyDeclaredFNException, UndeclaredFNException, PreviouslyDeclaredFormException, UndeclaredFormException, PreviouslyDeclaredProductException, UndeclaredProductException {
+        if (this.featureNameDeclarations != null) {
+            featureNameDeclarations.elaborate(executionEnvironment);
+        }
+        if (this.formDeclaration != null ){
+            this.formDeclaration.elaborate(executionEnvironment);
+        }
+        if (this.productDeclarations != null ){
+            this.productDeclarations.elaborate(executionEnvironment);
+        }
             executionEnvironment.mapPLDeclaration(this.plName, new PLDefinition(this.plName, this.featureNameDeclarations, this.formDeclaration, this.productDeclarations));
             executionEnvironment.map(this.plName, new PLDefinition(this.plName, this.featureNameDeclarations, this.formDeclaration, this.productDeclarations));
-        }
+
         return executionEnvironment;
     }
 
