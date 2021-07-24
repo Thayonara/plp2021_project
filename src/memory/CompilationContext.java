@@ -212,4 +212,9 @@ public class CompilationContext implements CompilationEnvironment{
    public HashMap<Id, PLDefinition> getPLDefinitions(){
        return this.plDefinitionMap;
    }
+
+    @Override
+    public HashMap<Id, FNDefinition> getFNDefinitions() {
+        return this.fnDefinitionMap;
+    }
 }

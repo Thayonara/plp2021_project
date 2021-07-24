@@ -9,6 +9,9 @@ import util.Declaration;
 import util.FNDefinition;
 import util.PLDefinition;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class FeatureNameDeclaration implements Declaration {
     protected Id featureName;
     protected Id extendedNode;
@@ -70,6 +73,10 @@ public class FeatureNameDeclaration implements Declaration {
             rt = false;
         }
 
+        if(this.nodeType.getTipo().toString().equals("root") && hasRoot(compilationEnvironment)){
+            rt = false;
+        }
+
         compilationEnvironment.restore();
         if(rt){
             compilationEnvironment.mapFNDeclaration(this.featureName, new FNDefinition(this.featureName, this.extendedNode, this.nodeType));
@@ -81,5 +88,15 @@ public class FeatureNameDeclaration implements Declaration {
     public CompilationEnvironment fnDeclarate(CompilationEnvironment compilationEnvironment){
         compilationEnvironment.map(this.featureName, this.nodeType);
         return compilationEnvironment;
+    }
+
+    public boolean hasRoot(CompilationEnvironment compilationEnvironment){
+        List<FNDefinition> fns = new ArrayList<>(compilationEnvironment.getFNDefinitions().values());
+        for(int i = 0; i < fns.size(); i++){
+            if(fns.get(i).getNodeType().getTipo().toString().equals("root")){
+                return true;
+            }
+        }
+        return false;
     }
 }
