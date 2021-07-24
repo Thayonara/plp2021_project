@@ -5,7 +5,7 @@ import memory.ExecutionEnvironment;
 
 public interface Formula {
 
-    //ExecutionEnvironment evaluate(ExecutionEnvironment executionEnvironment);
+    boolean evaluate(ExecutionEnvironment executionEnvironment, ProductDeclaration productDeclaration);
     boolean typeCheck(CompilationEnvironment compilationEnvironment);
     public GeneralType getType(CompilationEnvironment compilationEnvironment);
 

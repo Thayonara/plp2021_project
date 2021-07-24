@@ -1,6 +1,7 @@
 package implementations;
 
 import memory.CompilationEnvironment;
+import memory.ExecutionEnvironment;
 
 import java.util.Objects;
 
@@ -30,6 +31,11 @@ public class Id implements Formula{
     @Override
     public int hashCode() {
         return Objects.hash(idName);
+    }
+
+    @Override
+    public boolean evaluate(ExecutionEnvironment executionEnvironment, ProductDeclaration productDeclaration) {
+        return productDeclaration.isPresent(productDeclaration.getFeaturesSelected(), this);
     }
 
     @Override

@@ -1,6 +1,7 @@
 package implementations;
 
 import memory.CompilationEnvironment;
+import memory.ExecutionEnvironment;
 
 public class OrForm extends BinaryFormula{
 
@@ -19,6 +20,15 @@ public class OrForm extends BinaryFormula{
 
     public String getOperator() {
         return getOperator();
+    }
+
+    @Override
+    public boolean evaluate(ExecutionEnvironment executionEnvironment, ProductDeclaration productDeclaration) {
+        if(getLeft().evaluate(executionEnvironment, productDeclaration)){
+            return true;
+        } else{
+            return getRight().evaluate(executionEnvironment, productDeclaration);
+        }
     }
 
     @Override

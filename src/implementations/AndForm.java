@@ -1,6 +1,7 @@
 package implementations;
 
 import memory.CompilationEnvironment;
+import memory.ExecutionEnvironment;
 
 public class AndForm extends BinaryFormula{
     public AndForm(Formula lformula, Formula rformula)
@@ -18,6 +19,15 @@ public class AndForm extends BinaryFormula{
 
     public String getOperator() {
         return getOperator();
+    }
+
+    @Override
+    public boolean evaluate(ExecutionEnvironment executionEnvironment, ProductDeclaration productDeclaration) {
+        if(getLeft().evaluate(executionEnvironment, productDeclaration)){
+            return getRight().evaluate(executionEnvironment, productDeclaration);
+        } else{
+            return false;
+        }
     }
 
     @Override
