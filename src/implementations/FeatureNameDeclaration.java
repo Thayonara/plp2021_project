@@ -66,9 +66,15 @@ public class FeatureNameDeclaration implements Declaration {
             rt = this.nodeType.isValid(compilationEnvironment);
         }
 
+        if(!(this.nodeType.getTipo().toString().equals("root")) && (this.extendedNode == null)){
+            rt = false;
+        }
+
         compilationEnvironment.restore();
-        compilationEnvironment.mapFNDeclaration(this.featureName, new FNDefinition(this.featureName, this.extendedNode, this.nodeType));
-        compilationEnvironment.map(this.featureName, new FNTypeClass(IdTypeEnum.FEATURENAME));
+        if(rt){
+            compilationEnvironment.mapFNDeclaration(this.featureName, new FNDefinition(this.featureName, this.extendedNode, this.nodeType));
+            compilationEnvironment.map(this.featureName, new FNTypeClass(IdTypeEnum.FEATURENAME));
+        }
         return rt;
     }
 
