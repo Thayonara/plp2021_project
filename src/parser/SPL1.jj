@@ -272,6 +272,7 @@ PLDeclaration PPLDeclaration() :
   }
 }
 
+
 FeatureNameDeclarationList PDecFNList() :
 {
   FeatureNameDeclaration rt;

@@ -27,7 +27,11 @@ public class Program {
             //lançar exceptions
         }
         compilationEnvironment.increments();
-        rt = plDeclaration.TypeCheck(compilationEnvironment) && command.typeCheck(compilationEnvironment);
+        if(plDeclaration != null && command != null){
+            rt = plDeclaration.TypeCheck(compilationEnvironment) && command.typeCheck(compilationEnvironment);
+        } else{
+            rt = plDeclaration.TypeCheck(compilationEnvironment);
+        }
         compilationEnvironment.restore();
         return rt;
     }
@@ -38,7 +42,9 @@ public class Program {
         }
 
         executionEnvironment.increments();
-        executionEnvironment = command.execute(plDeclaration.elaborate(executionEnvironment));
+        if(command != null) {
+            executionEnvironment = command.execute(plDeclaration.elaborate(executionEnvironment));
+        }
         executionEnvironment.restore();
 
         return executionEnvironment.getAllPools();

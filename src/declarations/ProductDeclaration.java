@@ -84,10 +84,14 @@ public class ProductDeclaration implements Declaration {
             - se o current é alternativo, não pode haver irmão alternartivo também
             - checa se há algum irmão MANDATORY que não está presente
             - o produto tem que contem o pai do current
+            - se tem filho que é mandatório
+            - se tem algum filho que é alternativo
      */
 
     public boolean isFormValid(CompilationEnvironment compilationEnvironment, List<Id> featureNameDeclarationList) throws UndeclaredFNException {
-        boolean isRoot = false;
+        boolean isRoot= false;
+        boolean alternativePresent = false;
+        boolean hasAlternative = true;
         for (int i = 0; i < featureNameDeclarationList.size(); i++) {
             FNDefinition fnDefinition = compilationEnvironment.getFNDefinition(featureNameDeclarationList.get(i));
             FeatureNameDeclaration current = new FeatureNameDeclaration(fnDefinition.getFeatureName(), fnDefinition.getExtendedNode(), fnDefinition.getNodeType());
@@ -122,9 +126,33 @@ public class ProductDeclaration implements Declaration {
                 }
 
             }
+            List<Id> childrens = compilationEnvironment.getChildrens(current.featureName, current.getFeatureName());
+            for (int z = 0; z < childrens.size(); z++) {
+                Id childCurrent = childrens.get(z);
+                if (compilationEnvironment.getFNDefinition(childCurrent).getNodeType().toString().equals(new FNTypeClass(Types.MANDATORY).getTipo().toString())) {
+                    if (!(isPresent(featureNameDeclarationList, childCurrent))) {
+                        return false;
+                    }
+                } else {
+                    if (compilationEnvironment.getFNDefinition(childCurrent).getNodeType().toString().equals(new FNTypeClass(Types.ALTERNATIVE).getTipo().toString())) {
+                        if (!(isPresent(featureNameDeclarationList, childCurrent)) && !(alternativePresent)) {
+                            hasAlternative = false;
+                        }
+                        if ((isPresent(featureNameDeclarationList, childCurrent))) {
+                            alternativePresent = true;
+                            hasAlternative = true;
+
+                        }
+
+                    }
+
+                }
+
+            }
+
         }
 
-        return isRoot;
+        return isRoot && hasAlternative;
     }
 
     public CompilationEnvironment prodDeclarate(CompilationEnvironment compilationEnvironment) {
