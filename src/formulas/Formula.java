@@ -1,7 +1,8 @@
-package implementations;
+package formulas;
 
+import declarations.ProductDeclaration;
 import memory.CompilationEnvironment;
-import memory.ExecutionEnvironment;
+import types.GeneralType;
 
 public interface Formula {
 

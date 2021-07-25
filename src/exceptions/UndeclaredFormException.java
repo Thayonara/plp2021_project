@@ -1,6 +1,6 @@
 package exceptions;
 
-import implementations.Id;
+import declarations.Id;
 
 public class UndeclaredFormException extends Exception{
     public UndeclaredFormException(Id id) {

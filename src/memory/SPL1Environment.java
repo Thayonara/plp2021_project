@@ -1,7 +1,7 @@
 package memory;
 
 import exceptions.*;
-import implementations.Id;
+import declarations.Id;
 import util.FNDefinition;
 import util.FormDefinition;
 import util.PLDefinition;

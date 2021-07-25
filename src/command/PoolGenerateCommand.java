@@ -1,6 +1,6 @@
 package command;
 
-import implementations.Id;
+import declarations.Id;
 
 public interface PoolGenerateCommand extends Command{
 

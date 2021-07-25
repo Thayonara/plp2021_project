@@ -1,9 +1,8 @@
 package memory;
 
 import exceptions.UndeclaredPLException;
-import implementations.Id;
-import implementations.ProductDeclaration;
-import implementations.ProductDeclarationList;
+import declarations.Id;
+import declarations.ProductDeclaration;
 import util.*;
 
 import java.util.HashMap;

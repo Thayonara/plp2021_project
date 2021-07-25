@@ -1,7 +1,7 @@
 package util;
 
-import implementations.Formula;
-import implementations.Id;
+import formulas.Formula;
+import declarations.Id;
 
 public class FormDefinition {
     private Id formName;

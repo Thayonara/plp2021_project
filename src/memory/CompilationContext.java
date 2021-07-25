@@ -1,10 +1,10 @@
 package memory;
 
 import exceptions.*;
-import implementations.FeatureNameDeclarationList;
-import implementations.GeneralType;
-import implementations.Id;
-import implementations.ProductDeclarationList;
+import declarations.FeatureNameDeclarationList;
+import types.GeneralType;
+import declarations.Id;
+import declarations.ProductDeclarationList;
 import util.*;
 
 import java.util.ArrayList;
@@ -47,17 +47,6 @@ public class CompilationContext implements CompilationEnvironment{
     public void mapBefNode(Id fnName, Id BefNodeName){
         arrayBefNode.add(new BefNode( fnName, BefNodeName));
 
-    }
-
-    @Override
-    public BefNode getBefNode(Id befNode) {
-        for(int i=0; i < arrayBefNode.size(); i++){
-            String befName = arrayBefNode.get(i).getBefNodeName().getIdName();
-            if(befName.equalsIgnoreCase(befNode.getIdName())){
-                return arrayBefNode.get(i);
-            }
-        }
-        return null;
     }
 
     @Override

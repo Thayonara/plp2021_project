@@ -1,6 +1,6 @@
 package util;
 
-import implementations.Id;
+import declarations.Id;
 
 public class BefNode {
 

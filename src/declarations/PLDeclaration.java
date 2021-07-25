@@ -1,8 +1,10 @@
-package implementations;
+package declarations;
 
 import exceptions.*;
 import memory.CompilationEnvironment;
 import memory.ExecutionEnvironment;
+import types.IdTypeClass;
+import types.IdTypeEnum;
 import util.Declaration;
 import util.PLDefinition;
 

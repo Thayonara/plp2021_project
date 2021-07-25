@@ -1,4 +1,4 @@
-package implementations;
+package declarations;
 
 import exceptions.PreviouslyDeclaredFNException;
 import exceptions.UndeclaredFNException;

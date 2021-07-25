@@ -1,11 +1,12 @@
-package implementations;
+package declarations;
 
+import formulas.Formula;
 import memory.CompilationEnvironment;
-import memory.ExecutionEnvironment;
+import types.GeneralType;
 
 import java.util.Objects;
 
-public class Id implements Formula{
+public class Id implements Formula {
     private String idName;
 
     public Id(String strName) {

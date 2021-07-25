@@ -1,8 +1,9 @@
-package implementations;
+package formulas;
 
+import declarations.ProductDeclaration;
 import memory.CompilationEnvironment;
-import memory.ExecutionEnvironment;
-import util.FNDefinition;
+import types.GeneralType;
+import types.IdTypeClass;
 
 public class NotForm extends UnaryFormula{
 

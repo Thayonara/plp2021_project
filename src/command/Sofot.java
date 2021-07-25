@@ -2,14 +2,12 @@ package command;
 
 import exceptions.UndeclaredFNException;
 import exceptions.UndeclaredPLException;
-import implementations.FeatureNameDeclaration;
-import implementations.Id;
-import implementations.ProductDeclaration;
+import declarations.FeatureNameDeclaration;
+import declarations.Id;
+import declarations.ProductDeclaration;
 import memory.CompilationEnvironment;
 import memory.ExecutionEnvironment;
-import util.FNDefinition;
 import util.PLDefinition;
-import util.ProductDefinition;
 
 import java.util.ArrayList;
 import java.util.List;

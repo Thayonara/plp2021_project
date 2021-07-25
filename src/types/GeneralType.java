@@ -1,5 +1,6 @@
-package implementations;
+package types;
 
+import declarations.Id;
 import memory.CompilationEnvironment;
 
 public interface GeneralType {

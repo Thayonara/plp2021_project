@@ -1,13 +1,15 @@
-package implementations;
+package declarations;
 
 import exceptions.PreviouslyDeclaredFNException;
 import exceptions.UndeclaredFNException;
 import exceptions.UndeclaredPLException;
 import memory.CompilationEnvironment;
 import memory.ExecutionEnvironment;
+import types.FNTypeClass;
+import types.GeneralType;
+import types.IdTypeEnum;
 import util.Declaration;
 import util.FNDefinition;
-import util.PLDefinition;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,11 +1,10 @@
 package command;
 
-import implementations.*;
+import declarations.*;
 import memory.CompilationEnvironment;
 import memory.ExecutionEnvironment;
 import util.Lista;
 import util.PLDefinition;
-import util.ProductDefinition;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,6 +1,6 @@
 package exceptions;
 
-import implementations.Id;
+import declarations.Id;
 
 public class UndeclaredFNException extends Exception{
     public UndeclaredFNException(Id id) {

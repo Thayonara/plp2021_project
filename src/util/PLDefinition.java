@@ -1,7 +1,9 @@
 package util;
 
-import implementations.*;
+import declarations.*;
 import memory.CompilationEnvironment;
+import types.GeneralType;
+import types.IdTypeClass;
 
 public class PLDefinition {
     protected Id plName;

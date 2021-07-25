@@ -2,11 +2,8 @@
 PARSER_BEGIN(SPL1)
 package parser;
 
-import command.*;
-import implementations.*;
 import memory.*;
 import program.Program;
-import java.util.*;
 
 
 public class SPL1 {
@@ -31,7 +28,7 @@ public class SPL1 {
         }
 
 
-}}
+}}}}}}}}
 
 
 PARSER_END(SPL1)
@@ -471,8 +468,8 @@ Formula PBinaryFormula3() :
   (
     < AND > param2 = PUnaryFormula()
     {
-       formula = new AndForm(formula, param2);
-    }
+   formula = new AndForm(formula, param2);
+}
    )*
 
  {

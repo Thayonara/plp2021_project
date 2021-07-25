@@ -1,13 +1,14 @@
-package implementations;
+package formulas;
 
+import declarations.ProductDeclaration;
 import memory.CompilationEnvironment;
-import memory.ExecutionEnvironment;
+import types.GeneralType;
+import types.IdTypeClass;
 
-public class OrForm extends BinaryFormula{
-
-    public OrForm(Formula lformula, Formula rformula) {
-
-        super(lformula, rformula, "or");
+public class AndForm extends BinaryFormula{
+    public AndForm(Formula lformula, Formula rformula)
+    {
+        super(lformula, rformula, "and");
     }
 
     public Formula getLeft() {
@@ -25,9 +26,9 @@ public class OrForm extends BinaryFormula{
     @Override
     public boolean evaluate(CompilationEnvironment compilationEnvironment, ProductDeclaration productDeclaration) {
         if(getLeft().evaluate(compilationEnvironment, productDeclaration)){
-            return true;
-        } else{
             return getRight().evaluate(compilationEnvironment, productDeclaration);
+        } else{
+            return false;
         }
     }
 
@@ -49,4 +50,5 @@ public class OrForm extends BinaryFormula{
         return IdTypeClass.FORM_TYPE.getType(compilationEnvironment);
 
     }
+
 }

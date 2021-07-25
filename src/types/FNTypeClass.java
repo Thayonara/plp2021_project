@@ -1,19 +1,21 @@
-package implementations;
+package types;
 
+import declarations.Id;
 import memory.CompilationEnvironment;
 
 import java.util.Objects;
 
-public class IdTypeClass implements GeneralType{
+public class FNTypeClass implements GeneralType{
     protected Enum type;
 
-    public static final Id FN_TYPE = new Id("FEATURENAME");
-    public static final Id FORM_TYPE = new Id("FORMULA");
-    public static final Id PROD_TYPE = new Id("PRODUCT");
-    public static final Id PL_TYPE = new Id("PL");
+    public static final Id MANDATORY_TYPE = new Id("mandatory");
+    public static final Id OPTIONAL_TYPE = new Id("optional");
+    public static final Id ROOT_TYPE = new Id("root");
+    public static final Id ALTERNATIVE_TYPE = new Id("alternative");
+    public static final Id OR_TYPE = new Id("or");
 
 
-    public IdTypeClass(Enum type) {
+    public FNTypeClass(Enum type) {
         this.type = type;
     }
 
@@ -22,35 +24,42 @@ public class IdTypeClass implements GeneralType{
         Id rt = new Id("undefined");
         switch(type.ordinal()) {
             case(0):
-                rt = FN_TYPE;
+                rt = ROOT_TYPE;
                 break;
             case(1):
-                rt = FORM_TYPE;
-                break;
-            case(3):
-                rt = PROD_TYPE;
+                rt = MANDATORY_TYPE;
                 break;
             case(2):
-                rt = PL_TYPE;
+                rt = OR_TYPE;
+                break;
+            case(3):
+                rt = ALTERNATIVE_TYPE;
+                break;
+            case(4):
+                rt = OPTIONAL_TYPE;
                 break;
         }
         return rt;
     }
 
-    public boolean isFN() {
-        return this.type == IdTypeEnum.FEATURENAME;
+    public boolean isMandatory() {
+        return this.type == Types.MANDATORY;
     }
 
-    public boolean isForm() {
-        return this.type == IdTypeEnum.FORM;
+    public boolean isOptional() {
+        return this.type == Types.OPTIONAL;
     }
 
-    public boolean isProd() {
-        return this.type == IdTypeEnum.PRODUCT;
+    public boolean isRoot() {
+        return this.type == Types.ROOT;
     }
 
-    public boolean isPL() {
-        return this.type == IdTypeEnum.PL;
+    public boolean isAlternative() {
+        return this.type == Types.ALTERNATIVE;
+    }
+
+    public boolean isOr() {
+        return this.type == Types.OR;
     }
 
     @Override
@@ -91,16 +100,19 @@ public class IdTypeClass implements GeneralType{
         String rt = "undefined";
         switch(type.ordinal()) {
             case(0):
-                rt = "fn";
+                rt = "root";
                 break;
             case(1):
-                rt = "formula";
+                rt = "mandatory";
                 break;
             case(2):
-                rt = "pl";
+                rt = "or";
                 break;
             case(3):
-                rt = "product";
+                rt = "alternative";
+                break;
+            case(4):
+                rt = "optional";
                 break;
         }
         return rt;

@@ -2,13 +2,11 @@ package program;
 
 import command.Command;
 import exceptions.*;
-import implementations.Id;
-import implementations.PLDeclaration;
-import implementations.ProductDeclaration;
+import declarations.Id;
+import declarations.PLDeclaration;
+import declarations.ProductDeclaration;
 import memory.CompilationEnvironment;
 import memory.ExecutionEnvironment;
-import parser.*;
-import util.ProductDefinition;
 
 import java.util.HashMap;
 import java.util.List;

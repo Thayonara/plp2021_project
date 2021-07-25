@@ -1,7 +1,6 @@
 package util;
 
-import implementations.FeatureNameDeclarationList;
-import implementations.Id;
+import declarations.Id;
 
 import java.util.List;
 

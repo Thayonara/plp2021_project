@@ -1,12 +1,15 @@
-package implementations;
+package formulas;
 
+import declarations.ProductDeclaration;
 import memory.CompilationEnvironment;
-import memory.ExecutionEnvironment;
+import types.GeneralType;
+import types.IdTypeClass;
 
-public class ImpliesForm extends BinaryFormula{
-    public ImpliesForm(Formula lformula, Formula rformula) {
+public class OrForm extends BinaryFormula{
 
-        super(lformula, rformula, "implies");
+    public OrForm(Formula lformula, Formula rformula) {
+
+        super(lformula, rformula, "or");
     }
 
     public Formula getLeft() {
@@ -24,9 +27,9 @@ public class ImpliesForm extends BinaryFormula{
     @Override
     public boolean evaluate(CompilationEnvironment compilationEnvironment, ProductDeclaration productDeclaration) {
         if(getLeft().evaluate(compilationEnvironment, productDeclaration)){
-            return getRight().evaluate(compilationEnvironment, productDeclaration);
-        } else{
             return true;
+        } else{
+            return getRight().evaluate(compilationEnvironment, productDeclaration);
         }
     }
 

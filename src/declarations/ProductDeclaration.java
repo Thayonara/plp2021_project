@@ -1,10 +1,14 @@
-package implementations;
+package declarations;
 
 import exceptions.PreviouslyDeclaredProductException;
 import exceptions.UndeclaredFNException;
 import exceptions.UndeclaredProductException;
 import memory.CompilationEnvironment;
 import memory.ExecutionEnvironment;
+import types.FNTypeClass;
+import types.IdTypeClass;
+import types.IdTypeEnum;
+import types.Types;
 import util.*;
 
 import java.util.ArrayList;
