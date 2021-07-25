@@ -24,6 +24,10 @@ public class OrForm extends BinaryFormula{
         return getOperator();
     }
 
+    /*
+     left = true -> true
+     left = false -> right
+  */
     @Override
     public boolean evaluate(CompilationEnvironment compilationEnvironment, ProductDeclaration productDeclaration) {
         if(getLeft().evaluate(compilationEnvironment, productDeclaration)){

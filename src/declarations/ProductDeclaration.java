@@ -44,6 +44,7 @@ public class ProductDeclaration implements Declaration {
 
     @Override
     public boolean TypeCheck(CompilationEnvironment compilationEnvironment) throws UndeclaredFNException, PreviouslyDeclaredProductException, UndeclaredProductException {
+        //checa se todas as features foram declaradas
         for (int i = 0; i < this.featuresSelected.size(); i++) {
             if (compilationEnvironment.get(featuresSelected.get(i)) == null) {
                 return false;
@@ -54,12 +55,13 @@ public class ProductDeclaration implements Declaration {
 
         List<FormDefinition> formDefinitions = new ArrayList<>(compilationEnvironment.getFormDefinitions().values());
 
+        //checa se a fórmula é satisfeita no produto
         if(formDefinitions.get(0) != null){
             if(!(formDefinitions.get(0).getFormula().evaluate(compilationEnvironment, this))) {
                 return false;
             }
         }
-
+        //checa se as restrições da hierarquia é satisfeita no produto
         return isFormValid(compilationEnvironment, featuresSelected);
     }
 
@@ -75,6 +77,14 @@ public class ProductDeclaration implements Declaration {
 
         return rt;
     }
+
+    /*
+    - o root estará sempre presente
+    - para os demais nós:
+            - se o current é alternativo, não pode haver irmão alternartivo também
+            - checa se há algum irmão MANDATORY que não está presente
+            - o produto tem que contem o pai do current
+     */
 
     public boolean isFormValid(CompilationEnvironment compilationEnvironment, List<Id> featureNameDeclarationList) throws UndeclaredFNException {
         boolean isRoot = false;

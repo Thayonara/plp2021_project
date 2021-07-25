@@ -57,24 +57,25 @@ public class FeatureNameDeclaration implements Declaration {
     @Override
     public boolean TypeCheck(CompilationEnvironment compilationEnvironment) throws UndeclaredPLException, PreviouslyDeclaredFNException, UndeclaredFNException {
         boolean rt = false;
-
+        //add mapeamento da fn com o extended node
         if(this.extendedNode != null){
             compilationEnvironment.mapBefNode(this.featureName, this.extendedNode);
         }
-
         compilationEnvironment.increments();
         if(this.extendedNode != null){
             if(compilationEnvironment.getFNDefinition(this.extendedNode) != null){
                 rt = this.nodeType.isValid(compilationEnvironment);
             }
         } else{
+            //o tipo do nó tem que ser válido
             rt = this.nodeType.isValid(compilationEnvironment);
         }
 
+        //todos, exceto o root, tem que extender de algum nó
         if(!(this.nodeType.getTipo().toString().equals("root")) && (this.extendedNode == null)){
             rt = false;
         }
-
+        //só pode haver um root
         if(this.nodeType.getTipo().toString().equals("root") && hasRoot(compilationEnvironment)){
             rt = false;
         }

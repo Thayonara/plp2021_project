@@ -107,21 +107,7 @@ public class ExecutionContext implements ExecutionEnvironment{
         return this.poolTest;
     }
 
-    @Override
-    public BefNode getBefNode(Id befNode) {
-        for(int i=0; i < arrayBefNode.size(); i++){
-            String befName = arrayBefNode.get(i).getBefNodeName().getIdName();
-            if(befName.equalsIgnoreCase(befNode.getIdName())){
-                return arrayBefNode.get(i);
-            }
-        }
-        return null;
-    }
 
-    @Override
-    public Stack<HashMap<Id, Object>> getStack() {
-        return this.stack;
-    }
 
     @Override
     public List<Id> getChildrens(Id befId, Id idBro) {
@@ -138,32 +124,7 @@ public class ExecutionContext implements ExecutionEnvironment{
     }
 
     @Override
-    public HashMap<Id, PLDefinition> getPLDefinitions() {
-        return this.plDefinitionHashMap;
-    }
-
-    @Override
-    public HashMap<Id, PLDefinition> getMapPLDef() {
-        return this.plDefinitionHashMap;
-    }
-
-    @Override
-    public HashMap<Id, FNDefinition> getMapFNDef() {
-        return this.fnDefinitionHashMap;
-    }
-
-    @Override
-    public HashMap<Id, FormDefinition> getMapFormDef() {
-        return this.formDefinitionHashMap;
-    }
-
-    @Override
-    public HashMap<Id, ProductDefinition> getMapProductDef() {
-        return this.productDefinitionHashMap;
-    }
-
-    @Override
-    public void mapPLDeclaration(Id id, PLDefinition plDefinition) throws PreviouslyDeclaredPLException, UndeclaredPLException {
+    public void mapPLDeclaration(Id id, PLDefinition plDefinition) throws PreviouslyDeclaredPLException {
         PLDefinition plDefinition1 = getPlDefinition(id);
         if (plDefinition1 == null) {
             plDefinitionHashMap.put(id, plDefinition);
@@ -189,7 +150,7 @@ public class ExecutionContext implements ExecutionEnvironment{
 
     }
     @Override
-    public PLDefinition getPlDefinition(Id id) throws UndeclaredPLException {
+    public PLDefinition getPlDefinition(Id id){
         PLDefinition result = null;
         result = this.plDefinitionHashMap.get(id);
         if (result == null) {
@@ -200,33 +161,33 @@ public class ExecutionContext implements ExecutionEnvironment{
     }
 
     @Override
-    public FNDefinition getFNDefinition(Id id) throws UndeclaredFNException {
+    public FNDefinition getFNDefinition(Id id) {
         FNDefinition result = null;
         result = this.fnDefinitionHashMap.get(id);
         if (result == null) {
-            throw new UndeclaredFNException(id);
+            return null;
         } else {
             return result;
         }
     }
 
     @Override
-    public FormDefinition getFormDefinition(Id id) throws UndeclaredFormException {
+    public FormDefinition getFormDefinition(Id id){
         FormDefinition result = null;
         result = this.formDefinitionHashMap.get(id);
         if (result == null) {
-            throw new UndeclaredFormException(id);
+            return null;
         } else {
             return result;
         }
     }
 
     @Override
-    public ProductDefinition getProdDefinition(Id id) throws UndeclaredProductException {
+    public ProductDefinition getProdDefinition(Id id){
         ProductDefinition result = null;
         result = this.productDefinitionHashMap.get(id);
         if (result == null) {
-            throw new UndeclaredProductException(id);
+            return null;
         } else {
             return result;
         }

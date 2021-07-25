@@ -23,6 +23,10 @@ public class AndForm extends BinaryFormula{
         return getOperator();
     }
 
+    /*
+        left = true -> right
+        left = false -> false
+     */
     @Override
     public boolean evaluate(CompilationEnvironment compilationEnvironment, ProductDeclaration productDeclaration) {
         if(getLeft().evaluate(compilationEnvironment, productDeclaration)){

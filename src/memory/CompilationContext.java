@@ -108,7 +108,7 @@ public class CompilationContext implements CompilationEnvironment{
     }
 
     @Override
-    public void mapPLDeclaration(Id id, PLDefinition plDefinition) throws PreviouslyDeclaredPLException, UndeclaredPLException {
+    public void mapPLDeclaration(Id id, PLDefinition plDefinition) throws PreviouslyDeclaredPLException {
         PLDefinition plDefinition1 = getPlDefinition(id);
         if (plDefinition1 == null) {
             plDefinitionMap.put(id, plDefinition);
@@ -150,11 +150,10 @@ public class CompilationContext implements CompilationEnvironment{
     }
 
     @Override
-    public PLDefinition getPlDefinition(Id id) throws UndeclaredPLException {
+    public PLDefinition getPlDefinition(Id id){
         PLDefinition result = null;
         result = this.plDefinitionMap.get(id);
         if (result == null) {
-           // throw new UndeclaredPLException(id);
             return null;
         } else {
             return result;
@@ -162,11 +161,10 @@ public class CompilationContext implements CompilationEnvironment{
     }
 
     @Override
-    public FNDefinition getFNDefinition(Id id) throws UndeclaredFNException {
+    public FNDefinition getFNDefinition(Id id) {
         FNDefinition result = null;
         result = this.fnDefinitionMap.get(id);
         if (result == null) {
-            //throw new UndeclaredFNException(id);
             return null;
         } else {
             return result;
@@ -174,11 +172,10 @@ public class CompilationContext implements CompilationEnvironment{
     }
 
     @Override
-    public FormDefinition getFormDefinition(Id id) throws UndeclaredFormException {
+    public FormDefinition getFormDefinition(Id id){
         FormDefinition result = null;
         result = this.formDefinitionMap.get(id);
         if (result == null) {
-            //throw new UndeclaredFormException(id);
             return null;
         } else {
             return result;
@@ -186,11 +183,10 @@ public class CompilationContext implements CompilationEnvironment{
     }
 
     @Override
-    public ProductDefinition getProdDefinition(Id id) throws UndeclaredProductException {
+    public ProductDefinition getProdDefinition(Id id) {
         ProductDefinition result = null;
         result = this.prodDefinitionMap.get(id);
         if (result == null) {
-            //throw new UndeclaredProductException(id);
             return null;
         } else {
             return result;

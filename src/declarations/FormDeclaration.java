@@ -35,6 +35,7 @@ public class FormDeclaration implements Declaration {
         return executionEnvironment;
     }
 
+    //a fórmula tem que ser bem tipada
     @Override
     public boolean TypeCheck(CompilationEnvironment compilationEnvironment) throws PreviouslyDeclaredFormException, UndeclaredFormException {
         boolean rt = false;

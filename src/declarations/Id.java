@@ -34,6 +34,7 @@ public class Id implements Formula {
         return Objects.hash(idName);
     }
 
+    //o "avaliar" em nosso contexto é checar se as formulas são satisfeitas na geracao de um produto
     @Override
     public boolean evaluate(CompilationEnvironment compilationEnvironment, ProductDeclaration productDeclaration) {
         return productDeclaration.isPresent(productDeclaration.getFeaturesSelected(), this);

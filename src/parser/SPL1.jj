@@ -4,6 +4,13 @@ package parser;
 
 import memory.*;
 import program.Program;
+import command.*;
+import declarations.*;
+import formulas.*;
+import types.*;
+import util.*;
+import java.util.List;
+import java.util.ArrayList;
 
 
 public class SPL1 {
@@ -28,7 +35,7 @@ public class SPL1 {
         }
 
 
-}}}}}}}}
+}}
 
 
 PARSER_END(SPL1)
