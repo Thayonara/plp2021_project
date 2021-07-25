@@ -22,9 +22,9 @@ public class AndForm extends BinaryFormula{
     }
 
     @Override
-    public boolean evaluate(ExecutionEnvironment executionEnvironment, ProductDeclaration productDeclaration) {
-        if(getLeft().evaluate(executionEnvironment, productDeclaration)){
-            return getRight().evaluate(executionEnvironment, productDeclaration);
+    public boolean evaluate(CompilationEnvironment compilationEnvironment, ProductDeclaration productDeclaration) {
+        if(getLeft().evaluate(compilationEnvironment, productDeclaration)){
+            return getRight().evaluate(compilationEnvironment, productDeclaration);
         } else{
             return false;
         }

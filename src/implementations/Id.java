@@ -34,7 +34,7 @@ public class Id implements Formula{
     }
 
     @Override
-    public boolean evaluate(ExecutionEnvironment executionEnvironment, ProductDeclaration productDeclaration) {
+    public boolean evaluate(CompilationEnvironment compilationEnvironment, ProductDeclaration productDeclaration) {
         return productDeclaration.isPresent(productDeclaration.getFeaturesSelected(), this);
     }
 

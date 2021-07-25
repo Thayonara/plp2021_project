@@ -23,11 +23,11 @@ public class OrForm extends BinaryFormula{
     }
 
     @Override
-    public boolean evaluate(ExecutionEnvironment executionEnvironment, ProductDeclaration productDeclaration) {
-        if(getLeft().evaluate(executionEnvironment, productDeclaration)){
+    public boolean evaluate(CompilationEnvironment compilationEnvironment, ProductDeclaration productDeclaration) {
+        if(getLeft().evaluate(compilationEnvironment, productDeclaration)){
             return true;
         } else{
-            return getRight().evaluate(executionEnvironment, productDeclaration);
+            return getRight().evaluate(compilationEnvironment, productDeclaration);
         }
     }
 

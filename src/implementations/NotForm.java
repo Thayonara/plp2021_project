@@ -26,8 +26,8 @@ public class NotForm extends UnaryFormula{
     }
 
     @Override
-    public boolean evaluate(ExecutionEnvironment executionEnvironment, ProductDeclaration productDeclaration) {
-        return !getFormula().evaluate(executionEnvironment, productDeclaration);
+    public boolean evaluate(CompilationEnvironment compilationEnvironment, ProductDeclaration productDeclaration) {
+        return !getFormula().evaluate(compilationEnvironment, productDeclaration);
     }
 
     @Override

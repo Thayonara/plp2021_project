@@ -142,7 +142,7 @@ public class CompilationContext implements CompilationEnvironment{
     @Override
     public void mapFormDeclaration(Id id, FormDefinition formDefinition) throws PreviouslyDeclaredFormException, UndeclaredFormException {
         FormDefinition formDefinition1 = getFormDefinition(id);
-        if (formDefinition1 != null) {
+        if (formDefinition1 == null) {
             formDefinitionMap.put(id, formDefinition);
         } else {
             throw new PreviouslyDeclaredFormException(id);
@@ -216,5 +216,10 @@ public class CompilationContext implements CompilationEnvironment{
     @Override
     public HashMap<Id, FNDefinition> getFNDefinitions() {
         return this.fnDefinitionMap;
+    }
+
+    @Override
+    public HashMap<Id, FormDefinition> getFormDefinitions() {
+        return this.formDefinitionMap;
     }
 }

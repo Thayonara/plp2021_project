@@ -5,11 +5,9 @@ import exceptions.UndeclaredFNException;
 import exceptions.UndeclaredProductException;
 import memory.CompilationEnvironment;
 import memory.ExecutionEnvironment;
-import util.Declaration;
-import util.FNDefinition;
-import util.Lista;
-import util.ProductDefinition;
+import util.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -33,8 +31,10 @@ public class ProductDeclaration implements Declaration {
 
     @Override
     public ExecutionEnvironment elaborate(ExecutionEnvironment executionEnvironment) throws PreviouslyDeclaredProductException, UndeclaredProductException {
-        executionEnvironment.mapProdDeclaration(this.productName, new ProductDefinition(this.productName, this.featuresSelected));
-        executionEnvironment.map(this.productName, new ProductDefinition(this.productName, this.featuresSelected));
+       executionEnvironment.mapProdDeclaration(this.productName, new ProductDefinition(this.productName, this.featuresSelected));
+       executionEnvironment.map(this.productName, new ProductDefinition(this.productName, this.featuresSelected));
+
+
         return executionEnvironment;
     }
 
@@ -45,9 +45,16 @@ public class ProductDeclaration implements Declaration {
                 return false;
             }
         }
-
         compilationEnvironment.mapProdDeclaration(this.productName, new ProductDefinition(this.productName, this.featuresSelected));
         compilationEnvironment.map(this.productName, new IdTypeClass(IdTypeEnum.PRODUCT));
+
+        List<FormDefinition> formDefinitions = new ArrayList<>(compilationEnvironment.getFormDefinitions().values());
+
+        if(formDefinitions.get(0) != null){
+            if(!(formDefinitions.get(0).getFormula().evaluate(compilationEnvironment, this))) {
+                return false;
+            }
+        }
 
         return isFormValid(compilationEnvironment, featuresSelected);
     }
