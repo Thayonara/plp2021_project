@@ -46,7 +46,9 @@ SKIP : /* WHITE SPACE */{
 
 TOKEN : /* SEPARATORS */
 {
-  < LBRACE : "{" >
+  < LPAREN : "(" >
+| < RPAREN : ")" >
+| < LBRACE : "{" >
 | < RBRACE : "}" >
 | < SEMICOLON : ";" >
 | < COMMA : "," >
@@ -391,6 +393,21 @@ Formula PFormula() :
 }
 
 
+Formula PFormPrimaria() :
+{
+  Formula formula;
+}
+{
+  (
+    formula = PId()
+  | < LPAREN > formula = PFormula() < RPAREN >
+  )
+  {
+    return formula;
+  }
+}
+
+
 Formula PUnaryFormula() :
 {
   Formula formula;
@@ -398,7 +415,7 @@ Formula PUnaryFormula() :
 {
   (
     formula = PNotForm()
-    | formula = PId()
+    | formula = PFormPrimaria()
   )
   {
     return formula;
@@ -434,9 +451,7 @@ Formula PBinaryFormula2() :
 }
 {
     formula = PBinaryFormula3()
-    (<AND> param2 = PBinaryFormula3()
-        { formula = new AndForm(formula, param2);}
-      |<OR> param2 = PBinaryFormula3()
+    (<OR> param2 = PBinaryFormula3()
         { formula = new OrForm(formula, param2);}
       | <IMPLIES> param2 = PBinaryFormula3()
         { formula = new ImpliesForm(formula, param2);}
@@ -449,10 +464,16 @@ Formula PBinaryFormula2() :
 
 Formula PBinaryFormula3() :
 {
-  Formula formula;
+  Formula formula, param2 = null;
 }
 {
-    formula = PUnaryFormula()
+  formula = PUnaryFormula()
+  (
+    < AND > param2 = PUnaryFormula()
+    {
+       formula = new AndForm(formula, param2);
+    }
+   )*
 
  {
     return formula;
