@@ -21,10 +21,16 @@ public class Program {
         this.command = command;
     }
 
-    public boolean typeCheck(CompilationEnvironment compilationEnvironment) throws PreviouslyDeclaredPLException, UndeclaredPLException, PreviouslyDeclaredFNException, UndeclaredFNException, PreviouslyDeclaredProductException, UndeclaredProductException, PreviouslyDeclaredFormException, UndeclaredFormException, ExtendsNullException, MultipleRootException, FormulaNotSatisfiedException, ExtendedNodeNotFoundException, MultipleSelectedAlternativesFeaturesException, MandatoryFeatureNotSelectedException {
+    public boolean typeCheck(CompilationEnvironment compilationEnvironment) throws PreviouslyDeclaredPLException,
+            UndeclaredPLException, PreviouslyDeclaredFNException, UndeclaredFNException,
+            PreviouslyDeclaredProductException, UndeclaredProductException,
+            PreviouslyDeclaredFormException, UndeclaredFormException, ExtendsNullException,
+            MultipleRootException, FormulaNotSatisfiedException, ExtendedNodeNotFoundException,
+            MultipleSelectedAlternativesFeaturesException, MandatoryFeatureNotSelectedException,
+            EmptyCompilationEnvironmentException {
         boolean rt;
         if(compilationEnvironment == null) {
-            //lançar exceptions
+            throw new EmptyCompilationEnvironmentException();
         }
         compilationEnvironment.increments();
         if(plDeclaration != null && command != null){
@@ -36,9 +42,13 @@ public class Program {
         return rt;
     }
 
-    public HashMap<Id, List<ProductDeclaration>> execute(ExecutionEnvironment executionEnvironment) throws UndeclaredFNException, UndeclaredPLException, PreviouslyDeclaredPLException, PreviouslyDeclaredFNException, PreviouslyDeclaredFormException, UndeclaredFormException, PreviouslyDeclaredProductException, UndeclaredProductException {
+    public HashMap<Id, List<ProductDeclaration>> execute(ExecutionEnvironment executionEnvironment) throws UndeclaredFNException,
+            UndeclaredPLException, PreviouslyDeclaredPLException, PreviouslyDeclaredFNException,
+            PreviouslyDeclaredFormException, UndeclaredFormException,
+            PreviouslyDeclaredProductException, UndeclaredProductException,
+            EmptyExecutionEnvironmentException {
         if(executionEnvironment == null){
-            //lancar exception
+            throw new EmptyExecutionEnvironmentException();
         }
 
         executionEnvironment.increments();
