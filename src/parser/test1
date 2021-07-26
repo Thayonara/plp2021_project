@@ -1,0 +1,23 @@
+
+{
+ PL mobile {
+
+  FeatureName MobileMedia as ROOT;
+  FeatureName Media extends MobileMedia as MANDATORY;
+  FeatureName Management extends MobileMedia as MANDATORY;
+  FeatureName ScreenSize extends MobileMedia as MANDATORY;
+  FeatureName Photo extends Media as OR;
+  FeatureName Music extends Media as OR;
+  FeatureName SendPhoto extends Management as OPTIONAL;
+  FeatureName Sorting extends Management as OPTIONAL;
+  FeatureName x extends ScreenSize as ALTERNATIVE;
+  FeatureName r extends ScreenSize as ALTERNATIVE;
+
+  Formula fm1 = (SendPhoto implies Photo);
+
+  Product p1 = {MobileMedia, Media, Management, ScreenSize, Photo, Sorting, r};
+  Product p2 = {MobileMedia, Media, Management, ScreenSize, Photo, Sorting, x};
+
+  };
+  ofot mobile;
+}

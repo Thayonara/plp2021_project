@@ -1,7 +1,6 @@
 package memory;
 
-import implementations.GeneralType;
-import implementations.Id;
+import declarations.Id;
 
 public interface Environment <T> {
     public void increments();

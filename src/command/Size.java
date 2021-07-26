@@ -1,6 +1,5 @@
 package command;
 
-import implementations.Id;
 import memory.CompilationEnvironment;
 import memory.ExecutionEnvironment;
 

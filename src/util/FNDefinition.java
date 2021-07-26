@@ -1,8 +1,7 @@
 package util;
 
-import implementations.GeneralType;
-import implementations.Id;
-import implementations.Types;
+import types.GeneralType;
+import declarations.Id;
 
 public class FNDefinition {
     protected Id featureName;

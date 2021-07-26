@@ -1,11 +1,10 @@
 package command;
 
-import implementations.*;
+import declarations.*;
 import memory.CompilationEnvironment;
 import memory.ExecutionEnvironment;
 import util.Lista;
 import util.PLDefinition;
-import util.ProductDefinition;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,7 +22,7 @@ public class Test implements Command{
     @Override
     public ExecutionEnvironment execute(ExecutionEnvironment executionEnvironment) {
         //recuperar produtos da suite
-        List<ProductDefinition> productDefinitions = executionEnvironment.getPoolTesting(command.getIdPl());
+        List<ProductDeclaration> productDefinitions = executionEnvironment.getPoolTesting(command.getIdPl());
 
         System.out.println("Deve testar " + idProduct + ": " + isPresent(productDefinitions, idProduct));
 
@@ -63,7 +62,7 @@ public class Test implements Command{
         return rt;
     }
 
-    public boolean isPresent(List<ProductDefinition> productDefinitions,
+    public boolean isPresent(List<ProductDeclaration> productDefinitions,
                              Id idProduct) {
         boolean rt = false;
         for (int i = 0; i < productDefinitions.size(); i++) {

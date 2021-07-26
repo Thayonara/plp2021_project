@@ -1,11 +1,14 @@
-package implementations;
+package formulas;
 
+import declarations.ProductDeclaration;
 import memory.CompilationEnvironment;
+import types.GeneralType;
+import types.IdTypeClass;
 
-public class AndForm extends BinaryFormula{
-    public AndForm(Formula lformula, Formula rformula)
-    {
-        super(lformula, rformula, "and");
+public class ImpliesForm extends BinaryFormula{
+    public ImpliesForm(Formula lformula, Formula rformula) {
+
+        super(lformula, rformula, "implies");
     }
 
     public Formula getLeft() {
@@ -18,6 +21,19 @@ public class AndForm extends BinaryFormula{
 
     public String getOperator() {
         return getOperator();
+    }
+
+    /*
+     left = true -> right
+     right = false -> true
+  */
+    @Override
+    public boolean evaluate(CompilationEnvironment compilationEnvironment, ProductDeclaration productDeclaration) {
+        if(getLeft().evaluate(compilationEnvironment, productDeclaration)){
+            return getRight().evaluate(compilationEnvironment, productDeclaration);
+        } else{
+            return true;
+        }
     }
 
     @Override
@@ -38,5 +54,4 @@ public class AndForm extends BinaryFormula{
         return IdTypeClass.FORM_TYPE.getType(compilationEnvironment);
 
     }
-
 }

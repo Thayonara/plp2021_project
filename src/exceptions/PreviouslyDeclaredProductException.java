@@ -1,6 +1,6 @@
 package exceptions;
 
-import implementations.Id;
+import declarations.Id;
 
 public class PreviouslyDeclaredProductException extends Exception{
     public PreviouslyDeclaredProductException(Id id) {

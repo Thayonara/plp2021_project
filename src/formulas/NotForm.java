@@ -1,8 +1,9 @@
-package implementations;
+package formulas;
 
+import declarations.ProductDeclaration;
 import memory.CompilationEnvironment;
-import memory.ExecutionEnvironment;
-import util.FNDefinition;
+import types.GeneralType;
+import types.IdTypeClass;
 
 public class NotForm extends UnaryFormula{
 
@@ -23,6 +24,15 @@ public class NotForm extends UnaryFormula{
         getFormula().getType(compilationEnvironment).isValid(compilationEnvironment);
         return (getFormula().getType(compilationEnvironment).isValid(compilationEnvironment));
 
+    }
+
+    /*
+      form = true -> false
+      form = false -> true
+   */
+    @Override
+    public boolean evaluate(CompilationEnvironment compilationEnvironment, ProductDeclaration productDeclaration) {
+        return !getFormula().evaluate(compilationEnvironment, productDeclaration);
     }
 
     @Override

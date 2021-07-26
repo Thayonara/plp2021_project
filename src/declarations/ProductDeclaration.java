@@ -1,15 +1,17 @@
-package implementations;
+package declarations;
 
 import exceptions.PreviouslyDeclaredProductException;
 import exceptions.UndeclaredFNException;
 import exceptions.UndeclaredProductException;
 import memory.CompilationEnvironment;
 import memory.ExecutionEnvironment;
-import util.Declaration;
-import util.FNDefinition;
-import util.Lista;
-import util.ProductDefinition;
+import types.FNTypeClass;
+import types.IdTypeClass;
+import types.IdTypeEnum;
+import types.Types;
+import util.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -33,22 +35,33 @@ public class ProductDeclaration implements Declaration {
 
     @Override
     public ExecutionEnvironment elaborate(ExecutionEnvironment executionEnvironment) throws PreviouslyDeclaredProductException, UndeclaredProductException {
-        executionEnvironment.mapProdDeclaration(this.productName, new ProductDefinition(this.productName, this.featuresSelected));
-        executionEnvironment.map(this.productName, new ProductDefinition(this.productName, this.featuresSelected));
+       executionEnvironment.mapProdDeclaration(this.productName, new ProductDefinition(this.productName, this.featuresSelected));
+       executionEnvironment.map(this.productName, new ProductDefinition(this.productName, this.featuresSelected));
+
+
         return executionEnvironment;
     }
 
     @Override
     public boolean TypeCheck(CompilationEnvironment compilationEnvironment) throws UndeclaredFNException, PreviouslyDeclaredProductException, UndeclaredProductException {
+        //checa se todas as features foram declaradas
         for (int i = 0; i < this.featuresSelected.size(); i++) {
             if (compilationEnvironment.get(featuresSelected.get(i)) == null) {
                 return false;
             }
         }
-
         compilationEnvironment.mapProdDeclaration(this.productName, new ProductDefinition(this.productName, this.featuresSelected));
         compilationEnvironment.map(this.productName, new IdTypeClass(IdTypeEnum.PRODUCT));
 
+        List<FormDefinition> formDefinitions = new ArrayList<>(compilationEnvironment.getFormDefinitions().values());
+
+        //checa se a fórmula é satisfeita no produto
+        if(formDefinitions.get(0) != null){
+            if(!(formDefinitions.get(0).getFormula().evaluate(compilationEnvironment, this))) {
+                return false;
+            }
+        }
+        //checa se as restrições da hierarquia é satisfeita no produto
         return isFormValid(compilationEnvironment, featuresSelected);
     }
 
@@ -65,8 +78,20 @@ public class ProductDeclaration implements Declaration {
         return rt;
     }
 
+    /*
+    - o root estará sempre presente
+    - para os demais nós:
+            - se o current é alternativo, não pode haver irmão alternartivo também
+            - checa se há algum irmão MANDATORY que não está presente
+            - o produto tem que contem o pai do current
+            - se tem filho que é mandatório
+            - se tem algum filho que é alternativo
+     */
+
     public boolean isFormValid(CompilationEnvironment compilationEnvironment, List<Id> featureNameDeclarationList) throws UndeclaredFNException {
-        boolean isRoot = false;
+        boolean isRoot= false;
+        boolean alternativePresent = false;
+        boolean hasAlternative = true;
         for (int i = 0; i < featureNameDeclarationList.size(); i++) {
             FNDefinition fnDefinition = compilationEnvironment.getFNDefinition(featureNameDeclarationList.get(i));
             FeatureNameDeclaration current = new FeatureNameDeclaration(fnDefinition.getFeatureName(), fnDefinition.getExtendedNode(), fnDefinition.getNodeType());
@@ -101,9 +126,33 @@ public class ProductDeclaration implements Declaration {
                 }
 
             }
+            List<Id> childrens = compilationEnvironment.getChildrens(current.featureName, current.getFeatureName());
+            for (int z = 0; z < childrens.size(); z++) {
+                Id childCurrent = childrens.get(z);
+                if (compilationEnvironment.getFNDefinition(childCurrent).getNodeType().toString().equals(new FNTypeClass(Types.MANDATORY).getTipo().toString())) {
+                    if (!(isPresent(featureNameDeclarationList, childCurrent))) {
+                        return false;
+                    }
+                } else {
+                    if (compilationEnvironment.getFNDefinition(childCurrent).getNodeType().toString().equals(new FNTypeClass(Types.ALTERNATIVE).getTipo().toString())) {
+                        if (!(isPresent(featureNameDeclarationList, childCurrent)) && !(alternativePresent)) {
+                            hasAlternative = false;
+                        }
+                        if ((isPresent(featureNameDeclarationList, childCurrent))) {
+                            alternativePresent = true;
+                            hasAlternative = true;
+
+                        }
+
+                    }
+
+                }
+
+            }
+
         }
 
-        return isRoot;
+        return isRoot && hasAlternative;
     }
 
     public CompilationEnvironment prodDeclarate(CompilationEnvironment compilationEnvironment) {

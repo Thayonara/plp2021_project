@@ -1,6 +1,6 @@
 package command;
 
-import implementations.Id;
+import declarations.Id;
 import memory.CompilationEnvironment;
 import memory.ExecutionEnvironment;
 

@@ -1,10 +1,10 @@
 package memory;
 
 import exceptions.*;
-import implementations.FeatureNameDeclarationList;
-import implementations.GeneralType;
-import implementations.Id;
-import implementations.ProductDeclarationList;
+import declarations.FeatureNameDeclarationList;
+import types.GeneralType;
+import declarations.Id;
+import declarations.ProductDeclarationList;
 import util.*;
 
 import java.util.ArrayList;
@@ -47,17 +47,6 @@ public class CompilationContext implements CompilationEnvironment{
     public void mapBefNode(Id fnName, Id BefNodeName){
         arrayBefNode.add(new BefNode( fnName, BefNodeName));
 
-    }
-
-    @Override
-    public BefNode getBefNode(Id befNode) {
-        for(int i=0; i < arrayBefNode.size(); i++){
-            String befName = arrayBefNode.get(i).getBefNodeName().getIdName();
-            if(befName.equalsIgnoreCase(befNode.getIdName())){
-                return arrayBefNode.get(i);
-            }
-        }
-        return null;
     }
 
     @Override
@@ -119,7 +108,7 @@ public class CompilationContext implements CompilationEnvironment{
     }
 
     @Override
-    public void mapPLDeclaration(Id id, PLDefinition plDefinition) throws PreviouslyDeclaredPLException, UndeclaredPLException {
+    public void mapPLDeclaration(Id id, PLDefinition plDefinition) throws PreviouslyDeclaredPLException {
         PLDefinition plDefinition1 = getPlDefinition(id);
         if (plDefinition1 == null) {
             plDefinitionMap.put(id, plDefinition);
@@ -142,7 +131,7 @@ public class CompilationContext implements CompilationEnvironment{
     @Override
     public void mapFormDeclaration(Id id, FormDefinition formDefinition) throws PreviouslyDeclaredFormException, UndeclaredFormException {
         FormDefinition formDefinition1 = getFormDefinition(id);
-        if (formDefinition1 != null) {
+        if (formDefinition1 == null) {
             formDefinitionMap.put(id, formDefinition);
         } else {
             throw new PreviouslyDeclaredFormException(id);
@@ -161,11 +150,10 @@ public class CompilationContext implements CompilationEnvironment{
     }
 
     @Override
-    public PLDefinition getPlDefinition(Id id) throws UndeclaredPLException {
+    public PLDefinition getPlDefinition(Id id){
         PLDefinition result = null;
         result = this.plDefinitionMap.get(id);
         if (result == null) {
-           // throw new UndeclaredPLException(id);
             return null;
         } else {
             return result;
@@ -173,11 +161,10 @@ public class CompilationContext implements CompilationEnvironment{
     }
 
     @Override
-    public FNDefinition getFNDefinition(Id id) throws UndeclaredFNException {
+    public FNDefinition getFNDefinition(Id id) {
         FNDefinition result = null;
         result = this.fnDefinitionMap.get(id);
         if (result == null) {
-            //throw new UndeclaredFNException(id);
             return null;
         } else {
             return result;
@@ -185,11 +172,10 @@ public class CompilationContext implements CompilationEnvironment{
     }
 
     @Override
-    public FormDefinition getFormDefinition(Id id) throws UndeclaredFormException {
+    public FormDefinition getFormDefinition(Id id){
         FormDefinition result = null;
         result = this.formDefinitionMap.get(id);
         if (result == null) {
-            //throw new UndeclaredFormException(id);
             return null;
         } else {
             return result;
@@ -197,11 +183,10 @@ public class CompilationContext implements CompilationEnvironment{
     }
 
     @Override
-    public ProductDefinition getProdDefinition(Id id) throws UndeclaredProductException {
+    public ProductDefinition getProdDefinition(Id id) {
         ProductDefinition result = null;
         result = this.prodDefinitionMap.get(id);
         if (result == null) {
-            //throw new UndeclaredProductException(id);
             return null;
         } else {
             return result;
@@ -212,4 +197,14 @@ public class CompilationContext implements CompilationEnvironment{
    public HashMap<Id, PLDefinition> getPLDefinitions(){
        return this.plDefinitionMap;
    }
+
+    @Override
+    public HashMap<Id, FNDefinition> getFNDefinitions() {
+        return this.fnDefinitionMap;
+    }
+
+    @Override
+    public HashMap<Id, FormDefinition> getFormDefinitions() {
+        return this.formDefinitionMap;
+    }
 }

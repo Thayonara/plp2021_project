@@ -1,13 +1,16 @@
-package implementations;
+package declarations;
 
-import exceptions.PreviouslyDeclaredFNException;
-import exceptions.UndeclaredFNException;
-import exceptions.UndeclaredPLException;
+import exceptions.*;
 import memory.CompilationEnvironment;
 import memory.ExecutionEnvironment;
+import types.FNTypeClass;
+import types.GeneralType;
+import types.IdTypeEnum;
 import util.Declaration;
 import util.FNDefinition;
-import util.PLDefinition;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class FeatureNameDeclaration implements Declaration {
     protected Id featureName;
@@ -50,30 +53,53 @@ public class FeatureNameDeclaration implements Declaration {
     }
 
     @Override
-    public boolean TypeCheck(CompilationEnvironment compilationEnvironment) throws UndeclaredPLException, PreviouslyDeclaredFNException, UndeclaredFNException {
+    public boolean TypeCheck(CompilationEnvironment compilationEnvironment) throws UndeclaredPLException, PreviouslyDeclaredFNException, UndeclaredFNException, ExtendsNullException, MultipleRootException {
         boolean rt = false;
-
-        if(this.extendedNode != null){
-            compilationEnvironment.mapBefNode(this.featureName, this.extendedNode);
-        }
-
         compilationEnvironment.increments();
         if(this.extendedNode != null){
             if(compilationEnvironment.getFNDefinition(this.extendedNode) != null){
                 rt = this.nodeType.isValid(compilationEnvironment);
+            } else{
+                throw new UndeclaredFNException(this.extendedNode);
             }
         } else{
+            //o tipo do nó tem que ser válido
             rt = this.nodeType.isValid(compilationEnvironment);
         }
 
+        //todos, exceto o root, tem que extender de algum nó
+        if(!(this.nodeType.getTipo().toString().equals("root")) && (this.extendedNode == null)){
+          throw new ExtendsNullException(this.featureName);
+        }
+        //só pode haver um root
+        if(this.nodeType.getTipo().toString().equals("root") && hasRoot(compilationEnvironment)){
+            throw new MultipleRootException(this.featureName);
+        }
         compilationEnvironment.restore();
+
+        //add mapeamento da fn com o extended node
+        if(this.extendedNode != null){
+            compilationEnvironment.mapBefNode(this.featureName, this.extendedNode);
+        }
+
         compilationEnvironment.mapFNDeclaration(this.featureName, new FNDefinition(this.featureName, this.extendedNode, this.nodeType));
         compilationEnvironment.map(this.featureName, new FNTypeClass(IdTypeEnum.FEATURENAME));
+
         return rt;
     }
 
     public CompilationEnvironment fnDeclarate(CompilationEnvironment compilationEnvironment){
         compilationEnvironment.map(this.featureName, this.nodeType);
         return compilationEnvironment;
+    }
+
+    public boolean hasRoot(CompilationEnvironment compilationEnvironment){
+        List<FNDefinition> fns = new ArrayList<>(compilationEnvironment.getFNDefinitions().values());
+        for(int i = 0; i < fns.size(); i++){
+            if(fns.get(i).getNodeType().getTipo().toString().equals("root")){
+                return true;
+            }
+        }
+        return false;
     }
 }

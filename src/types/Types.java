@@ -1,4 +1,4 @@
-package implementations;
+package types;
 
 public enum Types {
     ROOT,

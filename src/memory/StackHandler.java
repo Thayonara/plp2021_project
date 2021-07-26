@@ -1,6 +1,6 @@
 package memory;
 
-import implementations.Id;
+import declarations.Id;
 
 import java.util.Map;
 import java.util.Stack;

@@ -1,6 +1,9 @@
-package implementations;
+package formulas;
 
+import declarations.ProductDeclaration;
 import memory.CompilationEnvironment;
+import types.GeneralType;
+import types.IdTypeClass;
 
 public class OrForm extends BinaryFormula{
 
@@ -19,6 +22,19 @@ public class OrForm extends BinaryFormula{
 
     public String getOperator() {
         return getOperator();
+    }
+
+    /*
+     left = true -> true
+     left = false -> right
+  */
+    @Override
+    public boolean evaluate(CompilationEnvironment compilationEnvironment, ProductDeclaration productDeclaration) {
+        if(getLeft().evaluate(compilationEnvironment, productDeclaration)){
+            return true;
+        } else{
+            return getRight().evaluate(compilationEnvironment, productDeclaration);
+        }
     }
 
     @Override

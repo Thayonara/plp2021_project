@@ -1,4 +1,4 @@
-package implementations;
+package declarations;
 
 import exceptions.PreviouslyDeclaredProductException;
 import exceptions.UndeclaredFNException;
@@ -6,8 +6,6 @@ import exceptions.UndeclaredProductException;
 import memory.CompilationEnvironment;
 import memory.ExecutionEnvironment;
 import util.Lista;
-
-import java.util.List;
 
 public class ProductDeclarationList extends Lista<ProductDeclaration> {
 

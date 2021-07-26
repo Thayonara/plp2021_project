@@ -1,10 +1,12 @@
-package implementations;
+package declarations;
 
+import formulas.Formula;
 import memory.CompilationEnvironment;
+import types.GeneralType;
 
 import java.util.Objects;
 
-public class Id implements Formula{
+public class Id implements Formula {
     private String idName;
 
     public Id(String strName) {
@@ -30,6 +32,12 @@ public class Id implements Formula{
     @Override
     public int hashCode() {
         return Objects.hash(idName);
+    }
+
+    //o "avaliar" em nosso contexto é checar se as formulas são satisfeitas na geracao de um produto
+    @Override
+    public boolean evaluate(CompilationEnvironment compilationEnvironment, ProductDeclaration productDeclaration) {
+        return productDeclaration.isPresent(productDeclaration.getFeaturesSelected(), this);
     }
 
     @Override

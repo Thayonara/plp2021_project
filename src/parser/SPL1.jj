@@ -2,11 +2,15 @@
 PARSER_BEGIN(SPL1)
 package parser;
 
-import command.*;
-import implementations.*;
 import memory.*;
 import program.Program;
-import java.util.*;
+import command.*;
+import declarations.*;
+import formulas.*;
+import types.*;
+import util.*;
+import java.util.List;
+import java.util.ArrayList;
 
 
 public class SPL1 {
@@ -19,7 +23,7 @@ public class SPL1 {
          System.out.println("SPL PLP Parser Version 0.0.1:  SPL program parsed successfully.");
          if (program.typeCheck(new CompilationContext()))
          {
-             System.out.println("Tudo ok!");
+             program.execute(new ExecutionContext());
          } else
          {
              System.out.println("Erro de tipo");
@@ -46,7 +50,9 @@ SKIP : /* WHITE SPACE */{
 
 TOKEN : /* SEPARATORS */
 {
-  < LBRACE : "{" >
+  < LPAREN : "(" >
+| < RPAREN : ")" >
+| < LBRACE : "{" >
 | < RBRACE : "}" >
 | < SEMICOLON : ";" >
 | < COMMA : "," >
@@ -266,6 +272,7 @@ PLDeclaration PPLDeclaration() :
   }
 }
 
+
 FeatureNameDeclarationList PDecFNList() :
 {
   FeatureNameDeclaration rt;
@@ -391,6 +398,21 @@ Formula PFormula() :
 }
 
 
+Formula PFormPrimaria() :
+{
+  Formula formula;
+}
+{
+  (
+    formula = PId()
+  | < LPAREN > formula = PFormula() < RPAREN >
+  )
+  {
+    return formula;
+  }
+}
+
+
 Formula PUnaryFormula() :
 {
   Formula formula;
@@ -398,7 +420,7 @@ Formula PUnaryFormula() :
 {
   (
     formula = PNotForm()
-    | formula = PId()
+    | formula = PFormPrimaria()
   )
   {
     return formula;
@@ -434,9 +456,7 @@ Formula PBinaryFormula2() :
 }
 {
     formula = PBinaryFormula3()
-    (<AND> param2 = PBinaryFormula3()
-        { formula = new AndForm(formula, param2);}
-      |<OR> param2 = PBinaryFormula3()
+    (<OR> param2 = PBinaryFormula3()
         { formula = new OrForm(formula, param2);}
       | <IMPLIES> param2 = PBinaryFormula3()
         { formula = new ImpliesForm(formula, param2);}
@@ -449,10 +469,16 @@ Formula PBinaryFormula2() :
 
 Formula PBinaryFormula3() :
 {
-  Formula formula;
+  Formula formula, param2 = null;
 }
 {
-    formula = PUnaryFormula()
+  formula = PUnaryFormula()
+  (
+    < AND > param2 = PUnaryFormula()
+    {
+   formula = new AndForm(formula, param2);
+}
+   )*
 
  {
     return formula;
