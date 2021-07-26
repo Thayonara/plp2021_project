@@ -53,7 +53,6 @@ public class Random {
             }
         }
         return pool;
-
     }
 
     @Override
