@@ -1,8 +1,6 @@
 package declarations;
 
-import exceptions.PreviouslyDeclaredProductException;
-import exceptions.UndeclaredFNException;
-import exceptions.UndeclaredProductException;
+import exceptions.*;
 import memory.CompilationEnvironment;
 import memory.ExecutionEnvironment;
 import util.Lista;
@@ -33,7 +31,7 @@ public class ProductDeclarationList extends Lista<ProductDeclaration> {
         return rt;
     }
 
-    public boolean typeCheck(CompilationEnvironment compilationEnvironment) throws UndeclaredFNException, PreviouslyDeclaredProductException, UndeclaredProductException {
+    public boolean typeCheck(CompilationEnvironment compilationEnvironment) throws UndeclaredFNException, PreviouslyDeclaredProductException, UndeclaredProductException, FormulaNotSatisfiedException, ExtendedNodeNotFoundException, MultipleSelectedAlternativesFeaturesException, MandatoryFeatureNotSelectedException {
         boolean rt;
         if(getHead() != null) {
             if(getTail() != null) {
