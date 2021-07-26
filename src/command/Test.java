@@ -1,6 +1,9 @@
 package command;
 
 import declarations.*;
+import exceptions.UndeclaredFNException;
+import exceptions.UndeclaredPLException;
+import exceptions.UndeclaredProductException;
 import memory.CompilationEnvironment;
 import memory.ExecutionEnvironment;
 import util.Lista;
@@ -20,53 +23,69 @@ public class Test implements Command{
     }
 
     @Override
-    public ExecutionEnvironment execute(ExecutionEnvironment executionEnvironment) {
-        //recuperar produtos da suite
-        List<ProductDeclaration> productDefinitions = executionEnvironment.getPoolTesting(command.getIdPl());
+    public ExecutionEnvironment execute(ExecutionEnvironment executionEnvironment) throws UndeclaredFNException, UndeclaredPLException {
 
-        System.out.println("Deve testar " + idProduct + ": " + isPresent(productDefinitions, idProduct));
+        command.execute(executionEnvironment);
+        //recuperar produtos da suite
+        List<ProductDeclaration> productDefinitions = executionEnvironment.getAllPools().get(command.getIdPl().getIdName());
+
+        //recuperar produto
+        Lista<ProductDeclaration> productDeclaration = executionEnvironment.getPlDefinition(command.getIdPl()).getProductDeclarations();
+        ProductDeclaration productDeclaration1 = getProduct(productDeclaration, idProduct);
+        if(productDeclaration1 != null){
+            System.out.println("Deve testar " + idProduct + ": " + isPresent(productDefinitions, productDeclaration1));
+
+        }
+
 
         return executionEnvironment;
     }
 
     @Override
-    public boolean typeCheck(CompilationEnvironment compilationEnvironment) {
+    public boolean typeCheck(CompilationEnvironment compilationEnvironment) throws UndeclaredProductException {
         List<PLDefinition> list = new ArrayList<PLDefinition>(compilationEnvironment.getPLDefinitions().values());
 
         for (int i = 0; i < list.size();i++){
             PLDefinition plDefinition = list.get(i);
             Lista<ProductDeclaration> productDeclarationList = plDefinition.getProductDeclarations();
-                if(plContains(productDeclarationList, idProduct)){
+            Lista<ProductDeclaration> productDeclaration = compilationEnvironment.getPlDefinition(command.getIdPl()).getProductDeclarations();
+            ProductDeclaration productDeclaration1 = getProduct(productDeclaration, idProduct);
+            if(productDeclaration1 != null){
                     return this.command.typeCheck(compilationEnvironment);
                 }
+            else{
+                throw new UndeclaredProductException(idProduct);
+            }
         }
 
         return false;
 
     }
 
-    public boolean plContains(Lista<ProductDeclaration> productDeclarationList, Id productDefinition){
-        boolean rt = false;
+
+    public ProductDeclaration getProduct(Lista<ProductDeclaration> productDeclarationList, Id productDefinition){
 
         while (productDeclarationList.getHead() != null){
             if(productDeclarationList.getHead().getProductName().getIdName().equalsIgnoreCase(productDefinition.getIdName())){
-                return true;
+                return productDeclarationList.getHead();
             } else{
                 if(productDeclarationList.getTail() != null){
-                    plContains(productDeclarationList.getTail(), productDefinition);
+                    productDeclarationList = productDeclarationList.getTail();
                 } else{
-                    return false;
+                    return null;
                 }
             }
         }
-        return rt;
+        return null;
     }
 
+
     public boolean isPresent(List<ProductDeclaration> productDefinitions,
-                             Id idProduct) {
+                             ProductDeclaration product) {
         boolean rt = false;
+
         for (int i = 0; i < productDefinitions.size(); i++) {
-            if (productDefinitions.get(i).getProductName().equals(idProduct.getIdName())) {
+            if (productDefinitions.get(i).getFeaturesSelected().equals(product.getFeaturesSelected())) {
                 return true;
             }
         }

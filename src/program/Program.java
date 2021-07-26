@@ -42,7 +42,7 @@ public class Program {
         return rt;
     }
 
-    public HashMap<Id, List<ProductDeclaration>> execute(ExecutionEnvironment executionEnvironment) throws UndeclaredFNException,
+    public HashMap<String, List<ProductDeclaration>> execute(ExecutionEnvironment executionEnvironment) throws UndeclaredFNException,
             UndeclaredPLException, PreviouslyDeclaredPLException, PreviouslyDeclaredFNException,
             PreviouslyDeclaredFormException, UndeclaredFormException,
             PreviouslyDeclaredProductException, UndeclaredProductException,

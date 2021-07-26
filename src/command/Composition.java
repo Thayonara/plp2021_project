@@ -2,6 +2,7 @@ package command;
 
 import exceptions.UndeclaredFNException;
 import exceptions.UndeclaredPLException;
+import exceptions.UndeclaredProductException;
 import memory.CompilationEnvironment;
 import memory.ExecutionEnvironment;
 
@@ -25,7 +26,7 @@ public class Composition implements Command{
     }
 
     @Override
-    public boolean typeCheck(CompilationEnvironment compilationEnvironment) {
+    public boolean typeCheck(CompilationEnvironment compilationEnvironment) throws UndeclaredProductException {
         return this.command1.typeCheck(compilationEnvironment) &&
                 this.command2.typeCheck(compilationEnvironment);
     }

@@ -1,5 +1,8 @@
 package command;
 
+import exceptions.UndeclaredFNException;
+import exceptions.UndeclaredPLException;
+import exceptions.UndeclaredProductException;
 import memory.CompilationEnvironment;
 import memory.ExecutionEnvironment;
 
@@ -12,10 +15,11 @@ public class Size implements Command{
     }
 
     @Override
-    public ExecutionEnvironment execute(ExecutionEnvironment executionEnvironment) {
+    public ExecutionEnvironment execute(ExecutionEnvironment executionEnvironment) throws UndeclaredFNException, UndeclaredPLException {
 
         //recuperar produtos da suite
-        int b = executionEnvironment.getPoolTesting(command.getIdPl()).size();
+        command.execute(executionEnvironment);
+        int b = executionEnvironment.getAllPools().get(command.getIdPl().getIdName()).size();
 
         System.out.println("O tamanho é : " + (b));
 
@@ -23,7 +27,7 @@ public class Size implements Command{
     }
 
     @Override
-    public boolean typeCheck(CompilationEnvironment compilationEnvironment) {
+    public boolean typeCheck(CompilationEnvironment compilationEnvironment) throws UndeclaredProductException {
        return this.command.typeCheck(compilationEnvironment);
 
     }

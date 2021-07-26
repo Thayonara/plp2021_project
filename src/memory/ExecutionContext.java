@@ -15,7 +15,7 @@ public class ExecutionContext implements ExecutionEnvironment{
     private HashMap<Id, FNDefinition> fnDefinitionHashMap;
     private HashMap<Id, FormDefinition> formDefinitionHashMap;
     private HashMap<Id, ProductDefinition> productDefinitionHashMap;
-    private HashMap<Id, List<ProductDeclaration>> poolTest;
+    private HashMap<String, List<ProductDeclaration>> poolTest;
     private ArrayList<BefNode> arrayBefNode;
     private Stack<HashMap<Id, Object>> stack;
 
@@ -26,7 +26,7 @@ public class ExecutionContext implements ExecutionEnvironment{
         this.fnDefinitionHashMap = new HashMap<Id, FNDefinition>();
         this.formDefinitionHashMap = new HashMap<Id, FormDefinition>();
         this.productDefinitionHashMap = new HashMap<Id, ProductDefinition>();
-        this.poolTest = new HashMap<Id, List<ProductDeclaration>>();
+        this.poolTest = new HashMap<String, List<ProductDeclaration>>();
         this.arrayBefNode = new ArrayList <BefNode> ();
         this.stack = new Stack<HashMap<Id, Object>>();
 
@@ -37,7 +37,7 @@ public class ExecutionContext implements ExecutionEnvironment{
         this.fnDefinitionHashMap = new HashMap<Id, FNDefinition>();
         this.formDefinitionHashMap = new HashMap<Id, FormDefinition>();
         this.productDefinitionHashMap = new HashMap<Id, ProductDefinition>();
-        this.poolTest = new HashMap<Id, List<ProductDeclaration>>();
+        this.poolTest = new HashMap<String, List<ProductDeclaration>>();
         this.arrayBefNode = new ArrayList <BefNode> ();
         this.stack = new Stack<HashMap<Id, Object>>();
 
@@ -92,7 +92,7 @@ public class ExecutionContext implements ExecutionEnvironment{
     }
 
     @Override
-    public void mapPoolTest(Id idPl, List<ProductDeclaration> productDeclarationList) {
+    public void mapPoolTest(String idPl, List<ProductDeclaration> productDeclarationList) {
         poolTest.put(idPl, productDeclarationList);
 
     }
@@ -103,7 +103,7 @@ public class ExecutionContext implements ExecutionEnvironment{
     }
 
     @Override
-    public HashMap<Id, List<ProductDeclaration>> getAllPools() {
+    public HashMap<String, List<ProductDeclaration>> getAllPools() {
         return this.poolTest;
     }
 

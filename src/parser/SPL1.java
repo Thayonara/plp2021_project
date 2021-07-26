@@ -8,10 +8,13 @@ import command.*;
 import declarations.*;
 import formulas.*;
 import types.*;
+import util.*;
 
 import java.io.ByteArrayInputStream;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
 import java.util.ArrayList;
 
@@ -19,25 +22,27 @@ import java.util.ArrayList;
 public class SPL1 implements SPL1Constants {
 
   public static void main(String[] args) throws ParseException, IOException {
-      System.out.println("SPL PLP Parser Version 0.0.1:  Reading from standard input . . .");
       FileInputStream fin = new FileInputStream("/home/pontes/Documents/plp2021_project/src/parser/test1");
-      int i = fin.read();
       SPL1 spl1 = new SPL1(new ByteArrayInputStream(fin.readAllBytes()));
       try{
-         Program program = spl1.processInput();
-         System.out.println("SPL PLP Parser Version 0.0.1:  SPL program parsed successfully.");
-         if (program.typeCheck(new CompilationContext()))
-         {
-             program.execute(new ExecutionContext());
-         } else
-         {
-             System.out.println("Erro de tipo");
-         }
-  } catch (Exception e)
-        {
+          Program program = spl1.processInput();
+          System.out.println("SPL PLP Parser Version 0.0.1:  SPL program parsed successfully.");
+          if (program.typeCheck(new CompilationContext()))
+          {
+              HashMap<String, List<ProductDeclaration>> productDeclarations  = program.execute(new ExecutionContext());
+              for(ProductDeclaration product : productDeclarations.get("mobile")) {
+                  System.out.println(product.getFeaturesSelected());
+              }
+
+          } else
+          {
+              System.out.println("Erro de tipo");
+          }
+      } catch (Exception e)
+      {
           System.out.println("SPL PLP Parser Version 0.0.1:  Encountered errors during parse.");
           e.printStackTrace();
-        }
+      }
 
 
 }
@@ -76,7 +81,7 @@ public class SPL1 implements SPL1Constants {
       switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
       case OFOT:
       case SOFOT:
-      case TWOWAY:
+      case AIFL:
       case SIZE:
       case COVERAGE:
       case TEST:{
@@ -108,7 +113,7 @@ public class SPL1 implements SPL1Constants {
     } else if (jj_2_3(2147483647)) {
       rt = PSofot();
     } else if (jj_2_4(2147483647)) {
-      rt = PTwoWay();
+      rt = PAifl();
     } else if (jj_2_5(2147483647)) {
       rt = PSize();
     } else if (jj_2_6(2147483647)) {
@@ -137,10 +142,10 @@ public class SPL1 implements SPL1Constants {
     throw new Error("Missing return statement in function");
 }
 
-  static final public TwoWay PTwoWay() throws ParseException {Id idPL = null;
-    jj_consume_token(TWOWAY);
+  static final public AIFL PAifl() throws ParseException {Id idPL = null;
+    jj_consume_token(AIFL);
     idPL = PId();
-{if ("" != null) return new TwoWay (idPL);}
+{if ("" != null) return new AIFL (idPL);}
     throw new Error("Missing return statement in function");
 }
 
@@ -151,10 +156,10 @@ public class SPL1 implements SPL1Constants {
     throw new Error("Missing return statement in function");
 }
 
-  static final public Covarage PCovarage() throws ParseException {Command command = null;
+  static final public Coverage PCovarage() throws ParseException {Command command = null;
     jj_consume_token(COVERAGE);
     command = PCommand();
-{if ("" != null) return new Covarage((PoolGenerateCommand) command);}
+{if ("" != null) return new Coverage((PoolGenerateCommand) command);}
     throw new Error("Missing return statement in function");
 }
 
@@ -604,7 +609,7 @@ formula = new AndForm(formula, param2);
 
   static private boolean jj_3R_PUniqueCommand_180_5_11()
  {
-    if (jj_3R_PTwoWay_221_3_21()) return true;
+    if (jj_3R_PAifl_221_3_21()) return true;
     return false;
   }
 
@@ -614,20 +619,20 @@ formula = new AndForm(formula, param2);
     return false;
   }
 
-  static private boolean jj_3R_PUniqueCommand_176_5_9()
+  static private boolean jj_3R_PProductDeclaration_369_3_8()
  {
-    if (jj_3R_POfot_199_3_19()) return true;
+    if (jj_scan_token(PRODUCT)) return true;
+    if (jj_3R_PId_506_3_15()) return true;
+    if (jj_scan_token(ASSIGN)) return true;
+    if (jj_scan_token(LBRACE)) return true;
+    if (jj_3R_PFeatureSelected_381_5_18()) return true;
+    if (jj_scan_token(RBRACE)) return true;
     return false;
   }
 
-  static private boolean jj_3R_PProductDeclaration_368_3_8()
+  static private boolean jj_3R_PUniqueCommand_176_5_9()
  {
-    if (jj_scan_token(PRODUCT)) return true;
-    if (jj_3R_PId_505_3_15()) return true;
-    if (jj_scan_token(ASSIGN)) return true;
-    if (jj_scan_token(LBRACE)) return true;
-    if (jj_3R_PFeatureSelected_380_5_18()) return true;
-    if (jj_scan_token(RBRACE)) return true;
+    if (jj_3R_POfot_199_3_19()) return true;
     return false;
   }
 
@@ -670,26 +675,26 @@ formula = new AndForm(formula, param2);
     return false;
   }
 
+  static private boolean jj_3_9()
+ {
+    if (jj_3R_PProductDeclaration_369_3_8()) return true;
+    if (jj_scan_token(SEMICOLON)) return true;
+    if (jj_3R_PProductDeclaration_369_3_8()) return true;
+    return false;
+  }
+
   static private boolean jj_3R_PTest_255_3_24()
  {
     if (jj_scan_token(TEST)) return true;
     if (jj_3R_PCommand_148_3_31()) return true;
-    if (jj_3R_PId_505_3_15()) return true;
+    if (jj_3R_PId_506_3_15()) return true;
     return false;
   }
 
-  static private boolean jj_3_9()
- {
-    if (jj_3R_PProductDeclaration_368_3_8()) return true;
-    if (jj_scan_token(SEMICOLON)) return true;
-    if (jj_3R_PProductDeclaration_368_3_8()) return true;
-    return false;
-  }
-
-  static private boolean jj_3R_PFNDeclaration_313_34_16()
+  static private boolean jj_3R_PFNDeclaration_314_34_16()
  {
     if (jj_scan_token(EXTENDS)) return true;
-    if (jj_3R_PId_505_3_15()) return true;
+    if (jj_3R_PId_506_3_15()) return true;
     return false;
   }
 
@@ -730,50 +735,50 @@ formula = new AndForm(formula, param2);
     return false;
   }
 
-  static private boolean jj_3R_PTwoWay_221_3_21()
+  static private boolean jj_3R_PAifl_221_3_21()
  {
-    if (jj_scan_token(TWOWAY)) return true;
-    if (jj_3R_PId_505_3_15()) return true;
+    if (jj_scan_token(AIFL)) return true;
+    if (jj_3R_PId_506_3_15()) return true;
     return false;
   }
 
-  static private boolean jj_3R_PId_505_3_15()
+  static private boolean jj_3R_PId_506_3_15()
  {
     if (jj_scan_token(IDENTIFIER)) return true;
     return false;
   }
 
-  static private boolean jj_3R_PFNDeclaration_313_3_7()
+  static private boolean jj_3R_PFNDeclaration_314_3_7()
  {
     if (jj_scan_token(FEATURENAME)) return true;
-    if (jj_3R_PId_505_3_15()) return true;
+    if (jj_3R_PId_506_3_15()) return true;
     Token xsp;
     xsp = jj_scanpos;
-    if (jj_3R_PFNDeclaration_313_34_16()) jj_scanpos = xsp;
+    if (jj_3R_PFNDeclaration_314_34_16()) jj_scanpos = xsp;
     if (jj_scan_token(AS)) return true;
-    if (jj_3R_PType_492_5_17()) return true;
+    if (jj_3R_PType_493_5_17()) return true;
     return false;
   }
 
-  static private boolean jj_3R_PType_496_7_29()
+  static private boolean jj_3R_PType_497_7_29()
  {
     if (jj_scan_token(OR_TYPE)) return true;
     return false;
   }
 
-  static private boolean jj_3R_PType_495_7_28()
+  static private boolean jj_3R_PType_496_7_28()
  {
     if (jj_scan_token(ALTERNATIVE_TYPE)) return true;
     return false;
   }
 
-  static private boolean jj_3R_PType_494_7_27()
+  static private boolean jj_3R_PType_495_7_27()
  {
     if (jj_scan_token(OPTIONAL_TYPE)) return true;
     return false;
   }
 
-  static private boolean jj_3R_PType_493_7_26()
+  static private boolean jj_3R_PType_494_7_26()
  {
     if (jj_scan_token(MANDATORY_TYPE)) return true;
     return false;
@@ -782,23 +787,23 @@ formula = new AndForm(formula, param2);
   static private boolean jj_3R_PSofot_210_3_20()
  {
     if (jj_scan_token(SOFOT)) return true;
-    if (jj_3R_PId_505_3_15()) return true;
+    if (jj_3R_PId_506_3_15()) return true;
     return false;
   }
 
-  static private boolean jj_3R_PType_492_5_17()
+  static private boolean jj_3R_PType_493_5_17()
  {
     Token xsp;
     xsp = jj_scanpos;
-    if (jj_3R_PType_492_5_25()) {
+    if (jj_3R_PType_493_5_25()) {
     jj_scanpos = xsp;
-    if (jj_3R_PType_493_7_26()) {
+    if (jj_3R_PType_494_7_26()) {
     jj_scanpos = xsp;
-    if (jj_3R_PType_494_7_27()) {
+    if (jj_3R_PType_495_7_27()) {
     jj_scanpos = xsp;
-    if (jj_3R_PType_495_7_28()) {
+    if (jj_3R_PType_496_7_28()) {
     jj_scanpos = xsp;
-    if (jj_3R_PType_496_7_29()) return true;
+    if (jj_3R_PType_497_7_29()) return true;
     }
     }
     }
@@ -806,24 +811,24 @@ formula = new AndForm(formula, param2);
     return false;
   }
 
-  static private boolean jj_3R_PType_492_5_25()
+  static private boolean jj_3R_PType_493_5_25()
  {
     if (jj_scan_token(ROOT_TYPE)) return true;
+    return false;
+  }
+
+  static private boolean jj_3_8()
+ {
+    if (jj_3R_PFNDeclaration_314_3_7()) return true;
+    if (jj_scan_token(SEMICOLON)) return true;
+    if (jj_3R_PFNDeclaration_314_3_7()) return true;
     return false;
   }
 
   static private boolean jj_3R_POfot_199_3_19()
  {
     if (jj_scan_token(OFOT)) return true;
-    if (jj_3R_PId_505_3_15()) return true;
-    return false;
-  }
-
-  static private boolean jj_3_8()
- {
-    if (jj_3R_PFNDeclaration_313_3_7()) return true;
-    if (jj_scan_token(SEMICOLON)) return true;
-    if (jj_3R_PFNDeclaration_313_3_7()) return true;
+    if (jj_3R_PId_506_3_15()) return true;
     return false;
   }
 
@@ -839,10 +844,10 @@ formula = new AndForm(formula, param2);
     return false;
   }
 
-  static private boolean jj_3R_PFeatureSelected_382_6_30()
+  static private boolean jj_3R_PFeatureSelected_383_6_30()
  {
     if (jj_scan_token(COMMA)) return true;
-    if (jj_3R_PId_505_3_15()) return true;
+    if (jj_3R_PId_506_3_15()) return true;
     return false;
   }
 
@@ -852,20 +857,20 @@ formula = new AndForm(formula, param2);
     return false;
   }
 
-  static private boolean jj_3_4()
+  static private boolean jj_3R_PFeatureSelected_381_5_18()
  {
-    if (jj_scan_token(TWOWAY)) return true;
-    return false;
-  }
-
-  static private boolean jj_3R_PFeatureSelected_380_5_18()
- {
-    if (jj_3R_PId_505_3_15()) return true;
+    if (jj_3R_PId_506_3_15()) return true;
     Token xsp;
     while (true) {
       xsp = jj_scanpos;
-      if (jj_3R_PFeatureSelected_382_6_30()) { jj_scanpos = xsp; break; }
+      if (jj_3R_PFeatureSelected_383_6_30()) { jj_scanpos = xsp; break; }
     }
+    return false;
+  }
+
+  static private boolean jj_3_4()
+ {
+    if (jj_scan_token(AIFL)) return true;
     return false;
   }
 

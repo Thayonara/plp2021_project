@@ -13,11 +13,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-public class Sofot implements PoolGenerateCommand {
+public class AIFL implements PoolGenerateCommand {
 
     protected Id idPL;
 
-    public Sofot(Id idPL){
+    public AIFL(Id idPL){
         this.idPL = idPL;
     }
 
@@ -47,23 +47,32 @@ public class Sofot implements PoolGenerateCommand {
         for(int i = 0; i < seed.getFeaturesSelected().size(); i++){
             FeatureNameDeclaration current = executionEnvironment.getPlDefinition(idPL).getFeatureNameDeclarations().getFN(seed.getFeaturesSelected().get(i));
 
-            if(!(current.getNodeType().toString().equals("root"))){
+            for(int j = 0; j < seed.getFeaturesSelected().size();j++){
+                if(!(current.getNodeType().toString().equals("root")) && !(seed.getFeaturesSelected().get(j).getIdName().equalsIgnoreCase(current.getFeatureName().getIdName()))){
+                    FeatureNameDeclaration base = executionEnvironment.getPlDefinition(idPL).getFeatureNameDeclarations().getFN(seed.getFeaturesSelected().get(j));
+                    if(!base.getNodeType().toString().equals("root")) {
+                        List<Id> bro = executionEnvironment.getChildrens(base.getExtendedNode(), current.getFeatureName());
+                        Random gerador = new Random();
+                        List<Id> aux = new ArrayList<>();
+                        for (int k = 0; k < seed.getFeaturesSelected().size(); k++) {
+                            if (k == i) {
+                                aux.add(bro.get(gerador.nextInt(bro.size())));
+                            } else {
+                                aux.add(seed.getFeaturesSelected().get(k));
+                            }
+                        }
 
-                List<Id> bro = executionEnvironment.getChildrens(current.getExtendedNode(), current.getFeatureName());
-                Random gerador = new Random();
-                List<Id> aux = new ArrayList<>();
-                for(int k = 0; k < seed.getFeaturesSelected().size(); k ++){
-                    if(k == i){
-                        aux.add(bro.get(gerador.nextInt(bro.size())));
-                    } else{
-                        aux.add(seed.getFeaturesSelected().get(k));
+                        ProductDeclaration productDefinition = new ProductDeclaration(new Id("p[" + i + "]"), aux);
+                        pool.add(productDefinition);
                     }
                 }
 
-                ProductDeclaration productDefinition = new ProductDeclaration(new Id("p["+i+"]"), aux);
-                pool.add(productDefinition);
-                }
+
+
+
             }
+
+        }
         return pool;
 
     }

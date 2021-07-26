@@ -82,7 +82,7 @@ TOKEN : /* TOKENS types */
   {
     < OFOT : "ofot" >
   | < SOFOT : "sofot" >
-  | < TWOWAY : "2-way" >
+  | < AIFL : "aifl" >
   | < SIZE : "size" >
   | < COVERAGE : "coverage" >
   | < TEST : "test?" >
@@ -177,8 +177,8 @@ Command PUniqueCommand() :
     rt = POfot()
   | LOOKAHEAD(< SOFOT>)
     rt = PSofot()
-  | LOOKAHEAD(< TWOWAY>)
-    rt = PTwoWay()
+  | LOOKAHEAD(< AIFL>)
+    rt = PAifl()
   | LOOKAHEAD(< SIZE>)
     rt = PSize()
   | LOOKAHEAD(< COVERAGE>)
@@ -213,14 +213,14 @@ Sofot PSofot() :
   }
 }
 
-TwoWay PTwoWay() :
+AIFL PAifl() :
 {
   Id idPL = null;
 }
 {
-  < TWOWAY > idPL = PId()
+  < AIFL > idPL = PId()
   {
-    return new TwoWay (idPL);
+    return new AIFL (idPL);
   }
 }
 
@@ -235,15 +235,15 @@ Size PSize() :
   }
 }
 
-Covarage PCovarage() :
+Coverage PCovarage() :
 {
   Command command = null;
 }
 {
   < COVERAGE> command = PCommand()
   {
-    return new Covarage(command);
-  }
+  return new Coverage(command);
+}
 }
 
 Test PTest() :

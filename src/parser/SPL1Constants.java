@@ -49,7 +49,7 @@ public interface SPL1Constants {
   /** RegularExpression Id. */
   int SOFOT = 24;
   /** RegularExpression Id. */
-  int TWOWAY = 25;
+  int AIFL = 25;
   /** RegularExpression Id. */
   int SIZE = 26;
   /** RegularExpression Id. */
@@ -103,7 +103,7 @@ public interface SPL1Constants {
     "\"OR\"",
     "\"ofot\"",
     "\"sofot\"",
-    "\"2-way\"",
+    "\"aifl\"",
     "\"size\"",
     "\"coverage\"",
     "\"test?\"",

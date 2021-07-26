@@ -24,7 +24,7 @@ public class Ofot implements PoolGenerateCommand {
         PLDefinition plDefinition = executionEnvironment.getPlDefinition(idPL);
         ProductDeclaration seed = plDefinition.getProductDeclarations().getHead();
         //a execução é apenas add um pool no ambiente
-        executionEnvironment.mapPoolTest(this.idPL, poolTestGenerate(seed, executionEnvironment));
+        executionEnvironment.mapPoolTest(this.idPL.getIdName(), poolTestGenerate(seed, executionEnvironment));
 
         return executionEnvironment;
     }
