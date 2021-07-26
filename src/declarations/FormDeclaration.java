@@ -39,9 +39,9 @@ public class FormDeclaration implements Declaration {
     @Override
     public boolean TypeCheck(CompilationEnvironment compilationEnvironment) throws PreviouslyDeclaredFormException, UndeclaredFormException {
         boolean rt = false;
+        compilationEnvironment.mapFormDeclaration(this.formName, new FormDefinition(this.formName, this.formula));
         compilationEnvironment.increments();
         rt = this.formula.typeCheck(compilationEnvironment);
-        compilationEnvironment.mapFormDeclaration(this.formName, new FormDefinition(this.formName, this.formula));
         compilationEnvironment.map(this.formName, new IdTypeClass(IdTypeEnum.FORM));
         compilationEnvironment.restore();
         return rt;
