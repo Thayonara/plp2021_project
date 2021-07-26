@@ -21,7 +21,7 @@ public class Program {
         this.command = command;
     }
 
-    public boolean typeCheck(CompilationEnvironment compilationEnvironment) throws PreviouslyDeclaredPLException, UndeclaredPLException, PreviouslyDeclaredFNException, UndeclaredFNException, PreviouslyDeclaredProductException, UndeclaredProductException, PreviouslyDeclaredFormException, UndeclaredFormException {
+    public boolean typeCheck(CompilationEnvironment compilationEnvironment) throws PreviouslyDeclaredPLException, UndeclaredPLException, PreviouslyDeclaredFNException, UndeclaredFNException, PreviouslyDeclaredProductException, UndeclaredProductException, PreviouslyDeclaredFormException, UndeclaredFormException, ExtendsNullException, MultipleRootException {
         boolean rt;
         if(compilationEnvironment == null) {
             //lançar exceptions

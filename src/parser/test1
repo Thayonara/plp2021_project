@@ -1,5 +1,6 @@
 
-{  PL mobile {
+{
+ PL mobile {
 
   FeatureName MobileMedia as ROOT;
   FeatureName Media extends MobileMedia as MANDATORY;
@@ -17,5 +18,6 @@
   Product p1 = {MobileMedia, Media, Management, ScreenSize, Photo, Sorting, r};
   Product p2 = {MobileMedia, Media, Management, ScreenSize, Photo, Sorting, x};
 
-  }; sofot mobile;
+  };
+  ofot mobile;
 }

@@ -1,8 +1,6 @@
 package declarations;
 
-import exceptions.PreviouslyDeclaredFNException;
-import exceptions.UndeclaredFNException;
-import exceptions.UndeclaredPLException;
+import exceptions.*;
 import memory.CompilationEnvironment;
 import memory.ExecutionEnvironment;
 import util.Lista;
@@ -35,7 +33,7 @@ public class FeatureNameDeclarationList extends Lista<FeatureNameDeclaration> {
         return rt;
     }
 
-    public boolean typeCheck(CompilationEnvironment compilationEnvironment) throws UndeclaredPLException, PreviouslyDeclaredFNException, UndeclaredFNException {
+    public boolean typeCheck(CompilationEnvironment compilationEnvironment) throws UndeclaredPLException, PreviouslyDeclaredFNException, UndeclaredFNException, ExtendsNullException, MultipleRootException {
         boolean rt;
         if (getHead() != null) {
             if (getTail() != null) {

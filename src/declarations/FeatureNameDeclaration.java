@@ -1,8 +1,6 @@
 package declarations;
 
-import exceptions.PreviouslyDeclaredFNException;
-import exceptions.UndeclaredFNException;
-import exceptions.UndeclaredPLException;
+import exceptions.*;
 import memory.CompilationEnvironment;
 import memory.ExecutionEnvironment;
 import types.FNTypeClass;
@@ -55,16 +53,14 @@ public class FeatureNameDeclaration implements Declaration {
     }
 
     @Override
-    public boolean TypeCheck(CompilationEnvironment compilationEnvironment) throws UndeclaredPLException, PreviouslyDeclaredFNException, UndeclaredFNException {
+    public boolean TypeCheck(CompilationEnvironment compilationEnvironment) throws UndeclaredPLException, PreviouslyDeclaredFNException, UndeclaredFNException, ExtendsNullException, MultipleRootException {
         boolean rt = false;
-        //add mapeamento da fn com o extended node
-        if(this.extendedNode != null){
-            compilationEnvironment.mapBefNode(this.featureName, this.extendedNode);
-        }
         compilationEnvironment.increments();
         if(this.extendedNode != null){
             if(compilationEnvironment.getFNDefinition(this.extendedNode) != null){
                 rt = this.nodeType.isValid(compilationEnvironment);
+            } else{
+                throw new UndeclaredFNException(this.extendedNode);
             }
         } else{
             //o tipo do nó tem que ser válido
@@ -73,18 +69,22 @@ public class FeatureNameDeclaration implements Declaration {
 
         //todos, exceto o root, tem que extender de algum nó
         if(!(this.nodeType.getTipo().toString().equals("root")) && (this.extendedNode == null)){
-            rt = false;
+          throw new ExtendsNullException(this.featureName);
         }
         //só pode haver um root
         if(this.nodeType.getTipo().toString().equals("root") && hasRoot(compilationEnvironment)){
-            rt = false;
+            throw new MultipleRootException(this.featureName);
+        }
+        compilationEnvironment.restore();
+
+        //add mapeamento da fn com o extended node
+        if(this.extendedNode != null){
+            compilationEnvironment.mapBefNode(this.featureName, this.extendedNode);
         }
 
-        compilationEnvironment.restore();
-        if(rt){
-            compilationEnvironment.mapFNDeclaration(this.featureName, new FNDefinition(this.featureName, this.extendedNode, this.nodeType));
-            compilationEnvironment.map(this.featureName, new FNTypeClass(IdTypeEnum.FEATURENAME));
-        }
+        compilationEnvironment.mapFNDeclaration(this.featureName, new FNDefinition(this.featureName, this.extendedNode, this.nodeType));
+        compilationEnvironment.map(this.featureName, new FNTypeClass(IdTypeEnum.FEATURENAME));
+
         return rt;
     }
 
