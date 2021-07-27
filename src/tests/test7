@@ -1,5 +1,5 @@
 {
- PL mobile {
+ PL pl {
 
   FeatureName MobileMedia as ROOT;
   FeatureName Media extends MobileMedia as MANDATORY;
@@ -9,14 +9,13 @@
   FeatureName Music extends Media as OR;
   FeatureName SendPhoto extends Management as OPTIONAL;
   FeatureName Sorting extends Management as OPTIONAL;
-  FeatureName x extends ScreenSize as ALTERNATIVE;
-  FeatureName r extends ScreenSize as ALTERNATIVE;
+  FeatureName f128x149 extends ScreenSize as ALTERNATIVE;
+  FeatureName f240x320 extends ScreenSize as ALTERNATIVE;
 
   Formula fm1 = (SendPhoto implies Photo);
 
-  Product p1 = {MobileMedia, Media, Management, ScreenSize, Photo, Sorting, r};
-  Product p2 = {MobileMedia, Media, Management, ScreenSize, Photo, Sorting, x};
+  Product p1 = {MobileMedia, Media, Management, ScreenSize, SendPhoto, Sorting, f128x149};
+  Product p2 = {MobileMedia, Media, Management, ScreenSize, Photo, Sorting, f240x320};
 
-  };
-   size ofot mobile;
+  }
 }

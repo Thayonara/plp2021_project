@@ -1,0 +1,16 @@
+{
+ PL pl {
+
+  FeatureName MobileMedia as ROOT;
+  FeatureName Media extends MobileMedia as MANDATORY;
+  FeatureName Management extends MobileMedia as MANDATORY;
+  FeatureName ScreenSize extends MobileMedia as MANDATORY;
+  FeatureName Photo extends Media as OR;
+  FeatureName Music extends fn1 as OR;
+  FeatureName SendPhoto extends Management as OPTIONAL;
+  FeatureName Sorting extends Management as OPTIONAL;
+  FeatureName f128x149 extends ScreenSize as ALTERNATIVE;
+  FeatureName f240x320 extends ScreenSize as ALTERNATIVE;
+
+  }
+}

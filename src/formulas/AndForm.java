@@ -29,8 +29,8 @@ public class AndForm extends BinaryFormula{
      */
     @Override
     public boolean evaluate(CompilationEnvironment compilationEnvironment, ProductDeclaration productDeclaration) {
-        if(getLeft().evaluate(compilationEnvironment, productDeclaration)){
-            return getRight().evaluate(compilationEnvironment, productDeclaration);
+        if(getRight().evaluate(compilationEnvironment, productDeclaration)){
+            return getLeft().evaluate(compilationEnvironment, productDeclaration);
         } else{
             return false;
         }

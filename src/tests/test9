@@ -1,0 +1,21 @@
+{
+ PL pl {
+
+  FeatureName MobileMedia as ROOT;
+  FeatureName Media extends MobileMedia as MANDATORY;
+  FeatureName Management extends MobileMedia as MANDATORY;
+  FeatureName ScreenSize extends MobileMedia as MANDATORY;
+  FeatureName Photo extends Media as OR;
+  FeatureName Music extends Media as OR;
+  FeatureName SendPhoto extends Management as OPTIONAL;
+  FeatureName Sorting extends Management as OPTIONAL;
+  FeatureName f128x149 extends ScreenSize as ALTERNATIVE;
+  FeatureName f240x320 extends ScreenSize as ALTERNATIVE;
+
+  Formula fm1 = (SendPhoto implies Photo);
+
+  Product p1 = {MobileMedia, Media, Management, ScreenSize, Photo, Sorting, f128x149};
+  Product p2 = {MobileMedia, Management, ScreenSize, Photo, Sorting, f240x320};
+
+  }
+}

@@ -22,30 +22,30 @@ import java.util.ArrayList;
 public class SPL1 implements SPL1Constants {
 
   public static void main(String[] args) throws ParseException, IOException {
-      FileInputStream fin = new FileInputStream("/home/pontes/Documents/plp2021_project/src/parser/test1");
+      FileInputStream fin = new FileInputStream("/home/pontes/Documents/plp2021_project/src/tests/test6");
       SPL1 spl1 = new SPL1(new ByteArrayInputStream(fin.readAllBytes()));
-      try{
+      try {
           Program program = spl1.processInput();
           System.out.println("SPL PLP Parser Version 0.0.1:  SPL program parsed successfully.");
-          if (program.typeCheck(new CompilationContext()))
-          {
-              HashMap<String, List<ProductDeclaration>> productDeclarations  = program.execute(new ExecutionContext());
-              for(ProductDeclaration product : productDeclarations.get("mobile")) {
-                  System.out.println(product.getFeaturesSelected());
+          if (program.typeCheck(new CompilationContext())) {
+              System.out.println("Tudo ok!");
+              HashMap<String, List<ProductDeclaration>> productDeclarations = program.execute(new ExecutionContext());
+              if (productDeclarations.get("pl") != null) {
+                  for (ProductDeclaration product : productDeclarations.get("pl")) {
+                      System.out.println(product.getFeaturesSelected());
+                  }
               }
 
-          } else
-          {
+          } else {
               System.out.println("Erro de tipo");
           }
-      } catch (Exception e)
-      {
+      } catch (Exception e) {
           System.out.println("SPL PLP Parser Version 0.0.1:  Encountered errors during parse.");
           e.printStackTrace();
       }
 
 
-}
+  }
 
   static final public Program processInput() throws ParseException {Program rretorn;
     rretorn = PProgram();
@@ -622,7 +622,7 @@ formula = new AndForm(formula, param2);
   static private boolean jj_3R_PProductDeclaration_369_3_8()
  {
     if (jj_scan_token(PRODUCT)) return true;
-    if (jj_3R_PId_506_3_15()) return true;
+    if (jj_3R_PId_502_3_15()) return true;
     if (jj_scan_token(ASSIGN)) return true;
     if (jj_scan_token(LBRACE)) return true;
     if (jj_3R_PFeatureSelected_381_5_18()) return true;
@@ -687,14 +687,14 @@ formula = new AndForm(formula, param2);
  {
     if (jj_scan_token(TEST)) return true;
     if (jj_3R_PCommand_148_3_31()) return true;
-    if (jj_3R_PId_506_3_15()) return true;
+    if (jj_3R_PId_502_3_15()) return true;
     return false;
   }
 
   static private boolean jj_3R_PFNDeclaration_314_34_16()
  {
     if (jj_scan_token(EXTENDS)) return true;
-    if (jj_3R_PId_506_3_15()) return true;
+    if (jj_3R_PId_502_3_15()) return true;
     return false;
   }
 
@@ -738,72 +738,72 @@ formula = new AndForm(formula, param2);
   static private boolean jj_3R_PAifl_221_3_21()
  {
     if (jj_scan_token(AIFL)) return true;
-    if (jj_3R_PId_506_3_15()) return true;
-    return false;
-  }
-
-  static private boolean jj_3R_PId_506_3_15()
- {
-    if (jj_scan_token(IDENTIFIER)) return true;
+    if (jj_3R_PId_502_3_15()) return true;
     return false;
   }
 
   static private boolean jj_3R_PFNDeclaration_314_3_7()
  {
     if (jj_scan_token(FEATURENAME)) return true;
-    if (jj_3R_PId_506_3_15()) return true;
+    if (jj_3R_PId_502_3_15()) return true;
     Token xsp;
     xsp = jj_scanpos;
     if (jj_3R_PFNDeclaration_314_34_16()) jj_scanpos = xsp;
     if (jj_scan_token(AS)) return true;
-    if (jj_3R_PType_493_5_17()) return true;
+    if (jj_3R_PType_489_5_17()) return true;
     return false;
   }
 
-  static private boolean jj_3R_PType_497_7_29()
+  static private boolean jj_3R_PId_502_3_15()
+ {
+    if (jj_scan_token(IDENTIFIER)) return true;
+    return false;
+  }
+
+  static private boolean jj_3R_PType_493_7_29()
  {
     if (jj_scan_token(OR_TYPE)) return true;
     return false;
   }
 
-  static private boolean jj_3R_PType_496_7_28()
+  static private boolean jj_3R_PType_492_7_28()
  {
     if (jj_scan_token(ALTERNATIVE_TYPE)) return true;
-    return false;
-  }
-
-  static private boolean jj_3R_PType_495_7_27()
- {
-    if (jj_scan_token(OPTIONAL_TYPE)) return true;
-    return false;
-  }
-
-  static private boolean jj_3R_PType_494_7_26()
- {
-    if (jj_scan_token(MANDATORY_TYPE)) return true;
     return false;
   }
 
   static private boolean jj_3R_PSofot_210_3_20()
  {
     if (jj_scan_token(SOFOT)) return true;
-    if (jj_3R_PId_506_3_15()) return true;
+    if (jj_3R_PId_502_3_15()) return true;
     return false;
   }
 
-  static private boolean jj_3R_PType_493_5_17()
+  static private boolean jj_3R_PType_491_7_27()
+ {
+    if (jj_scan_token(OPTIONAL_TYPE)) return true;
+    return false;
+  }
+
+  static private boolean jj_3R_PType_490_7_26()
+ {
+    if (jj_scan_token(MANDATORY_TYPE)) return true;
+    return false;
+  }
+
+  static private boolean jj_3R_PType_489_5_17()
  {
     Token xsp;
     xsp = jj_scanpos;
-    if (jj_3R_PType_493_5_25()) {
+    if (jj_3R_PType_489_5_25()) {
     jj_scanpos = xsp;
-    if (jj_3R_PType_494_7_26()) {
+    if (jj_3R_PType_490_7_26()) {
     jj_scanpos = xsp;
-    if (jj_3R_PType_495_7_27()) {
+    if (jj_3R_PType_491_7_27()) {
     jj_scanpos = xsp;
-    if (jj_3R_PType_496_7_28()) {
+    if (jj_3R_PType_492_7_28()) {
     jj_scanpos = xsp;
-    if (jj_3R_PType_497_7_29()) return true;
+    if (jj_3R_PType_493_7_29()) return true;
     }
     }
     }
@@ -811,7 +811,7 @@ formula = new AndForm(formula, param2);
     return false;
   }
 
-  static private boolean jj_3R_PType_493_5_25()
+  static private boolean jj_3R_PType_489_5_25()
  {
     if (jj_scan_token(ROOT_TYPE)) return true;
     return false;
@@ -828,7 +828,7 @@ formula = new AndForm(formula, param2);
   static private boolean jj_3R_POfot_199_3_19()
  {
     if (jj_scan_token(OFOT)) return true;
-    if (jj_3R_PId_506_3_15()) return true;
+    if (jj_3R_PId_502_3_15()) return true;
     return false;
   }
 
@@ -847,7 +847,7 @@ formula = new AndForm(formula, param2);
   static private boolean jj_3R_PFeatureSelected_383_6_30()
  {
     if (jj_scan_token(COMMA)) return true;
-    if (jj_3R_PId_506_3_15()) return true;
+    if (jj_3R_PId_502_3_15()) return true;
     return false;
   }
 
@@ -859,7 +859,7 @@ formula = new AndForm(formula, param2);
 
   static private boolean jj_3R_PFeatureSelected_381_5_18()
  {
-    if (jj_3R_PId_506_3_15()) return true;
+    if (jj_3R_PId_502_3_15()) return true;
     Token xsp;
     while (true) {
       xsp = jj_scanpos;
